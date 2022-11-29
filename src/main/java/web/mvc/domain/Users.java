@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +19,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+@Builder
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long usersId;
+    private String usersId;
     
     private String usersPwd;
+    private String usersPwdCheck;
     private String usersPhone;
     private String usersEmail;
     private String usersNickName;
