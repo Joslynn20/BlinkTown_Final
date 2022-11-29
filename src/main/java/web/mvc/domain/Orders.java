@@ -42,7 +42,7 @@ public class Orders {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="users_id")
-	private Users usersId; //코드 합칠때 객체 주소 주의
+	private Users users; //코드 합칠때 객체 주소 주의
 	
 	@Column(nullable=false, length = 40)
 	private String ordersReceiverName;
@@ -60,7 +60,7 @@ public class Orders {
 //	@CreationTimestamp
 //	private LocalDateTime ordersDate;
 	
-	//@OneToMany(mappedBy = "Orderdetails", fetch = FetchType.EAGER)
-	@OneToMany(mappedBy = "Orderdetails") //LAZY
+	//@OneToMany(mappedBy = "orders", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "orders") //LAZY
 	private List<Orderdetails> orderdetailsList;
 }

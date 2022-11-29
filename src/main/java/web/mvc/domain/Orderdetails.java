@@ -35,7 +35,7 @@ public class Orderdetails {
 	//@ManyToOne(fetch = FetchType.EAGER)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="orders_no")
-	private Orders ordersNo; //private String usersId; @Column(length = 20)
+	private Orders orders; //private String usersId; @Column(length = 20)
 	
 	//@ManyToOne(fetch = FetchType.EAGER)
 	@ManyToOne(fetch = FetchType.LAZY)

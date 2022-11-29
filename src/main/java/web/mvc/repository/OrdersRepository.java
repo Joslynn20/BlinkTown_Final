@@ -17,7 +17,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> , Querydsl
 	 * 마이페이지-주문내역조회 -> 메인페이지
 	 * 출력용 주문10개 조회
 	 */
-	List<Orders> findByUsersId(Users usersId, Pageable pageable);
+	Page<Orders> findByUsersId(String usersId, Pageable pageable);
 	
 	/**
 	 * 마이페이지-주문상세조회 / 페이징 처리
