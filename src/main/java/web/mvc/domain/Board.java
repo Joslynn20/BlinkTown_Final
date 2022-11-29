@@ -1,5 +1,7 @@
 package web.mvc.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,5 +37,5 @@ public class Board {
 	private String boardContent;
 
 	@CreationTimestamp
-	private String boardRegDate;
+	private LocalDate boardRegDate;
 }
