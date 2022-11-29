@@ -19,21 +19,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Reply {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "boardNo_seq")
-	@SequenceGenerator(name = "boardNo_seq", allocationSize = 1, sequenceName = "boardNo_seq")
-	private Long boardNo;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "replyNo_seq")
+	@SequenceGenerator(name = "replyNo_seq", allocationSize = 1, sequenceName = "replyNo_seq")
+	private Long replyNo;
 	
 	@Column(nullable = false)
+	private Long boardNo;
 	private String userId;
-	private String boardTitle;
-	private String boardImg;
-	private long boardLikeNo;
+	private String replyContent;
 	
-	@Column(nullable = true)
-	private String boardContent;
-
 	@CreationTimestamp
-	private String boardRegDate;
+	private String replyRegDate;
+
 }
