@@ -34,23 +34,21 @@ public class BoardServiceImpl implements BoardService {
 	public Page<Board> selectAll(Pageable pageable) {
 		return boardRep.findAll(pageable);
 	}
-
-	@Override
-	public List<Board> selectById(String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public void insertBoard(Board board) {
-		// TODO Auto-generated method stub
-
+		Board resultBoard = boardRep.save(board);
+		System.out.println("게시글 등록! resultBoard="+resultBoard);
 	}
-
+	
 	@Override
-	public void deleteBoard(Long bno, String password) {
-		// TODO Auto-generated method stub
-
+	public void deleteBoard(Long boardNo, String password) {
+		Board dbBoard = boardRep.findById(boardNo).orElse(null);
+		if(dbBoard==null) {
+			throw new RuntimeException("게시글 번호 오류로 삭제 불가능");
+		}		
+		boardRep.deleteById(boardNo);
 	}
+
 
 }

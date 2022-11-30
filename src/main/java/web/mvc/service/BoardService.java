@@ -20,12 +20,7 @@ public interface BoardService {
 	 * */
 	Page<Board> selectAll(Pageable pageable);
     
-	/**
-	 * 아티스트별 게시판검색
-	 * : String userId(fk)를 인수로 받아서 검색
-	 * 검색하는 userId에 해당되는 것 전부를 List로 보여준다
-	 * */
-	List<Board> selectById(String userId);
+
 	
 	/**
 	 * 게시글 등록(아티스트, 관리자가 작성)
@@ -37,7 +32,7 @@ public interface BoardService {
      * 게시글 삭제하기
      * : Long boardNo(pk) 게시물번호를 인수로 받음
      * */
-    void deleteBoard(Long bno,String password);
+    void deleteBoard(Long boardNo, String password);
 
 
     
