@@ -1,5 +1,7 @@
 package web.mvc.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,13 +29,21 @@ public class Board {
 	
 	@Column(nullable = false)
 	private String userId;
+	
+	@Column(nullable = false)
 	private String boardTitle;
-	private String boardImg;
-	private long boardLikeNo;
 	
 	@Column(nullable = true)
 	private String boardContent;
+	
+	@Column(nullable = false)
+	private String boardImg;
 
 	@CreationTimestamp
-	private String boardRegDate;
+	private LocalDate boardRegDate;
+	
+	@Column(nullable = false)
+	private int boardLikeNo;
+
+
 }
