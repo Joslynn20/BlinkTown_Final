@@ -1,5 +1,6 @@
 package web.mvc.repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,14 +18,16 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> , Querydsl
 	 * 마이페이지-주문내역조회 -> 메인페이지
 	 * 출력용 주문10개 조회
 	 */
-	Page<Orders> findByUsersId(String usersId, Pageable pageable);
+//	Page<Orders> findByUsersId(String usersId, Pageable pageable);
+	Page<Orders> findByUsers(Users users, Pageable pageable);
 	
 	/**
 	 * 마이페이지-주문상세조회 / 페이징 처리
 	 * : 기간 조건별 최근순 주문내역 조회
 	 * -> ~부터 ~까지 (입력시 +1로 넣기)
 	 */
-	Page<Orders> findByOrdersNoAndOrdersDateGreaterThanEqualAndOrdersDateLessThan(String usersId, Date startDate, Date finalDate, Pageable pageable);
+//	Page<Orders> findByOrdersNoAndOrdersDateGreaterThanEqualAndOrdersDateLessThan(String usersId, LocalDateTime startDate, LocalDateTime finalDate, Pageable pageable);
+	Page<Orders> findByUsersAndOrdersDateGreaterThanEqualAndOrdersDateLessThan(Users users, LocalDateTime startDate, LocalDateTime finalDate, Pageable pageable);
 	
 	/**
 	 * 주문-결제

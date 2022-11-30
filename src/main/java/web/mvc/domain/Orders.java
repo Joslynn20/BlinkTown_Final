@@ -1,6 +1,6 @@
 package web.mvc.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,12 +53,12 @@ public class Orders {
 	private int ordersZipcode; 
 	@Column(nullable=false, length = 20)
 	private String ordersStatus;
-	@Column(nullable=false)
 	
-	@Temporal(TemporalType.DATE) //값 생성시 new Date() 혹은 API에서 반환된 결제완료 시간으로 입력
-	private Date ordersDate;
-//	@CreationTimestamp
-//	private LocalDateTime ordersDate;
+	@Column(nullable=false)
+//	@Temporal(TemporalType.DATE) //값 생성시 new Date()
+//	private Date ordersDate;
+	@CreationTimestamp
+	private LocalDateTime ordersDate;
 	
 	//@OneToMany(mappedBy = "orders", fetch = FetchType.EAGER)
 	@OneToMany(mappedBy = "orders") //LAZY

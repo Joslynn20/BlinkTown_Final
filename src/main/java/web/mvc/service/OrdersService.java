@@ -1,6 +1,8 @@
 package web.mvc.service;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -35,15 +37,15 @@ public interface OrdersService {
 	/**
 	 * 주문 등록전 상품 및 회원 정보 체크
  	 * 필요 인수 : 회원정보-id,멤버쉽, 상품정보-상품코드, 카테고리, 재고량)
- 	 * ->권한별로 보내기위한 경로 구분 or 체크(체크 실패시RuntimeException처리)
- 	 * ->시큐리티 쓸거면 뷰에서 카트 담는 컨트롤러로 가는 경로를 다르게 해야할 것으로 판단됨
+ 	 * - 체크 내용 : 1) 상품이 멤버쉽 카드인지 , 2) 재고량 있는지 체크
+ 	 * - 체크 실패시 RuntimeException처리
+ 	 * - 멤버쉽 체크는 시큐리티 사용해야돼서 뷰->컨트롤러로 카트 담을 때 분류하는게 좋을듯
  	 * 
- 	 * 넣을 기능들 :
-		1) 세션-id, 멤버쉽 : 세션 id에 해당하는 멤버쉽 체크 혹은 세션의 멤버쉽 체크
-		2) 주문상품-카테고리 : 주문상품의 카테고리 확인하여 멤버쉽과 유료상품이 매치되는지 체크 / 멤버쉽카드 인지도 체크 (주문전 불가체크:1.유무료/2.카드재구매)
-		3) 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
+ 	 * 넣을 기능 상세 내용 :
+		1) 주문상품-카테고리 : 주문상품의 카테고리 확인하여 멤버쉽과 유료상품이 매치되는지 체크 / 멤버쉽카드 인지도 체크 (주문전 불가체크:1.유무료/2.카드재구매)
+		2) 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
 	 */
-	String selectCheckBeforeOrders(Users users, Orders ordersProduct);
+	void selectCheckBeforeOrders(Users users, Orders ordersProduct);
 	
 	/**
 	 * 주문 등록
@@ -51,6 +53,6 @@ public interface OrdersService {
 	 * 등록 정보 : 주문 테이블, 주문 상세 테이블
 	 * 
 	 */
-	void insertOrdersOrderdetails(Users users, Orders ordersProduct);
+	void insertOrdersOrderdetails(Users users, Orders ordersProduct, List<Orderdetails> cartList);
 	
 }
