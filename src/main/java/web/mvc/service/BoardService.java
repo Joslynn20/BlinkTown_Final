@@ -14,6 +14,11 @@ public interface BoardService {
 	 * (게시물번호, 제목, 조회수 보여짐)
 	 * */
 	List<Board> selectAll();
+	
+	/**
+	 * 전체검색 - Page처리
+	 * */
+	Page<Board> selectAll(Pageable pageable);
     
 	/**
 	 * 아티스트별 게시판검색
