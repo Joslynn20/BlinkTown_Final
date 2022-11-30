@@ -1,5 +1,7 @@
 package web.mvc.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "boardNo_seq")
@@ -27,13 +31,21 @@ public class Board {
 	
 	@Column(nullable = false)
 	private String userId;
+	
+	@Column(nullable = false)
 	private String boardTitle;
-	private String boardImg;
-	private long boardLikeNo;
 	
 	@Column(nullable = true)
 	private String boardContent;
+	
+	@Column(nullable = false)
+	private String boardImg;
 
 	@CreationTimestamp
-	private String boardRegDate;
+	private LocalDate boardRegDate;
+	
+	@Column(nullable = false)
+	private int boardLikeNo;
+
+
 }

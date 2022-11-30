@@ -18,8 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Like {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(nullable = false)
 	private Long boardNo;
 	
 	@Column(nullable = false)

@@ -13,7 +13,7 @@ public interface ReplyService {
 		
 	/**
 	 * 댓글삭제
-	 * : 댓글번로(replyNo)를 인수로 받아온다
+	 * : 댓글번호(replyNo)를 인수로 받아온다
 	 * */
 	void deleteReply(Long replyNo);
 }
