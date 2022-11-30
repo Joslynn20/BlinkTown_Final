@@ -1,6 +1,8 @@
 package web.mvc.domain;
 
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,5 +35,5 @@ public class Users {
     private int  usersMemberShip;
     
     @CreationTimestamp
-    private String usersRegDate;
+    private LocalDateTime usersRegDate;
 }

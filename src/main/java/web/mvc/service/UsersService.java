@@ -12,7 +12,16 @@ public interface UsersService  {
 	 * usersId,usersPwd,usersPwdCheck,usersPhone,usersEmail,
 	 * usersNickName,usersMemberShip,usersRegDate
 	 * */
-	void insertUser(Users users);
+	void insertUser(Users users) throws Exception;
+	
+	/**join 중복체크*/
+ 
+    boolean UsersIdCheck(String UsersId) throws Exception;
+    boolean UsersEmailCheck(String UsersEmail) throws Exception;
+    boolean UsersNickCheck(String UsersNickName) throws Exception;
+    boolean UsersPhoneCheck(String phone_number) throws Exception;
+	
+	
 	
 	/**
 	 * 회원수정
