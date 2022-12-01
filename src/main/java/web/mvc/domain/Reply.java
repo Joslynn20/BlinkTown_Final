@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,8 +29,8 @@ public class Reply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "replyNo_seq")
 	@SequenceGenerator(name = "replyNo_seq", allocationSize = 1, sequenceName = "replyNo_seq")
-	private Long replyNo;
-	
+	private Long replyNo;	
+
 	@Column(nullable = false)
 	private Long boardNo;
 	private String userId;
@@ -36,4 +39,8 @@ public class Reply {
 	@CreationTimestamp
 	private LocalDate replyRegDate;
 
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "board_boardNo")
+	private Board board;
 }
