@@ -26,7 +26,7 @@ import web.mvc.domain.Users;
 import web.mvc.repository.OrderdetailsRepository;
 import web.mvc.repository.OrdersRepository;
 import web.mvc.repository.ProductRepository;
-import web.mvc.repository.UserRepository;
+import web.mvc.repository.UsersRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class OrdersServiceImpl implements OrdersService {
 	private final OrdersRepository ordersRep;
 	private final ProductRepository productRep;
 	private final OrderdetailsRepository orderdetailsRep;
-	private final UserRepository userRep;
+	private final UsersRepository userRep;
 	
 	@Override
 	public Page<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate, Pageable pageable) {
@@ -94,6 +94,10 @@ public class OrdersServiceImpl implements OrdersService {
 	/* 체크만 한 후 RuntimeException 처리
 	 * - 1) 멤버쉽 체크는 시큐리티 사용해야돼서 뷰->컨트롤러로 카트 담을 때 분류하는게 좋을듯 (1번 삭제)
 	 * */
+	/* 예외처리 안할거면 selectCheckBeforeOrders에서 String으로 "forward:" 리턴하여, 
+	 * 아래 insertOrdersOrderdetails에서 Runtime대신 기본 리턴값 "redirect:" 를 리턴하여 받아서
+	 * 장바구니에 담는 곳으로 되돌리는 경로 설정하면 어떨까 하지만,
+	 * 우선 RunTimeException으로 설정*/
 	@Override 
 	public void selectCheckBeforeOrders(Users users, Orders ordersProduct) {
 		//반복문 사용해서 List 속의 상품들 꺼내서 비교하기
@@ -122,7 +126,7 @@ public class OrdersServiceImpl implements OrdersService {
 	//인수로 Orders에 한번에 담을 수 있는지 확인 후 안담아지면
 	//List로 주문상세정보 받아서 추가로 담기
 	@Override
-	public void insertOrdersOrderdetails(Users users, Orders ordersProduct, List<Orderdetails> cartList) {
+	public void insertOrdersOrderdetails(Users users, Orders ordersProduct/*, List<Orderdetails> cartList*/) {
 		//주문 체크 메소드 호출하여 주문전 체크
 		this.selectCheckBeforeOrders(users, ordersProduct);
 		//이상없다면 Exception없이 빠져나옴
