@@ -28,7 +28,6 @@ public class Users {
     private String usersId;
     
     private String usersPwd;
-    private String usersPwdCheck;
     private String usersPhone;
     private String usersEmail;
     private String usersNickName;

@@ -10,10 +10,9 @@ import org.springframework.data.repository.query.Param;
 
 import web.mvc.domain.Users;
 import web.mvc.domain.Users.UsersBuilder;
-import web.mvc.dto.UsersDto;
 
 
-public interface UserRepository extends JpaRepository<Users, String>,QuerydslPredicateExecutor<Users> { 
+public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPredicateExecutor<Users> { 
 	// JpaRepository<Entity이름, pk타입> QuerydslPredicateExecutor<Entity이름>
 
 	
@@ -28,7 +27,7 @@ public interface UserRepository extends JpaRepository<Users, String>,QuerydslPre
 	Users findByUsersNickName(String usersNickName);
 	
 	//유무료 회원 조회할 때 
-	List<Users> findByUsersMemberShip(String usersmemebership);
+	List<Users> findByUsersMemberShip(int usersmemebership);
 	
 	
 	
