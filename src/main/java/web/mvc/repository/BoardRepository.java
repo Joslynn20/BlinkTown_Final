@@ -25,6 +25,9 @@ public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPre
 	 * : String userId(fk)를 인수로 받아서 검색
 	 * 검색하는 userId에 해당되는 것 전부를 List로 보여준다
 	 * */
+	/*
 	@Query("select b from Board b where b.userId=:#{#bo.userId}")
 	List<Board> selectById(@Param("bo") Board board);
+	*/
+	List<Board> selectByUserId(String userId);
 }

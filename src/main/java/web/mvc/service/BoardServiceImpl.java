@@ -50,5 +50,17 @@ public class BoardServiceImpl implements BoardService {
 		boardRep.deleteById(boardNo);
 	}
 
+	@Override
+	public Board selectBy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Board> selectByUserId(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

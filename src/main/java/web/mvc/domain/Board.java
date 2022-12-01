@@ -6,9 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -38,8 +41,9 @@ public class Board {
 	@SequenceGenerator(name = "board_boardNo_seq", allocationSize = 1, sequenceName = "board_boardNo_seq")
 	private Long boardNo;
 	
-	@Column(nullable = false)
-	private String userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id")
+	private Users users;
 	
 	@Column(nullable = false)
 	private String boardTitle;
