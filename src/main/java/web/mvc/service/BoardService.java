@@ -20,7 +20,6 @@ public interface BoardService {
 	 * */
 	Page<Board> selectAll(Pageable pageable);
     
-
 	
 	/**
 	 * 게시글 등록(아티스트, 관리자가 작성)
@@ -32,7 +31,7 @@ public interface BoardService {
      * 게시글 삭제하기
      * : Long boardNo(pk) 게시물번호를 인수로 받음
      * */
-    void deleteBoard(Long boardNo, String password);
+    void deleteBoard(Long boardNo);
 
 
     

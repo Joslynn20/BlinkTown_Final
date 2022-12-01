@@ -42,7 +42,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void deleteBoard(Long boardNo, String password) {
+	public void deleteBoard(Long boardNo) {
 		Board dbBoard = boardRep.findById(boardNo).orElse(null);
 		if(dbBoard==null) {
 			throw new RuntimeException("게시글 번호 오류로 삭제 불가능");

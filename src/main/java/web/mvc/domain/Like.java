@@ -18,9 +18,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Like {
 	
+	@Id
 	@Column(nullable = false)
 	private Long boardNo;
 	
+	@Id
 	@Column(nullable = false)
 	private String userId;
 }
