@@ -1,88 +1,223 @@
 package web.mvc.controller;
 
+import java.security.Principal;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import lombok.RequiredArgsConstructor;
+import web.mvc.domain.Orderdetails;
+import web.mvc.domain.Orders;
+import web.mvc.domain.Product;
+import web.mvc.domain.Users;
+import web.mvc.service.OrdersService;
 
+//@RestController
+@Controller
 public class OrdersController {
 	
+	@Autowired
+	private OrdersService ordersService;
+	
+	private final static int PAGE_COUNT=10;
+	private final static int BLOCK_COUNT=10;
+	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	
-	/**
-	 * 1) 일반회원 바로 주문하기-폼연결 (권한설정 주의)
-	 * 액터 : 일반회원
- 	 * mapping : 일반회원/구매/주문폼
-	 * return : forward : 주문폼으로 연결
-	 * 조건 : -
-	 */
-	
-	/**
-	 * 2) 멤버쉽회원 바로 주문하기-폼연결 (권한설정 주의)
-	 * 액터 : 멤버쉽회원
- 	 * mapping : 멤버쉽회원/구매 / 주문폼
-	 * return : forward : 주문폼으로 연결
-	 * 조건 : -
-	 */
 	
 	///////////////////////////////////////////////////////
 	
 	/**
-	 * 3-1) 유저 마이페이지 - 최근순 10개정도 주문 내역 조회
+	 * 1-1) 유저 마이페이지 메인 - 최근순 10개정도 주문 내역 조회
 	 * 권한 : 일반,멤버쉽 회원
 	 * mapping : 일반,멤버쉽/마이페이지 / 메인
-	 * return : Page or List 주문정보
-	 * 조건 : inCase==2
+	 * return : Page 주문정보
+	 * 조건 : inCase==2:마이페이지 메인
+	 * 조건 : inCase==3 / 인수로 날짜 (20221130 형식) 받기
 	 */
-	
-	/**
-	 * 3-2xx) 유저 마이페이지 - 기간 조건별 최근순 주문내역 조회 (일단 구현x 회의후 넣기)
-	 * 권한 : 일반,멤버쉽 회원
-	 * mapping : 일반,멤버쉽/마이페이지 / 주문시간조회 페이지
-	 * return : Page 주문내역-기간별?
-	 * 조건 : inCase==3 / 인수로 날짜(20221130 형식) 받기
-	 */
+	@RequestMapping("유저/마이페이지/주문페이지")
+	public void selectAllOrders(Model model, 
+			@RequestParam(defaultValue="1") int nowPage, String startDate, String finalDate) {
+		
+		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
+		Page<Orders> ordersList=null;
+		
+		//유저정보 받아와서 users에 넣기
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		//유저 메인페이지 정보 호출 : (inCase==2)
+		if(startDate==null||finalDate==null) {
+			ordersList=ordersService.selectAllOrders(2, users, null, null, ordersPage);
+		}else {
+		//기간 조회용 페이지 정보 호출 : (inCase==3) -> 호출이 쉬워서 넣었습니다..
+			ordersList=ordersService.selectAllOrders(3, users, startDate, finalDate, ordersPage);
+		}
+		
+		//페이징 처리 메소드
+		int temp=0;
+		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
+			temp=(nowPage-1)%BLOCK_COUNT;
+		}
+		int startPage=nowPage-temp;
+		
+		model.addAttribute("ordersList", ordersList);
+		
+		//페이징 처리 위한 정보들 값으로 넣어 전달
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+	}
 
 	/**
-	 * 3-3) 유저 마이페이지 - 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
-	 * : 주문 상세+상품 정보
+	 * 1-2) 유저 마이페이지 - 상세내역 / 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
+	 * : 주문+주문 상세+상품 정보
 	 * 권한 : 일반,멤버쉽
 	 * mapping : 일반,멤버쉽/마이페이지/상세내역 조회 페이지
 	 * return : Page 주문상세정보
 	 * 조건 : 인수로 주문번호 or 주문객체 받기
 	 */
+	@RequestMapping("유저/마이페이지/주문상세페이지/{ordersNo}")
+	public void selectAllOrderdetails(Model model, @PathVariable Long ordersNo,
+			@RequestParam(defaultValue="1") int nowPage) {
+		
+		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "orderdetailsNo");
+		
+		Page<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo, ordersPage);
+		
+		//페이징 처리 메소드
+		int temp=0;
+		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
+			temp=(nowPage-1)%BLOCK_COUNT;
+		}
+		int startPage=nowPage-temp;
+		
+		model.addAttribute("orderdetailsList", orderdetailsList);
+		
+		//페이징 처리 위한 정보들 값으로 넣어 전달
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+	}
+	
 	////////////////////////////////////////////////////
 	
 	/**
-	 * 4-1) 관리자 페이지 - 주문정보 조회 페이지
+	 * 2-1) 관리자 페이지 - 주문정보 조회 페이지
 	 * : 주문 정보
 	 * 권한 : 일반,멤버쉽
 	 * mapping : 관리자/주문조회페이지/메인 (주문 전체조회 페이지)
 	 * return : Page 주문정보
 	 * 조건 : inCase==1
 	 */
+	@RequestMapping("관리자/주문페이지")
+	public void selectAllOrdersAdmin(Model model,
+			@RequestParam(defaultValue="1") int nowPage) {
+		
+		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
+		
+		Page<Orders> ordersList=ordersService.selectAllOrders(3, null, null, null, ordersPage);
+		
+		model.addAttribute(ordersList);
+		
+		//페이징 처리 메소드
+		int temp=0;
+		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
+			temp=(nowPage-1)%BLOCK_COUNT;
+		}
+		int startPage=nowPage-temp;
+		
+		model.addAttribute("ordersList", ordersList);
+		
+		//페이징 처리 위한 정보들 값으로 넣어 전달
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+	}
 	
 	/**
-	 * 4-2) 관리자 페이지 - 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
+	 * 2-2) 관리자 페이지 - 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
 	 * : 주문 상세+상품 정보
 	 * 권한 : 일반,멤버쉽
 	 * mapping : 관리자/주문조회페이지/상세내역 조회 페이지
 	 * return : Page 주문상세정보
-	 * 조건 : 인수로 주문번호 or 주문객체 받기
+	 * 조건 : 인수로 주문번호 받기
 	 */
+	@RequestMapping("관리자/주문상세페이지/{ordersNo}")
+	public void selectAllOrderdetailsAdmin(Model model, @PathVariable Long ordersNo,
+			@RequestParam(defaultValue="1") int nowPage) {
+		
+		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
+		
+		Page<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo, ordersPage);
+
+		//페이징 처리 메소드
+		int temp=0;
+		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
+			temp=(nowPage-1)%BLOCK_COUNT;
+		}
+		int startPage=nowPage-temp;
+		
+		model.addAttribute("orderdetailsList", orderdetailsList);
+		
+		//페이징 처리 위한 정보들 값으로 넣어 전달
+		model.addAttribute("blockCount", BLOCK_COUNT);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("nowPage", nowPage);
+	}
 	
-	/**
-	 * 배송지 주소 API사용 자바스크립트로 할 지 확인 후 작성, 우선 메모만
-	 * ->뷰에서 폼으로 작성
-	 */
 	
 	//////////////////////////////////////////////////
-	/**
-	 * 5) 주문 폼 이동
+	/*
+	 * 3) 주문 폼 이동
 	 * -> 주문폼에서 다음카카오 주소지API사용, 스크립트만 하면 될지 확인해보고 완성할 것
 	 * (메소드는 폼으로 연결)
+	 * 
+	 * 배송지 주소 API사용 -> 뷰에서 폼으로 작성 (자바스크립트)
 	 */
 	
 	/**
-	 * 6) 주문-결제 : 아임포트 API 사용할 예정(통합 결제대행API),
+	 * 3-1) 일반회원 바로 주문하기-폼연결 (권한설정 주의)
+	 * 액터 : 일반회원
+ 	 * mapping : 일반회원/구매/주문폼
+	 * 조건 : -
+	 */
+	@RequestMapping("일반회원/구매/주문폼") /**인수 List들 Hidden으로 넣기(?)*/
+	public String usersOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList /*, Model model*/) {
+//		model.addAttribute(productList);
+//		model.addAttribute(orderdetailsList);
+		return "주문폼";
+	}
+	
+	/**
+	 * 3-2) 멤버쉽회원 바로 주문하기-폼연결 (권한설정 주의)
+	 * 액터 : 멤버쉽회원
+ 	 * mapping : 멤버쉽회원/구매 / 주문폼
+	 * return : forward : 주문폼으로 연결
+	 * 조건 : -
+	 */
+	@RequestMapping("멤버쉽회원/구매/주문폼")
+	public String adminOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList/*, Model model*/) {
+//		model.addAttribute(productList);
+//		model.addAttribute(orderdetailsList);
+		return "주문폼";
+	}
+	
+	/**
+	 * 4) 주문-결제 : 아임포트 API 사용할 예정(통합 결제대행API),
 	 * view부분과의 연동 필요하여 확인후 넣을 예정
 	 *  
 	 *  아래는 정리후 수정할 예정 (서비스 파트와 부정확한 내용 섞여있음)
@@ -103,6 +238,34 @@ public class OrdersController {
 10) 주문완료 페이지로 이동 (주문 내역 출력되는 페이지 예상)
 	 * 
 	 */
+//	@ResponseBody // 주문하기는 AJAX로 할 예정, (REST API사용) 위에서 RestController선언하면 주석처리
+	@RequestMapping("주문/주문하기")
+	public String insertOrdersOrderdetails(HttpSession session, Principal principal, Orders orders, List<Product> productList/*, List<Orderdetails> orderdetailsList*/) {
+		
+		//Orders에 한 번에 들어간다면 인수로 하나만 받기
+		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();//안쓰면 주석처리하긴
+		
+		//상품 번호로 상품 객체에 들어가는지 확인할 것->안될것같음
+		//->현재 orderdetailsList에는 상품 객체로 들어가 있음
+		//->Product의 List로 받아서 꺼내서 대입하여 상세주문에 넣기(index가 매치되니까 괜찮을듯)
+		for(int i=0; i<productList.size(); i++) {
+			orderdetailsList.get(i).setProduct(productList.get(i));
+		}
+		
+		//받은 카트 리스트를 주문에 담기
+		orders.setOrderdetailsList(orderdetailsList);
+		
+		Users users=(Users)principal;
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		ordersService.insertOrdersOrderdetails(users, orders);
+		
+		//장바구니 세션 사용하여 insert 완료 후 세션 삭제
+		session.removeAttribute("세션속 장바구니 상품 목록");
+		
+		return "주문완료 페이지";
+		
+	}
 	
 	
 	/////////////////////////////////////////

@@ -31,7 +31,7 @@ public interface OrdersService {
 	 * - 포함 정보 : 주문 테이블, 주문 상세 테이블, 해당 상품 정보
 	 * - return : Page객체
 	 */
-	Page<Orderdetails> selectAllOrdersdetails(Orders orders, Pageable pageable);
+	Page<Orderdetails> selectAllOrderdetails(Long ordersNo, Pageable pageable);
 	
 	//////////////////////////////////////////////////
 	/**
