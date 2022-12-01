@@ -14,19 +14,17 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import web.mvc.domain.QUsers;
 import web.mvc.domain.Users;
-import web.mvc.repository.UserRepository;
+import web.mvc.repository.UsersRepository;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UsersServiceImpl implements UsersService {
 
-	private static final String UsersMemeberShip = null;
-	private final UserRepository usersRep;
-	// private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	@Autowired
-	private JPAQueryFactory queryFactory;
+	private final UsersRepository usersRep;
+	
+	/*@Autowired
+	private JPAQueryFactory queryFactory;*/
 
 	//회원가입 
 	@Override
@@ -41,8 +39,8 @@ public class UsersServiceImpl implements UsersService {
 	public boolean UsersIdCheck(String usersId) throws Exception {
 		boolean result = false;
 
-		Users user = usersRep.findById(usersId).orElse(null);
-		if (user != null)
+		Users users = usersRep.findById(usersId).orElse(null);
+		if (users != null)
 			result = true;
 
 		return result;
@@ -55,8 +53,8 @@ public class UsersServiceImpl implements UsersService {
 	public boolean UsersEmailCheck(String UsersEmail) throws Exception {
 		boolean result = false;
 		
-		Users user = usersRep.findByUsersEmail(UsersEmail);
-		if (user != null)
+		Users users = usersRep.findByUsersEmail(UsersEmail);
+		if (users != null)
 			result = true;
 		return result;
 	}
@@ -66,8 +64,8 @@ public class UsersServiceImpl implements UsersService {
 	public boolean UsersNickCheck(String UsersNickName) throws Exception {
 		boolean result = false;
 		
-		Users user = usersRep.findByUsersNickName(UsersNickName);
-		if (user != null)
+		Users users = usersRep.findByUsersNickName(UsersNickName);
+		if (users != null)
 			result = true;
 		return result;
 	}
@@ -77,8 +75,8 @@ public class UsersServiceImpl implements UsersService {
 	public boolean UsersPhoneCheck(String phone_number) throws Exception {
 		boolean result = false;
 		
-		Users user = usersRep.findByUsersPhone(phone_number);
-		if (user != null)
+		Users users = usersRep.findByUsersPhone(phone_number);
+		if (users != null)
 			result = true;
 		return result;
 	}
@@ -98,14 +96,9 @@ public class UsersServiceImpl implements UsersService {
 	//회원탈퇴
 	@Override
 	public void deleteByUsersId(String usersId) {
-		QUsers users = QUsers.users;
-
-		long re = queryFactory.delete(users).where(users.usersId.eq(usersId)).execute();
-
-		if (re == 0)
-			throw new RuntimeException("삭제할 수 없습니다.");
-
+		usersRep.deleteById(usersId);
 	}
+	
 	//관리자 회원 전체조회
 	@Override
 	public List<Users> selectAll() {
@@ -125,7 +118,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public List<Users> selectByUsersMemberShip(int usersMemberShip) {
 	
-		return usersRep.findByUsersMemberShip(UsersMemeberShip);
+		return usersRep.findByUsersMemberShip(usersMemberShip);
 	}
 
 }
