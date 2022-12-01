@@ -1,9 +1,5 @@
 package web.mvc.service;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
-
 import web.mvc.domain.Likes;
 
 public interface LikesService {
@@ -18,6 +14,12 @@ public interface LikesService {
 	 * 게시글에 좋아요 취소 기능
 	 * : 게시물번호와 아이디를 인수로 받아온다
 	 * */
-	void deleteLike(Long boardNo, String userId);
+	void deleteLike(Likes like);
+	
+	/**
+	 * 게시글에 대한 좋아요 갯수
+	 * @param 게시판 글번호
+	 */
+	Long selectLikeCount(Long boardNo);
 	
 }
