@@ -24,7 +24,6 @@ import lombok.Setter;
 @Builder
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String usersId;
     
     private String usersPwd;

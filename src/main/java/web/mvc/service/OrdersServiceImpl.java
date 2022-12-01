@@ -26,7 +26,7 @@ import web.mvc.domain.Users;
 import web.mvc.repository.OrderdetailsRepository;
 import web.mvc.repository.OrdersRepository;
 import web.mvc.repository.ProductRepository;
-import web.mvc.repository.UserRepository;
+import web.mvc.repository.UsersRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class OrdersServiceImpl implements OrdersService {
 	private final OrdersRepository ordersRep;
 	private final ProductRepository productRep;
 	private final OrderdetailsRepository orderdetailsRep;
-	private final UserRepository userRep;
+	private final UsersRepository userRep;
 	
 	@Override
 	public Page<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate, Pageable pageable) {

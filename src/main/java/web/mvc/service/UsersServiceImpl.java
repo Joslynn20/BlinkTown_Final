@@ -21,8 +21,6 @@ import web.mvc.repository.UsersRepository;
 @Transactional
 public class UsersServiceImpl implements UsersService {
 
-	private static final String UsersMemeberShip = null;
-	
 	private final UsersRepository usersRep;
 	
 	/*@Autowired
@@ -41,8 +39,8 @@ public class UsersServiceImpl implements UsersService {
 	public boolean UsersIdCheck(String usersId) throws Exception {
 		boolean result = false;
 
-		Users user = usersRep.findById(usersId).orElse(null);
-		if (user != null)
+		Users users = usersRep.findById(usersId).orElse(null);
+		if (users != null)
 			result = true;
 
 		return result;
