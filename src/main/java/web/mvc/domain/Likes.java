@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
+public class Likes {
 	
 	@Id
 	@Column(nullable = false)
