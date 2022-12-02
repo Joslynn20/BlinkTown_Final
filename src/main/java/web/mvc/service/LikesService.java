@@ -1,6 +1,7 @@
 package web.mvc.service;
 
 import web.mvc.domain.Likes;
+import web.mvc.domain.LikesID;
 
 public interface LikesService {
 
@@ -21,5 +22,10 @@ public interface LikesService {
 	 * @param 게시판 글번호
 	 */
 	Long selectLikeCount(Long boardNo);
+	
+	/**
+	 * like 있는지 여부 검사
+	 */
+	Likes selectLike(LikesID like);
 	
 }

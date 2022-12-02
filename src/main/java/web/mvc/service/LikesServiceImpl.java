@@ -31,4 +31,11 @@ public class LikesServiceImpl implements LikesService {
 		return repository.countByBoardNo(boardNo);
 	}
 
+	@Override
+	public Likes selectLike(LikesID like) {
+		return repository.findById(like).orElse(null);	
+	}
+	
+	
+
 }
