@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Reply {
 	
 	@Id
@@ -31,16 +33,19 @@ public class Reply {
 	@SequenceGenerator(name = "replyNo_seq", allocationSize = 1, sequenceName = "replyNo_seq")
 	private Long replyNo;	
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "board_no")
+	private Board board;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id")
+	private Users users;
+	
 	@Column(nullable = false)
-	private Long boardNo;
-	private String userId;
 	private String replyContent;
 	
 	@CreationTimestamp
 	private LocalDate replyRegDate;
-
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "board_boardNo")
-	private Board board;
+	
 }

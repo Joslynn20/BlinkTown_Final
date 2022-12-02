@@ -41,7 +41,7 @@ public class Board {
 	@SequenceGenerator(name = "board_boardNo_seq", allocationSize = 1, sequenceName = "board_boardNo_seq")
 	private Long boardNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "users_id")
 	private Users users;
 	
@@ -63,5 +63,6 @@ public class Board {
 	//댓글
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
 	private List<Reply> replyList;
+
 
 }

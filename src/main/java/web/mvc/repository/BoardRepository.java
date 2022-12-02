@@ -2,13 +2,16 @@ package web.mvc.repository;
 
 import java.util.List;
 
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import web.mvc.domain.Board;
+import web.mvc.domain.Users;
 
 
 public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPredicateExecutor<Board> {
@@ -29,5 +32,5 @@ public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPre
 	@Query("select b from Board b where b.userId=:#{#bo.userId}")
 	List<Board> selectById(@Param("bo") Board board);
 	*/
-	List<Board> selectByUserId(String userId);
+	List<Board> findByUsers(Users users);
 }
