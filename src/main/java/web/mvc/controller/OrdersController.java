@@ -34,22 +34,32 @@ public class OrdersController {
 	@Autowired
 	private OrdersService ordersService;
 	
-	private final static int PAGE_COUNT=10;
-	private final static int BLOCK_COUNT=10;
+	/**상수관리*/
+	private final static int PAGE_COUNT=10;//페이지당 출력 숫자
+	private final static int BLOCK_COUNT=10;//
 	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	
 	///////////////////////////////////////////////////////
 	
 	/**
-	 * 1-1) 유저 마이페이지 메인 - 최근순 10개정도 주문 내역 조회
-	 * 권한 : 일반,멤버쉽 회원
-	 * mapping : 일반,멤버쉽/마이페이지 / 메인
-	 * return : Page 주문정보
-	 * 조건 : inCase==2:마이페이지 메인
-	 * 조건 : inCase==3 / 인수로 날짜 (20221130 형식) 받기
+	 * 1-1. 유저 마이페이지 메인
+	 * 
+	 * 1-1) 넘어오기 전 : 아마도 유저/마이페이지
+	 * 1-2) 넘어오는 인수 : (현재 페이지: int nowPage), (날짜조회 시작일: String startDate), 
+	 *                   (날짜조회 마지막일: String finalDate)
+	 *                  ->startDate,finalDate=="20221202" 형식으로 날짜 입력 필요!
+	 * 
+	 * 2-1) 보내는 곳 : 유저(일반,멤버쉽)/마이페이지/주문페이지
+	 * 2-2) 보내는 인수 : Page<Orders> orderList(주문리스트),
+	 *                 int blockCount(페이징처리 블럭 수), 
+	 *                 int startPage(시작 페이지), int nowPage(현재 페이지)
+	 * 
+	 * 기능들
+	 * 3-1) 유저-주문 전체 조회
+	 * 3-2) 유저-주문 기간별 조회
 	 */
-	@RequestMapping("유저/마이페이지/주문페이지")
+	@RequestMapping("/유저/마이페이지/주문페이지")
 	public void selectAllOrders(Model model, 
 			@RequestParam(defaultValue="1") int nowPage, String startDate, String finalDate) {
 		
@@ -83,14 +93,22 @@ public class OrdersController {
 	}
 
 	/**
-	 * 1-2) 유저 마이페이지 - 상세내역 / 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
-	 * : 주문+주문 상세+상품 정보
-	 * 권한 : 일반,멤버쉽
-	 * mapping : 일반,멤버쉽/마이페이지/상세내역 조회 페이지
-	 * return : Page 주문상세정보
-	 * 조건 : 인수로 주문번호 or 주문객체 받기
+	 * 1-2. 유저 마이페이지 - 주문 상세내역 
+	 * -> 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
+	 * 
+	 * 1-1) 넘어오기 전 : 유저/마이페이지/주문페이지
+	 * 1-2) 넘어오는 인수 : Long ordersNo(주문번호), (현재 페이지: int nowPage)
+	 * 
+	 * 2-1) 보내는 곳 : 유저(일반,멤버쉽)/마이페이지/주문상세페이지(혹은 주문페이지)
+	 * 2-2) 보내는 인수 : Page<Orderdetails> orderdetailsList(상세주문리스트), 
+	 *                 -> 주문상세에 해당하는 상품정보 포함(join)
+	 *                 int blockCount(페이징처리 블럭 수), 
+	 *                 int startPage(시작 페이지), int nowPage(현재 페이지)
+	 * 
+	 * 기능들
+	 * 3) 주문 번호별 주문상세 전체 조회
 	 */
-	@RequestMapping("유저/마이페이지/주문상세페이지/{ordersNo}")
+	@RequestMapping("/유저/마이페이지/주문상세페이지/{ordersNo}")
 	public void selectAllOrderdetails(Model model, @PathVariable Long ordersNo,
 			@RequestParam(defaultValue="1") int nowPage) {
 		
@@ -116,14 +134,20 @@ public class OrdersController {
 	////////////////////////////////////////////////////
 	
 	/**
-	 * 2-1) 관리자 페이지 - 주문정보 조회 페이지
-	 * : 주문 정보
-	 * 권한 : 일반,멤버쉽
-	 * mapping : 관리자/주문조회페이지/메인 (주문 전체조회 페이지)
-	 * return : Page 주문정보
-	 * 조건 : inCase==1
+	 * 2-1. 관리자 페이지 - 주문 조회
+	 * 
+	 * 1-1) 넘어오기 전 : 관리자페이지
+	 * 1-2) 넘어오는 인수 : (현재 페이지: int nowPage)
+	 * 
+	 * 2-1) 보내는 곳 : 관리자/주문페이지
+	 * 2-2) 보내는 인수 : Page<Orders> orderList(주문리스트),
+	 *                 int blockCount(페이징처리 블럭 수), 
+	 *                 int startPage(시작 페이지), int nowPage(현재 페이지)
+	 * 
+	 * 기능들
+	 * 3) 관리자-주문 전체 출력 페이지
 	 */
-	@RequestMapping("관리자/주문페이지")
+	@RequestMapping("/관리자/주문페이지")
 	public void selectAllOrdersAdmin(Model model,
 			@RequestParam(defaultValue="1") int nowPage) {
 		
@@ -149,14 +173,22 @@ public class OrdersController {
 	}
 	
 	/**
-	 * 2-2) 관리자 페이지 - 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
-	 * : 주문 상세+상품 정보
-	 * 권한 : 일반,멤버쉽
-	 * mapping : 관리자/주문조회페이지/상세내역 조회 페이지
-	 * return : Page 주문상세정보
-	 * 조건 : 인수로 주문번호 받기
+	 * 2-2. 유저 마이페이지 - 주문 상세내역 
+	 * -> 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
+	 * 
+	 * 1-1) 넘어오기 전 : 유저/마이페이지/주문페이지
+	 * 1-2) 넘어오는 인수 : Long ordersNo(주문번호), (현재 페이지: int nowPage)
+	 * 
+	 * 2-1) 보내는 곳 : 관리자/주문상세페이지(혹은 주문페이지)
+	 * 2-2) 보내는 인수 : Page<Orderdetails> orderdetailsList(상세주문리스트), 
+	 *                 -> 주문상세에 해당하는 상품정보 포함(join)
+	 *                 int blockCount(페이징처리 블럭 수), 
+	 *                 int startPage(시작 페이지), int nowPage(현재 페이지)
+	 * 
+	 * 기능들
+	 * 3) 주문 번호별 주문상세 전체 조회
 	 */
-	@RequestMapping("관리자/주문상세페이지/{ordersNo}")
+	@RequestMapping("/관리자/주문상세페이지/{ordersNo}")
 	public void selectAllOrderdetailsAdmin(Model model, @PathVariable Long ordersNo,
 			@RequestParam(defaultValue="1") int nowPage) {
 		
@@ -190,56 +222,102 @@ public class OrdersController {
 	 */
 	
 	/**
-	 * 3-1) 일반회원 바로 주문하기-폼연결 (권한설정 주의)
-	 * 액터 : 일반회원
- 	 * mapping : 일반회원/구매/주문폼
-	 * 조건 : -
+	 * 
+	 * 3-1. 일반회원 바로 주문하기-> 밑에서 통합
+	 * 
+	 * 1-1) 넘어오기 전 : 일반상품/상세페이지(바로구매 버튼)
+	 * 1-2) 넘어오는 인수 : 상품번호-통일위해 List로(List<Product> productList),
+	 *                   주문수량,가격(List<Orderdetails> orderdetailsList)
+	 * 
+	 * 2-1) 보내는 곳 : 주문폼
+	 * 2-2) 보내는 인수 :  인수들 Hidden으로 넣어놓기
+	 *                  상품번호-통일위해 List로(List<Product> productList),
+	 *                  주문수량,가격(List<Orderdetails> orderdetailsList)
+	 * 
+	 * 기능들
+	 * 3-1) MappingUrl통해서 접근권한 구분:일반회원
+	 *   ->전달 받은 값 그대로 주문폼으로 전달
+	 * 3-2) 주문전 체크 : 이상 발생시 RunTimeException 발생
+	 *   -> 주문상품-카테고리 : 주문상품의 카테고리 확인하여 멤버쉽과 유료상품이 매치되는지 체크 / 멤버쉽카드 인지도 체크 (주문전 불가체크:1.유무료/2.카드재구매)
+	 * 3-3) 주문전 체크 : 이상 발생시 RunTimeException 발생
+	 *   -> 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
 	 */
-	@RequestMapping("일반회원/구매/주문폼") /**인수 List들 Hidden으로 넣기(?)*/
-	public String usersOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList /*, Model model*/) {
+//	@RequestMapping("/일반회원/구매/주문폼") /**인수 List들 Hidden으로 넣기(?)*/
+//	public String usersOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList /*, Model model*/) {
+////		model.addAttribute(productList);
+////		model.addAttribute(orderdetailsList);
+//		
+//		return "주문폼";
+//	}
+	
+	/**
+	 * 3-1. 일반회원 바로 주문하기
+	 * 3-2. 멤버쉽회원 바로 주문하기
+	 * 
+	 * 1-1) 넘어오기 전 : {일반회원 혹은 멤버쉽회원}/상세페이지(바로구매 버튼)
+	 * 1-2) 넘어오는 인수 : 상품번호-통일위해 List로(List<Product> productList),
+	 *                   주문수량,가격(List<Orderdetails> orderdetailsList)
+	 * 
+	 * 2-1) 보내는 곳 : 주문폼
+	 * 2-2) 보내는 인수 :  인수들 Hidden으로 넣어놓기
+	 *                  상품번호-통일위해 List로(List<Product> productList),
+	 *                  주문수량,가격(List<Orderdetails> orderdetailsList)
+	 * 
+	 * 기능들
+	 * 3-1) MappingUrl통해서 접근권한 구분:멤버쉽상품
+	 *   ->전달 받은 값 그대로 주문폼으로 전달
+	 * 3-2) 주문전 체크 : 이상 발생시 RunTimeException 발생
+	 *   -> 주문상품-카테고리 : 주문상품의 카테고리 확인하여 멤버쉽과 유료상품이 매치되는지 체크 / 멤버쉽카드 인지도 체크 (주문전 불가체크:1.유무료/2.카드재구매)
+	 * 3-3) 주문전 체크 : 이상 발생시 RunTimeException 발생
+	 *   -> 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
+	 */
+	@RequestMapping("/{author}/주문/주문체크")
+	public String checkOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList/*, Model model*/) {
 //		model.addAttribute(productList);
 //		model.addAttribute(orderdetailsList);
-		return "주문폼";
+		
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		//insert에서도 사용
+		//상품 번호로 상품 객체에 들어가는지 확인할 것->안될것같음
+		//->현재 orderdetailsList에는 상품 객체로 들어가 있음
+		//->Product의 List로 받아서 꺼내서 대입하여 상세주문에 넣기(index가 매치되니까 괜찮을듯)
+		for(int i=0; i<productList.size(); i++) {
+			orderdetailsList.get(i).setProduct(productList.get(i));
+		}
+		
+		//받은 카트 리스트를 주문에 담기
+		Orders orders=new Orders();
+		orders.setOrderdetailsList(orderdetailsList);	
+		
+		//체크 메소드 호출
+		ordersService.selectCheckBeforeOrders(users, orders);
+		//이상 없을시 리턴
+		
+		return "/주문/주문폼";
 	}
 	
 	/**
-	 * 3-2) 멤버쉽회원 바로 주문하기-폼연결 (권한설정 주의)
-	 * 액터 : 멤버쉽회원
- 	 * mapping : 멤버쉽회원/구매 / 주문폼
-	 * return : forward : 주문폼으로 연결
-	 * 조건 : -
-	 */
-	@RequestMapping("멤버쉽회원/구매/주문폼")
-	public String adminOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList/*, Model model*/) {
-//		model.addAttribute(productList);
-//		model.addAttribute(orderdetailsList);
-		return "주문폼";
-	}
-	
-	/**
-	 * 4) 주문-결제 : 아임포트 API 사용할 예정(통합 결제대행API),
-	 * view부분과의 연동 필요하여 확인후 넣을 예정
-	 *  
-	 *  아래는 정리후 수정할 예정 (서비스 파트와 부정확한 내용 섞여있음)
-	 *  
-	 *  
-	 *  
-	 * 조회하여 주문이 넘어왔을때 진행
-1) 주문폼 값 전달받기 -> 이때 배송지 값 입력하는 API 사용 (폼 양식에서 사용)
-2) 트랜젝션 시작
-3) 전달받은 주문 정보로 주문테이블, 주문상세 테이블 C
-4-1) 상품 U : if 재고량이 1이상일때 : 재고량 감소 / 재고량-상품수량<0 이면 실패
-4-2) 멤버쉽카드일시 :  위 재고량 로직+ 권한생성 + 회원 멤버쉽 1로 update
-5) 결제API사용 : 주문코드 전달하여 결제요청
-6) 결제 정보 전달받기 : 결제코드
-7) 결제정보 테이블에 결제정보 저장
-8) 결제성공처리 (결제서비스쪽에 성공값 보내야하나? 보낸다면 보낸 이후 성공처리)
-9) 결제 성공 후 장바구니 삭제(세션 삭제) 혹은 세션의 해당 상품 삭제
-10) 주문완료 페이지로 이동 (주문 내역 출력되는 페이지 예상)
+	 * 4. 주문
+	 * 
+	 * 1-1) 넘어오기 전 : 주문폼
+	 * 1-2) 넘어오는 인수 : 상품번호 List로(List<Product> productList),
+	 *                   (Hidden속 정보-Orders에 합쳐질 것으로 예상
+	 *                     : 카트정보-수량,금액등등 (List<Orderdetails> orderdetailsList))
+	 *                   주문폼 내용-주문정보(Orders orders)
+	 *                   
+	 * 2-1) 보내는 곳 : 주문폼
+	 * 2-2) 보내는 인수 :  - 
+	 * 
+	 * 기능들
+	 * 3) 주문테이블+주문상세테이블에 주문정보 저장
+	 * 
+	 * 
+	 * API사용 확인후 주석 수정 예정
 	 * 
 	 */
 //	@ResponseBody // 주문하기는 AJAX로 할 예정, (REST API사용) 위에서 RestController선언하면 주석처리
-	@RequestMapping("주문/주문하기")
+	@RequestMapping("/주문/주문하기")
 	public String insertOrdersOrderdetails(HttpSession session, Principal principal, Orders orders, List<Product> productList/*, List<Orderdetails> orderdetailsList*/) {
 		
 		//Orders에 한 번에 들어간다면 인수로 하나만 받기
@@ -263,7 +341,7 @@ public class OrdersController {
 		//장바구니 세션 사용하여 insert 완료 후 세션 삭제
 		session.removeAttribute("세션속 장바구니 상품 목록");
 		
-		return "주문완료 페이지";
+		return "/주문/주문완료 페이지";
 		
 	}
 	
