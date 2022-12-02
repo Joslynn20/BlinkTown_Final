@@ -2,6 +2,7 @@ package web.mvc.controller;
 
 import java.util.List;
 
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,11 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import web.mvc.domain.Board;
+import web.mvc.domain.Users;
 import web.mvc.service.BoardService;
 
 @Controller
@@ -54,6 +57,25 @@ public class BoardController {
 	}	
 	
 	/**
+	 * 아티스트별 리스트
+	 * */
+	@RequestMapping("/list/artist")
+	public void list(Model model, Users users) {
+		List<Board> boardList = boardService.selectByUsers(users);
+		model.addAttribute("boardList", boardList);
+	}
+	
+	/**
+	 * 상세보기
+	 * */
+	@RequestMapping("/read/{bno}")
+	public ModelAndView read(@PathVariable Long boardNo) {
+		Board board = boardService.selectBy(boardNo);		
+		return new ModelAndView("board/read", "board", board);
+	}
+	
+	
+	/**
 	 * 게시글 등록폼
 	 * */
 	@RequestMapping("/write")
@@ -64,7 +86,8 @@ public class BoardController {
 	 * */
 	@RequestMapping("/read/{boardNo}")
 	public String insertBoard(Board board) {
-		boardService.insertBoard(board);		
+		boardService.insertBoard(board);
+		
 		return "redirect:/board/list";
 	}
 	
