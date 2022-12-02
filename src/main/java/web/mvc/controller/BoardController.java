@@ -64,8 +64,7 @@ public class BoardController {
 	 * */
 	@RequestMapping("/read/{boardNo}")
 	public String insertBoard(Board board) {
-		boardService.insertBoard(board);
-		
+		boardService.insertBoard(board);		
 		return "redirect:/board/list";
 	}
 	

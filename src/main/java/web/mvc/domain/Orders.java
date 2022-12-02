@@ -50,7 +50,8 @@ public class Orders {
 	private String ordersReceiverPhone;
 	@Column(nullable=false, length = 250)
 	private String ordersAddr;
-	private int ordersZipcode; 
+	@Column(nullable=false, length = 6)
+	private String ordersZipcode; 
 	@Column(nullable=false, length = 20)
 	private String ordersStatus;
 	

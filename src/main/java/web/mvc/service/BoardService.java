@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import web.mvc.domain.Board;
+import web.mvc.domain.Users;
 
 
 public interface BoardService {
@@ -22,14 +23,15 @@ public interface BoardService {
 	
 	/**
 	 * 게시글 상세보기
+	 * : Long boardNo(pk) 게시물번호를 인수로 받음
 	 */
-	Board selectBy();	
+	Board selectBy(Long boardNo);	
 	
 	/**
 	 * 아티스트별 게시판 검색
 	 * : 아티스트 아이디로 전체 board 검색
 	 */
-	List<Board> selectByUserId(String userId);
+	List<Board> selectByUsers(Users users);
 	
 	/**
 	 * 게시글 등록(아티스트, 관리자가 작성)
