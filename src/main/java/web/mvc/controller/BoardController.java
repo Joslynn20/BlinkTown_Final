@@ -56,6 +56,7 @@ public class BoardController {
 		
 	}	
 	
+	
 	/**
 	 * 아티스트별 리스트
 	 * */
@@ -64,6 +65,7 @@ public class BoardController {
 		List<Board> boardList = boardService.selectByUsers(users);
 		model.addAttribute("boardList", boardList);
 	}
+	
 	
 	/**
 	 * 상세보기
@@ -81,6 +83,7 @@ public class BoardController {
 	@RequestMapping("/write")
 	public void write() {}
 	
+	
 	/**
 	 * 게시글 등록하기
 	 * */
@@ -90,6 +93,7 @@ public class BoardController {
 		
 		return "redirect:/board/list";
 	}
+	
 	
 	/**
 	 * 게시글 삭제하기
