@@ -91,7 +91,7 @@ public class OrdersServiceImpl implements OrdersService {
 		return orderdetailsList;
 		
 	} //selectAllOrdersdetails end
-
+	
 	/* 체크만 한 후 RuntimeException 처리
 	 * - 1) 멤버쉽 체크는 시큐리티 사용해야돼서 뷰->컨트롤러로 카트 담을 때 분류하는게 좋을듯 (1번 삭제)
 	 * */
@@ -102,26 +102,26 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override 
 	public void selectCheckBeforeOrders(Users users, Orders ordersProduct) {
 		//반복문 사용해서 List 속의 상품들 꺼내서 비교하기
-				List<Orderdetails> cartList=ordersProduct.getOrderdetailsList();
-				for(Orderdetails orderdetails : cartList){
+		List<Orderdetails> cartList=ordersProduct.getOrderdetailsList();
+		for(Orderdetails orderdetails : cartList){
 //					//1) 멤버쉽 주문이 맞는지 조회 (Product ordersProduct)
 //					if(orderdetails.getProduct().getGoods().getGoodsMemberShiponly()==1){
 //						if(users.getUsersMemberShip()==0) throw new RuntimeException("멤버쉽 회원만 주문 가능한 상품입니다");
 //					}//안씀..혹시나 싶어 주석으로만 남김...
-					
-					//2) 상품이 멤버쉽카드인지 조회
-					if(orderdetails.getProduct().getProductCode()=="멤버쉽카드의 상품코드"){
-						if(users.getUsersMemberShip()==1) throw new RuntimeException("이미 멤버쉽 회원입니다");
-					}
+			
+			//2) 상품이 멤버쉽카드인지 조회
+			if(orderdetails.getProduct().getProductCode()=="멤버쉽카드의 상품코드"){
+				if(users.getUsersMemberShip()==1) throw new RuntimeException("이미 멤버쉽 회원입니다");
+			}
 
-					//3) 상품 재고량이 주문 가능한 숫자인지 조회
-					Product product=productRep.findById(orderdetails.getProduct().getProductCode()).orElse(null);
-					if(product.getProductStock()>=0){
-						if(orderdetails.getProduct().getProductStock()>product.getProductStock() || product.getProductStock()==0)
-								throw new RuntimeException("상품 재고량이 부족합니다. 개수를 확인해주세요.");
-					}
-					
-				}//장바구니 리스트 꺼내서 유효성 체크하는 for문끝
+			//3) 상품 재고량이 주문 가능한 숫자인지 조회
+			Product product=productRep.findById(orderdetails.getProduct().getProductCode()).orElse(null);
+			if(product.getProductStock()>=0){
+				if(orderdetails.getProduct().getProductStock()>product.getProductStock() || product.getProductStock()==0)
+						throw new RuntimeException("상품 재고량이 부족합니다. 개수를 확인해주세요.");
+			}
+			
+		}//장바구니 리스트 꺼내서 유효성 체크하는 for문끝
 	} //selectCheckBeforeOrders end
 
 	//인수로 Orders에 한번에 담을 수 있는지 확인 후 안담아지면
