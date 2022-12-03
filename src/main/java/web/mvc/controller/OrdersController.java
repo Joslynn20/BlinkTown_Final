@@ -57,9 +57,9 @@ public class OrdersController {
 	 * 
 	 * 기능들
 	 * 3-1) 유저-주문 전체 조회
-	 * 3-2) 유저-주문 기간별 조회
+	 * 3-2) 유저-주문 기간별 조회 -> 우선 안쓰는 방향 //새 메소드로 구분짓기(url매핑 구분하기)
 	 */
-	@RequestMapping("/유저/마이페이지/주문페이지")
+	@RequestMapping("/유저/마이페이지/주문페이지") //기간별 조회도 뒷순위->차후 안쓰면 정리하기
 	public void selectAllOrders(Model model, 
 			@RequestParam(defaultValue="1") int nowPage, String startDate, String finalDate) {
 		
@@ -73,7 +73,7 @@ public class OrdersController {
 		if(startDate==null||finalDate==null) {
 			ordersList=ordersService.selectAllOrders(2, users, null, null, ordersPage);
 		}else {
-		//기간 조회용 페이지 정보 호출 : (inCase==3) -> 호출이 쉬워서 넣었습니다..
+		//기간 조회용 페이지 정보 호출 : (inCase==3) -> 차후 삭제하거나 하기(현재로선 안쓰는 방향)
 			ordersList=ordersService.selectAllOrders(3, users, startDate, finalDate, ordersPage);
 		}
 		
@@ -97,38 +97,39 @@ public class OrdersController {
 	 * -> 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
 	 * 
 	 * 1-1) 넘어오기 전 : 유저/마이페이지/주문페이지
-	 * 1-2) 넘어오는 인수 : Long ordersNo(주문번호), (현재 페이지: int nowPage)
+	 * 1-2) 넘어오는 인수 : URL(Long ordersNo(주문번호))
 	 * 
 	 * 2-1) 보내는 곳 : 유저(일반,멤버쉽)/마이페이지/주문상세페이지(혹은 주문페이지)
-	 * 2-2) 보내는 인수 : Page<Orderdetails> orderdetailsList(상세주문리스트), 
+	 * 2-2) 보내는 인수 : List<Orderdetails> orderdetailsList(상세주문리스트), 
 	 *                 -> 주문상세에 해당하는 상품정보 포함(join)
-	 *                 int blockCount(페이징처리 블럭 수), 
-	 *                 int startPage(시작 페이지), int nowPage(현재 페이지)
+	 *                 ->Page에서 List로 변경
 	 * 
 	 * 기능들
 	 * 3) 주문 번호별 주문상세 전체 조회
 	 */
-	@RequestMapping("/유저/마이페이지/주문상세페이지/{ordersNo}")
-	public void selectAllOrderdetails(Model model, @PathVariable Long ordersNo,
-			@RequestParam(defaultValue="1") int nowPage) {
+	@RequestMapping("/유저/마이페이지/주문상세페이지/{ordersNo}") //페이징처리 주석처리
+	public void selectAllOrderdetails(Model model, @PathVariable Long ordersNo
+			/*, @RequestParam(defaultValue="1") int nowPage*/) {
 		
-		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "orderdetailsNo");
+//		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "orderdetailsNo");
 		
-		Page<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo, ordersPage);
-		
-		//페이징 처리 메소드
-		int temp=0;
-		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
-			temp=(nowPage-1)%BLOCK_COUNT;
-		}
-		int startPage=nowPage-temp;
-		
+//		Page<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo, ordersPage);
+		List<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo);
+
 		model.addAttribute("orderdetailsList", orderdetailsList);
 		
-		//페이징 처리 위한 정보들 값으로 넣어 전달
-		model.addAttribute("blockCount", BLOCK_COUNT);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("nowPage", nowPage);
+		//페이징 처리 메소드
+//		int temp=0;
+//		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
+//			temp=(nowPage-1)%BLOCK_COUNT;
+//		}
+//		int startPage=nowPage-temp;
+//		
+//		
+//		//페이징 처리 위한 정보들 값으로 넣어 전달
+//		model.addAttribute("blockCount", BLOCK_COUNT);
+//		model.addAttribute("startPage", startPage);
+//		model.addAttribute("nowPage", nowPage);
 	}
 	
 	////////////////////////////////////////////////////
@@ -173,42 +174,42 @@ public class OrdersController {
 	}
 	
 	/**
-	 * 2-2. 유저 마이페이지 - 주문 상세내역 
+	 * 2-2. 관리자 마이페이지 - 주문 상세내역 
 	 * -> 주문 내역 클릭시 해당 주문 코드로 주문 내역 조회
 	 * 
 	 * 1-1) 넘어오기 전 : 유저/마이페이지/주문페이지
-	 * 1-2) 넘어오는 인수 : Long ordersNo(주문번호), (현재 페이지: int nowPage)
+	 * 1-2) 넘어오는 인수 : URL(Long ordersNo(주문번호))
 	 * 
 	 * 2-1) 보내는 곳 : 관리자/주문상세페이지(혹은 주문페이지)
-	 * 2-2) 보내는 인수 : Page<Orderdetails> orderdetailsList(상세주문리스트), 
+	 * 2-2) 보내는 인수 : List<Orderdetails> orderdetailsList(상세주문리스트), 
 	 *                 -> 주문상세에 해당하는 상품정보 포함(join)
-	 *                 int blockCount(페이징처리 블럭 수), 
-	 *                 int startPage(시작 페이지), int nowPage(현재 페이지)
+	 *                 ->Page에서 List로 변경
 	 * 
 	 * 기능들
 	 * 3) 주문 번호별 주문상세 전체 조회
 	 */
-	@RequestMapping("/관리자/주문상세페이지/{ordersNo}")
-	public void selectAllOrderdetailsAdmin(Model model, @PathVariable Long ordersNo,
-			@RequestParam(defaultValue="1") int nowPage) {
+	@RequestMapping("/관리자/주문상세페이지/{ordersNo}") //페이징처리 안하는 방향으로 우선 주석처리
+	public void selectAllOrderdetailsAdmin(Model model, @PathVariable Long ordersNo
+	/* ,@RequestParam(defaultValue="1") int nowPage */) {
 		
-		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
+//		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
 		
-		Page<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo, ordersPage);
+		List<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo);
 
-		//페이징 처리 메소드
-		int temp=0;
-		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
-			temp=(nowPage-1)%BLOCK_COUNT;
-		}
-		int startPage=nowPage-temp;
-		
 		model.addAttribute("orderdetailsList", orderdetailsList);
 		
-		//페이징 처리 위한 정보들 값으로 넣어 전달
-		model.addAttribute("blockCount", BLOCK_COUNT);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("nowPage", nowPage);
+		//페이징 처리 메소드
+//		int temp=0;
+//		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
+//			temp=(nowPage-1)%BLOCK_COUNT;
+//		}
+//		int startPage=nowPage-temp;
+//		
+//		
+//		//페이징 처리 위한 정보들 값으로 넣어 전달
+//		model.addAttribute("blockCount", BLOCK_COUNT);
+//		model.addAttribute("startPage", startPage);
+//		model.addAttribute("nowPage", nowPage);
 	}
 	
 	
