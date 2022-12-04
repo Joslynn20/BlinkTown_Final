@@ -1,26 +1,30 @@
 package web.mvc.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
-	
+@Entity
+@IdClass(LikesID.class)
+public class Likes implements Serializable {
+	@Id
 	@Column(nullable = false)
 	private Long boardNo;
-	
+	@Id
 	@Column(nullable = false)
 	private String userId;
 }

@@ -27,11 +27,12 @@ public interface OrdersService {
 
 	/**
 	 * 주문 상세 내역 조회
-	 * - 인수 : 주문정보, 페이징처리 정보
+	 * - 인수 : 주문정보, 페이징처리 정보->우선 안하는 방향으로
 	 * - 포함 정보 : 주문 테이블, 주문 상세 테이블, 해당 상품 정보
-	 * - return : Page객체
+	 * - return : Page객체->List
 	 */
-	Page<Orderdetails> selectAllOrdersdetails(Orders orders, Pageable pageable);
+//	Page<Orderdetails> selectAllOrderdetails(Long ordersNo, Pageable pageable);
+	List<Orderdetails> selectAllOrderdetails(Long ordersNo);
 	
 	//////////////////////////////////////////////////
 	/**

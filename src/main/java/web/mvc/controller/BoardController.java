@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.mvc.domain.Board;
 import web.mvc.service.BoardService;
@@ -23,7 +24,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	private final static int PAGE_COUNT=10;
-	private final static int BLOCK_COUNT=4;
+	private final static int BLOCK_COUNT=5;
 	
 	/**
 	 * 전체 검색 페이지
@@ -50,10 +51,31 @@ public class BoardController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
 		
+	}	
+	
+	/**
+	 * 게시글 등록폼
+	 * */
+	@RequestMapping("/write")
+	public void write() {}
+	
+	/**
+	 * 게시글 등록하기
+	 * */
+	@RequestMapping("/read/{boardNo}")
+	public String insertBoard(Board board) {
+		boardService.insertBoard(board);		
+		return "redirect:/board/list";
 	}
 	
-	
-	
+	/**
+	 * 게시글 삭제하기
+	 * */
+	@RequestMapping("/delete")
+	public String delete(Long boardNo) {
+		boardService.deleteBoard(boardNo);
+		return "redirect:/board/list";
+	}
 	
 	
 	
