@@ -3,6 +3,7 @@ package web.mvc.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -61,7 +62,8 @@ public class Orders {
 	@CreationTimestamp
 	private LocalDateTime ordersDate;
 	
-	//@OneToMany(mappedBy = "orders", fetch = FetchType.EAGER)
-	@OneToMany(mappedBy = "orders") //LAZY
+	//LAZY , 주문결제-취소시 삭제 필요하여 cascade설정
+	//@OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL) 
 	private List<Orderdetails> orderdetailsList;
 }
