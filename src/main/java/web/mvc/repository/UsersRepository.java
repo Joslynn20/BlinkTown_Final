@@ -2,12 +2,16 @@ package web.mvc.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
+import web.mvc.domain.Orderdetails;
+import web.mvc.domain.Orders;
 import web.mvc.domain.Users;
 import web.mvc.domain.Users.UsersBuilder;
 
@@ -28,7 +32,7 @@ public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPr
 	
 	//유무료 회원 조회할 때 
 	List<Users> findByUsersMemberShip(int usersmemebership);
-	
+
 	
 	
 

@@ -28,7 +28,16 @@ public class UsersController {
 	}
 
 	/** 등록하기 */
-
+	
+	//Id 중복체크
+	@ResponseBody
+	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
+	public boolean idCheck(String UsersId) throws Exception {
+		boolean result = usersService.UsersIdCheck(UsersId);
+		return result;
+	}
+	
+	//이메일 중복체크
 	@ResponseBody
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
 	public boolean emailCheck(String UsersEmail) throws Exception {
@@ -36,36 +45,34 @@ public class UsersController {
 		return result;
 	}
 
+	//닉네임 중복체크
 	@ResponseBody
 	@RequestMapping(value = "/nickCheck", method = RequestMethod.POST)
 	public boolean nickCheck(String usersNickName) throws Exception {
 		boolean result = usersService.UsersNickCheck(usersNickName);
 		return result;
 	}
-
+	//전화번호 중복체크
 	@ResponseBody
 	@RequestMapping(value = "/phoneCheck", method = RequestMethod.POST)
 	public boolean phoneCheck(String usersPhoneNumber) throws Exception {
 		boolean result = usersService.UsersPhoneCheck(usersPhoneNumber);
 		return result;
 	}
-
+	
+	//회원가입하기
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String registerPOST(Users users)
-			throws Exception {
+	public String registerPOST(Users users) throws Exception {
 		usersService.insertUser(users);
-		return "redirect:/board/list";
+		return "redirect:/login";
 	}
 
-	/*@ExceptionHandler(value = Exception.class)
-	public String exception(Exception e, Model model) {
-
-		model.addAttribute("errMsg", e.getMessage());// ${errMsg}
-
-		return "에러 페이지";
-	}*/
-
-	/**회원정보 조회*/
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * 수정하기
+ * */
+	/**상세 회원정보 조회*/
 	@RequestMapping("/read/{usersId}")
 	public String selectByUsersId(@PathVariable String usersId) {
 		usersService.selectByUsersId(usersId);
@@ -81,19 +88,20 @@ public class UsersController {
 
 		return new ModelAndView("users/update", "users", users);
 	}*/
+	
 	/** 수정 완료하기 */
 	@RequestMapping("/update")
 	public String updateUsers(Users users) {
 		Users dbUser = usersService.updateUsers(users);
 
-		return "리다이렉트/조회";
+		return "redirect:/mypage";
 	}
 
 	/** 탈퇴하기 */
 	@RequestMapping("/delete")
 	private String deleteByUsersId(String usersId) {
 		usersService.deleteByUsersId(usersId);
-		return "메인뷰??";
+		return "main";
 	}
 
 	/** 관리자 - 회원 리스트보기 */
