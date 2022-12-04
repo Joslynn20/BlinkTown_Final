@@ -98,6 +98,7 @@ public class ProductServiceImpl implements ProductService {
 		Product dbProduct = repository.findById(productCode).orElse(null);
 		if (dbProduct == null)
 			throw new RuntimeException("상품 코드 오류로 삭제 불가합니다.");
+		repository.delete(dbProduct);
 	}
 
 	@Override
