@@ -39,7 +39,7 @@ public class OrdersServiceImpl implements OrdersService {
 	private final UsersRepository userRep;
 	
 	private final UsersService usersService;
-//	private final ProductService productService;
+	private final ProductService productService;
 	
 	@Override
 	public Page<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate, Pageable pageable) {
@@ -131,12 +131,13 @@ public class OrdersServiceImpl implements OrdersService {
 	//인수로 Orders에 한번에 담을 수 있는지 확인 후 안담아지면
 	//List로 주문상세정보 받아서 추가로 담기
 	@Override
-	public void insertOrdersOrderdetails(Users users, Orders ordersProduct) {
+	public Orders insertOrdersOrderdetails(Users users, Orders ordersProduct) {
 		//주문 체크 메소드 호출하여 주문전 체크
 		this.selectCheckBeforeOrders(users, ordersProduct);
 		//이상없다면 Exception없이 빠져나옴
 		
 		String usersId=users.getUsersId();
+		ordersProduct.setUsers(users);
 
 		//insert
 		Orders finishOrders=ordersRep.save(ordersProduct); //한 번에 insert 되면 이걸로 끝내기
@@ -160,22 +161,27 @@ public class OrdersServiceImpl implements OrdersService {
 			//1-3) 유저 정보의 멤버쉽 업데이트
 			if(getProdCode.equals("멤버쉽카드의 상품코드")){//상품코드 String
 				Users dbUsers=userRep.findById(usersId).orElse(null);
-				dbUsers.setUsersMemberShip(1);
+//				dbUsers.setUsersMemberShip(1);
 
 				//(도윤님 서비스 메소드를 사용)
-//				usersService.updateUsersMemberShip(dbUsers);
+				usersService.updateUsersMemberShip(dbUsers);
 			}
 			
 			//2-1) 상품 재고량이 주문 가능한 숫자인지 조회 (0개 초과부터)
 			//2-2) 상품 재고량 감소 
 			if(product.getProductStock()>0){
-				product.setProductStock(product.getProductStock()-orderdetails.getOrderdetailsQty());
+//				product.setProductStock(product.getProductStock()-orderdetails.getOrderdetailsQty());
 				
-//				//(보경님 상품 서비스 메소드를 사용)
-//				int qty=orderdetails.getOrderdetailsQty();
-//				productService.decreaseProductStock(getProdCode, qty);
+				//(보경님 상품 서비스 메소드를 사용)
+				int qty=orderdetails.getOrderdetailsQty();
+				productService.decreaseProductStock(getProdCode, qty);
 			}
 		}//장바구니 리스트 꺼내서 유효성 체크하는 for문끝
+		
+		//주문번호로 결제호출 위해 컨트롤러로 리턴
+		finishOrders.setOrderdetailsList(finishOrderdetailsList);
+		
+		return finishOrders;  
 	} //insertOrdersOrderdetails end
 
 }

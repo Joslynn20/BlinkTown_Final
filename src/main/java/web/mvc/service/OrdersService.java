@@ -54,6 +54,6 @@ public interface OrdersService {
 	 * 등록 정보 : 주문 테이블, 주문 상세 테이블
 	 * 
 	 */
-	void insertOrdersOrderdetails(Users users, Orders ordersProduct/*, List<Orderdetails> cartList*/);
+	Orders insertOrdersOrderdetails(Users users, Orders ordersProduct/*, List<Orderdetails> cartList*/);
 	
 }
