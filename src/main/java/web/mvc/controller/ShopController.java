@@ -9,4 +9,7 @@ public class ShopController {
 	
 	@RequestMapping("/main")
 	public void ShopMain() {}
+	
+	@RequestMapping("/{url}")
+	public void url() {}
 }

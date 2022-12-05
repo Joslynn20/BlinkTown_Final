@@ -1,5 +1,7 @@
 package web.mvc.config;
 
+import java.util.Locale;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -43,7 +45,11 @@ public class MessageConfig implements WebMvcConfigurer {
      */
     @Bean
     public CookieLocaleResolver localeResolver() {
-        return new CookieLocaleResolver();
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setCookieName("lang");
+        localeResolver.setDefaultLocale(new Locale("ko"));
+        localeResolver.setCookieHttpOnly(true);
+        return localeResolver;
     }
 
 

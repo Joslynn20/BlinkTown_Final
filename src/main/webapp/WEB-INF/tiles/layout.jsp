@@ -1,45 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
 	*{
 		margin: 0px;
 	}
-	header{
-		width: 800px;
-		height: 100px;
-		background-color: #22222250; 
-	}
-	section{
-		width: 800px;
-		height: 400px;
-		background-color: #22222220; 
-	}
-	footer{
-		width: 800px;
-		height: 150px;
-		background-color: #22222250; 
-	}
 </style>
 </head>
 <body>
 
-	<header>
-		<tiles:insertAttribute name="header"/><!-- °íÁ¤ÀÌ ¾Æ´Ñ µ¿Àû »ðÀÔ -->
-	</header>
+		<tiles:insertAttribute name="header"/><!-- ê³ ì •ì´ ì•„ë‹Œ ë™ì  ì‚½ìž… -->
 	
-	<section>
 		<tiles:insertAttribute name="content"/>
-	</section>
 	
-	<footer>
 		<tiles:insertAttribute name="footer"/>
-	</footer>
-
+	<tiles:insertAttribute name="popup-menu"/>
 </body>
 </html>

@@ -1,15 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-h3{color: #ffffff;}
+* {
+	margin: 0;
+	font-family: NotoSans;
+}
+.footer-wrap{
+clear:both;
+display: block;
+background-color:purple;
+width: auto;
+height: 68px;
+}
 </style>
 </head>
 <body>
-<h3>footer입니다.</h3>
+<div class="footer-wrap">
+</div>
 </body>
 </html>
