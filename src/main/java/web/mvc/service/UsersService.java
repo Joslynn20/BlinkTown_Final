@@ -49,6 +49,12 @@ public interface UsersService  {
 	/**
 	 * 멤버쉽 유무에 따른 유/무료 회원 조회
 	 * */
-	 List<Users> selectByUsersMemberShip(int usersMemberShip);
-	
+	 List<Users> selectByUsersMemberShip(Integer usersMemberShip);
+	 
+	    /**
+	     * 멤버쉽으로 승급
+	     * 주문-멤버쉽카드 구매시 유저의 멤버쉽 업데이트
+	     */
+	 void updateUsersMemberShip(Users users, boolean willMember);
+	 
 }

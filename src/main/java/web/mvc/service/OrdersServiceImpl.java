@@ -38,6 +38,9 @@ public class OrdersServiceImpl implements OrdersService {
 	private final OrderdetailsRepository orderdetailsRep;
 	private final UsersRepository userRep;
 	
+	private final UsersService usersService;
+	private final ProductService productService;
+	
 	@Override
 	public Page<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate, Pageable pageable) {
 		Page<Orders> ordersList=null;
@@ -82,11 +85,12 @@ public class OrdersServiceImpl implements OrdersService {
 	} //selectAllOrders end
 
 	@Override
-	public Page<Orderdetails> selectAllOrderdetails(Long ordersNo, Pageable pageable) {
+//	public Page<Orderdetails> selectAllOrderdetails(Long ordersNo, Pageable pageable) {
+	public List<Orderdetails> selectAllOrderdetails(Long ordersNo) {
 		
 		Orders orders=ordersRep.findById(ordersNo).orElse(null);
 		
-		Page<Orderdetails> orderdetailsList=orderdetailsRep.findByOrders(orders, pageable);
+		List<Orderdetails> orderdetailsList=orderdetailsRep.findByOrders(orders);
 		
 		return orderdetailsList;
 		
@@ -109,10 +113,10 @@ public class OrdersServiceImpl implements OrdersService {
 //						if(users.getUsersMemberShip()==0) throw new RuntimeException("멤버쉽 회원만 주문 가능한 상품입니다");
 //					}//안씀..혹시나 싶어 주석으로만 남김...
 			
-			//2) 상품이 멤버쉽카드인지 조회
-			if(orderdetails.getProduct().getProductCode()=="멤버쉽카드의 상품코드"){
-				if(users.getUsersMemberShip()==1) throw new RuntimeException("이미 멤버쉽 회원입니다");
-			}
+			//2) 상품이 멤버쉽카드인지 조회 //프론트 뷰에서 애초에 보이지 않게 할거라 메소드 주석처리
+//			if(orderdetails.getProduct().getProductCode().equals("멤버쉽카드의 상품코드")){
+//				if(users.getUsersMemberShip()==1) throw new RuntimeException("이미 멤버쉽 회원입니다");
+//			}
 
 			//3) 상품 재고량이 주문 가능한 숫자인지 조회
 			Product product=productRep.findById(orderdetails.getProduct().getProductCode()).orElse(null);
@@ -120,19 +124,19 @@ public class OrdersServiceImpl implements OrdersService {
 				if(orderdetails.getProduct().getProductStock()>product.getProductStock() || product.getProductStock()==0)
 						throw new RuntimeException("상품 재고량이 부족합니다. 개수를 확인해주세요.");
 			}
-			
 		}//장바구니 리스트 꺼내서 유효성 체크하는 for문끝
 	} //selectCheckBeforeOrders end
 
 	//인수로 Orders에 한번에 담을 수 있는지 확인 후 안담아지면
 	//List로 주문상세정보 받아서 추가로 담기
 	@Override
-	public void insertOrdersOrderdetails(Users users, Orders ordersProduct) {
+	public Orders insertOrdersOrderdetails(Users users, Orders ordersProduct) {
 		//주문 체크 메소드 호출하여 주문전 체크
 		this.selectCheckBeforeOrders(users, ordersProduct);
 		//이상없다면 Exception없이 빠져나옴
 		
 		String usersId=users.getUsersId();
+		ordersProduct.setUsers(users);
 
 		//insert
 		Orders finishOrders=ordersRep.save(ordersProduct); //한 번에 insert 되면 이걸로 끝내기
@@ -154,18 +158,70 @@ public class OrdersServiceImpl implements OrdersService {
 			//1-1) 상품이 멤버쉽카드인지 조회
 			//1-2) 멤버쉽 수정 기능구현을 위한 유저 조회 (혹은 인수 사용->인수에 모든 정보 없을듯하니 조회하기)
 			//1-3) 유저 정보의 멤버쉽 업데이트
-			if(getProdCode=="멤버쉽카드의 상품코드"){
+			if(getProdCode.equals("멤버쉽카드의 상품코드")){//상품코드 String
 				Users dbUsers=userRep.findById(usersId).orElse(null);
-				dbUsers.setUsersMemberShip(1);
+//				dbUsers.setUsersMemberShip(1);
+
+				//(도윤님 서비스 메소드를 사용)
+				usersService.updateUsersMemberShip(dbUsers, true);
 			}
 			
 			//2-1) 상품 재고량이 주문 가능한 숫자인지 조회 (0개 초과부터)
-			//2-2) 상품 재고량 감소
+			//2-2) 상품 재고량 감소 
 			if(product.getProductStock()>0){
-				product.setProductStock(product.getProductStock()-orderdetails.getOrderdetailsQty());
+//				product.setProductStock(product.getProductStock()-orderdetails.getOrderdetailsQty());
+				
+				//(보경님 상품 서비스 메소드를 사용)
+				int qty=orderdetails.getOrderdetailsQty();
+				productService.decreaseProductStock(getProdCode, qty);
 			}
-			
 		}//장바구니 리스트 꺼내서 유효성 체크하는 for문끝
+		
+		//주문번호로 결제호출 위해 컨트롤러로 리턴
+		finishOrders.setOrderdetailsList(finishOrderdetailsList);
+		
+		return finishOrders;  
 	} //insertOrdersOrderdetails end
 
+	@Override
+	public void verifyOrders(Long ordersNo, int verifyAmount, String status) throws Exception {
+		//비교하기 위해 값 꺼내기
+		Orders orders=ordersRep.findById(ordersNo).orElse(null);
+		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();
+		int amount=0;
+		for(Orderdetails orderdetails : orderdetailsList){
+			amount+=orderdetails.getOrderdetailsPrice();
+		}
+		
+		//비교하기
+		if (amount==verifyAmount) {
+			//성공시 주문상태 업데이트
+			orders.setOrdersStatus(status);
+			
+		}else {
+			for(Orderdetails orderdetails : orderdetailsList){
+			
+				//1) 멤버쉽 카드라면 다시 회원 정보의 멤버쉽유무 0으로 수정
+				if(orderdetails.getProduct().getProductCode().equals("멤버쉽카드 상품번호")) {
+					Users users=orders.getUsers();
+					usersService.updateUsersMemberShip(users, false);
+				}
+				
+				//2) 재고량 원복
+				if(orderdetails.getProduct().getProductStock()>=0) {
+					int qty=(0-orderdetails.getOrderdetailsQty());					
+					productService.decreaseProductStock(orderdetails.getProduct().getProductCode(), qty);
+				}
+		}
+			
+			//DB금액과 결제금액이 다를 경우 주문 삭제 : 보안상 위조된 값
+			ordersRep.delete(orders); //cascade설정으로 주문상세도 삭제됨
+			
+			//주문 삭제후 트랜젝션과는 관련 없는 Exception 일으키기
+			throw new Exception("위조된 결제 시도 : FBI WARNING");
+			
+		}//검증실패시 기능 끝
+		
+	}//verifyOrders end
+	
 }

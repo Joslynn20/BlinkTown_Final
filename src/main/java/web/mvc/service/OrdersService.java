@@ -27,11 +27,12 @@ public interface OrdersService {
 
 	/**
 	 * 주문 상세 내역 조회
-	 * - 인수 : 주문정보, 페이징처리 정보
+	 * - 인수 : 주문정보, 페이징처리 정보->우선 안하는 방향으로
 	 * - 포함 정보 : 주문 테이블, 주문 상세 테이블, 해당 상품 정보
-	 * - return : Page객체
+	 * - return : Page객체->List
 	 */
-	Page<Orderdetails> selectAllOrderdetails(Long ordersNo, Pageable pageable);
+//	Page<Orderdetails> selectAllOrderdetails(Long ordersNo, Pageable pageable);
+	List<Orderdetails> selectAllOrderdetails(Long ordersNo);
 	
 	//////////////////////////////////////////////////
 	/**
@@ -53,6 +54,16 @@ public interface OrdersService {
 	 * 등록 정보 : 주문 테이블, 주문 상세 테이블
 	 * 
 	 */
-	void insertOrdersOrderdetails(Users users, Orders ordersProduct/*, List<Orderdetails> cartList*/);
+	Orders insertOrdersOrderdetails(Users users, Orders ordersProduct/*, List<Orderdetails> cartList*/);
 	
+	/**
+	 * 결제 검증하는 메소드
+	 * 
+	 * 1) 검증하기 : 실패하면 RuntimeException 일으킴. 성공시엔 아무 변화 없음
+	 * 2-1) 검증 성공시 : 주문 상태 변경->결제완료
+	 * 2-2) 검증 실패시 : 멤버쉽카드가 있었으면 회원정보 다시 0으로, 재고량 원복, 주문 및 주문상세 삭제
+	 * @param ordersNo
+	 * @param verifyAmount
+	 */
+	void verifyOrders(Long ordersNo, int verifyAmount, String status) throws Exception;
 }

@@ -4,15 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import lombok.RequiredArgsConstructor;
-import web.mvc.domain.QUsers;
 import web.mvc.domain.Users;
 import web.mvc.repository.UsersRepository;
 
@@ -114,11 +108,30 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	//맴쉽  유/무료회원 조회
-	//0이면 무료, 1이면 유료
-	@Override
-	public List<Users> selectByUsersMemberShip(int usersMemberShip) {
+	//0이면 무료, 1이면 유료, null 이면 전체 회원 검색
 	
-		return usersRep.findByUsersMemberShip(usersMemberShip);
+	public List<Users> selectByUsersMemberShip(Integer usersMemberShip) {
+		
+		List<Users> usersList=null;
+		//usersMemberShip이 null이면 전체조회
+		if(usersMemberShip==null) {
+			usersList=usersRep.findAll();
+		}else{ //null이 아닌 경우
+			//membership(0 또는 1에 해당하는 user조회
+			usersList=usersRep.findByUsersMemberShip(usersMemberShip);
+		}
+	
+		
+		return usersList;
 	}
+	
+	
+	 //주문-멤버쉽업데이트
+	   @Override
+	   public void updateUsersMemberShip(Users users, boolean willMember) {
+		  if(willMember==true) users.setUsersMemberShip(1);
+		  else users.setUsersMemberShip(0);
+	   }
+
 
 }
