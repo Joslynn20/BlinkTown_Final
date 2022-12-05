@@ -1,12 +1,17 @@
 package web.mvc.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import web.mvc.domain.Likes;
 import web.mvc.domain.LikesID;
+import web.mvc.domain.QLikes;
 import web.mvc.repository.LikesRepository;
 
 @Service
@@ -15,6 +20,10 @@ public class LikesServiceImpl implements LikesService {
 
 	@Autowired
 	private LikesRepository repository;
+	@Autowired
+	private JPAQueryFactory factory;
+
+	QLikes likes = QLikes.likes;
 
 	@Override
 	public void insertLike(Likes like) {
@@ -33,9 +42,13 @@ public class LikesServiceImpl implements LikesService {
 
 	@Override
 	public Likes selectLike(LikesID like) {
-		return repository.findById(like).orElse(null);	
+		return repository.findById(like).orElse(null);
 	}
-	
-	
+
+	@Override
+	public List<Likes> selectLikesListByUserId(String userId) {
+		List<Likes> likesList = factory.selectFrom(likes).where(likes.userId.eq(userId)).fetch();
+		return likesList;
+	}
 
 }

@@ -1,5 +1,7 @@
 package web.mvc.service;
 
+import java.util.List;
+
 import web.mvc.domain.Likes;
 import web.mvc.domain.LikesID;
 
@@ -27,5 +29,12 @@ public interface LikesService {
 	 * like 있는지 여부 검사
 	 */
 	Likes selectLike(LikesID like);
+	
+	
+	/**
+	 * 좋아요 리스트 불러오기
+	 * */
+	List<Likes> selectLikesListByUserId(String userId);
+	
 	
 }

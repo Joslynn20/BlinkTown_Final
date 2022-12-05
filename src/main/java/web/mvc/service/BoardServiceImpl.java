@@ -1,5 +1,6 @@
 package web.mvc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,7 +67,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void insertBoard(Board board) {
 		Board resultBoard = boardRep.save(board);
-		System.out.println("게시글 등록! resultBoard=" + resultBoard);
+		//System.out.println("게시글 등록! resultBoard=" + resultBoard);
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class BoardServiceImpl implements BoardService {
 		Board dbBoard = boardRep.findById(likes.getBoardNo()).orElse(null);
 		
 		if(dbBoard==null) {
-			throw new RuntimeException("오류!");
+			throw new RuntimeException("오류가 발생했습니다.");
 		}
 		
 		dbBoard.setBoardLikeNo(dbBoard.getBoardLikeNo() + 1);
@@ -112,8 +113,15 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> selectByUserId(String userId) {
-		//이거 지울지 말지 어떻게 바꿀지 생각해보기로함!!!!
-		return this.selectByUsers(Users.builder().usersId(userId).build());
+		List<Board> boardList = new ArrayList();
+		List<Likes> likesList = likeService.selectLikesListByUserId(userId);
+
+		for (Likes like : likesList) {
+			Board board = this.selectBy(like.getBoardNo());
+			boardList.add(board);
+		}
+
+		return boardList;
 	}
 
 
