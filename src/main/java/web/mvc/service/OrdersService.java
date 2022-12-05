@@ -56,4 +56,14 @@ public interface OrdersService {
 	 */
 	Orders insertOrdersOrderdetails(Users users, Orders ordersProduct/*, List<Orderdetails> cartList*/);
 	
+	/**
+	 * 결제 검증하는 메소드
+	 * 
+	 * 1) 검증하기 : 실패하면 RuntimeException 일으킴. 성공시엔 아무 변화 없음
+	 * 2-1) 검증 성공시 : 주문 상태 변경->결제완료
+	 * 2-2) 검증 실패시 : 멤버쉽카드가 있었으면 회원정보 다시 0으로, 재고량 원복, 주문 및 주문상세 삭제
+	 * @param ordersNo
+	 * @param verifyAmount
+	 */
+	void verifyOrders(Long ordersNo, int verifyAmount, String status) throws Exception;
 }

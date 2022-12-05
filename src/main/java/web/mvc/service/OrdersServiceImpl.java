@@ -124,7 +124,6 @@ public class OrdersServiceImpl implements OrdersService {
 				if(orderdetails.getProduct().getProductStock()>product.getProductStock() || product.getProductStock()==0)
 						throw new RuntimeException("상품 재고량이 부족합니다. 개수를 확인해주세요.");
 			}
-			
 		}//장바구니 리스트 꺼내서 유효성 체크하는 for문끝
 	} //selectCheckBeforeOrders end
 
@@ -164,7 +163,7 @@ public class OrdersServiceImpl implements OrdersService {
 //				dbUsers.setUsersMemberShip(1);
 
 				//(도윤님 서비스 메소드를 사용)
-				usersService.updateUsersMemberShip(dbUsers);
+				usersService.updateUsersMemberShip(dbUsers, true);
 			}
 			
 			//2-1) 상품 재고량이 주문 가능한 숫자인지 조회 (0개 초과부터)
@@ -184,4 +183,45 @@ public class OrdersServiceImpl implements OrdersService {
 		return finishOrders;  
 	} //insertOrdersOrderdetails end
 
+	@Override
+	public void verifyOrders(Long ordersNo, int verifyAmount, String status) throws Exception {
+		//비교하기 위해 값 꺼내기
+		Orders orders=ordersRep.findById(ordersNo).orElse(null);
+		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();
+		int amount=0;
+		for(Orderdetails orderdetails : orderdetailsList){
+			amount+=orderdetails.getOrderdetailsPrice();
+		}
+		
+		//비교하기
+		if (amount==verifyAmount) {
+			//성공시 주문상태 업데이트
+			orders.setOrdersStatus(status);
+			
+		}else {
+			for(Orderdetails orderdetails : orderdetailsList){
+			
+				//1) 멤버쉽 카드라면 다시 회원 정보의 멤버쉽유무 0으로 수정
+				if(orderdetails.getProduct().getProductCode().equals("멤버쉽카드 상품번호")) {
+					Users users=orders.getUsers();
+					usersService.updateUsersMemberShip(users, false);
+				}
+				
+				//2) 재고량 원복
+				if(orderdetails.getProduct().getProductStock()>=0) {
+					int qty=(0-orderdetails.getOrderdetailsQty());					
+					productService.decreaseProductStock(orderdetails.getProduct().getProductCode(), qty);
+				}
+		}
+			
+			//DB금액과 결제금액이 다를 경우 주문 삭제 : 보안상 위조된 값
+			ordersRep.delete(orders); //cascade설정으로 주문상세도 삭제됨
+			
+			//주문 삭제후 트랜젝션과는 관련 없는 Exception 일으키기
+			throw new Exception("위조된 결제 시도 : FBI WARNING");
+			
+		}//검증실패시 기능 끝
+		
+	}//verifyOrders end
+	
 }

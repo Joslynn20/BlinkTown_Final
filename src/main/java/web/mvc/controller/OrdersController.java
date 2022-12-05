@@ -1,5 +1,6 @@
 package web.mvc.controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
 import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Orderdetails;
 import web.mvc.domain.Orders;
@@ -33,10 +37,14 @@ public class OrdersController {
 	
 	@Autowired
 	private OrdersService ordersService;
+	@Autowired
+	private OrdersVerifyController ordersVerifyController;
 	
 	/**상수관리*/
 	private final static int PAGE_COUNT=10;//페이지당 출력 숫자
 	private final static int BLOCK_COUNT=10;//
+	private final static String STATUS_BEFORE="결제중";
+	private final static String STATUS_AFTER="결제완료";
 	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	
@@ -307,19 +315,19 @@ public class OrdersController {
 	 *                     : 카트정보-수량,금액등등 (List<Orderdetails> orderdetailsList))
 	 *                   주문폼 내용-주문정보(Orders orders)
 	 *                   
-	 * 2-1) 보내는 곳 : 주문폼
-	 * 2-2) 보내는 인수 :  - 
+	 * 2-1) 보내는 곳 : 주문폼 (에서 결제창 호출에 사용할 예정)
+	 * 2-2) 보내는 인수 : Long ordersNo (주문번호),
+	 *                 int amount (총계)
 	 * 
-	 * 기능들
-	 * 3) 주문테이블+주문상세테이블에 주문정보 저장
-	 * 
-	 * 
-	 * API사용 확인후 주석 수정 예정
+	 * 기능들 - ajax처리예정 return값 Model에 넣기
+	 * 3-1) 주문테이블+주문상세테이블에 주문정보 저장
+	 * 3-2) 주문폼으로 ajax로 보내어 결제창 호출에 사용
+	 *     ->결제완료후 검증까지 필요 ->이후 세션 삭제
 	 * 
 	 */
-//	@ResponseBody // 주문하기는 AJAX로 할 예정, (REST API사용) 위에서 RestController선언하면 주석처리
+	@ResponseBody // 주문하기는 AJAX로 할 예정, (REST API사용) 위에서 RestController선언하면 주석처리
 	@RequestMapping("/주문/주문하기")
-	public String insertOrdersOrderdetails(HttpSession session, Principal principal, Orders orders, List<Product> productList/*, List<Orderdetails> orderdetailsList*/) {
+	public Model insertOrdersOrderdetails(Model model, HttpSession session, Principal principal, Orders orders, List<Product> productList/*, List<Orderdetails> orderdetailsList*/) {
 		
 		//Orders에 한 번에 들어간다면 인수로 하나만 받기
 		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();//안쓰면 주석처리하긴
@@ -327,26 +335,74 @@ public class OrdersController {
 		//상품 번호로 상품 객체에 들어가는지 확인할 것->안될것같음
 		//->현재 orderdetailsList에는 상품 객체로 들어가 있음
 		//->Product의 List로 받아서 꺼내서 대입하여 상세주문에 넣기(index가 매치되니까 괜찮을듯)
+		//+추가로 총계 계산해서 결제하기 위해(카트담기 뿐만 아니라 바로주문에도 동일효과위해) 합계값 구하기  
+		int amount=0;
 		for(int i=0; i<productList.size(); i++) {
 			orderdetailsList.get(i).setProduct(productList.get(i));
+			amount+=orderdetailsList.get(i).getOrderdetailsPrice();
 		}
 		
 		//받은 카트 리스트를 주문에 담기
 		orders.setOrderdetailsList(orderdetailsList);
 		
+		//주문상태 결제중으로 입력
+		orders.setOrdersStatus(STATUS_BEFORE);
+		
 		Users users=(Users)principal;
 //		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		ordersService.insertOrdersOrderdetails(users, orders);
+		//결제 창 호출위해 결과값 담기
+		Orders finishOrders=ordersService.insertOrdersOrderdetails(users, orders);
+		model.addAttribute("orders", finishOrders);
 		
-		//장바구니 세션 사용하여 insert 완료 후 세션 삭제
-		session.removeAttribute("세션속 장바구니 상품 목록");
+		//총결제금액 담기
+		model.addAttribute("amount", amount);
 		
-		return "/주문/주문완료 페이지";
+		return model;
 		
+//		//장바구니 세션 사용하여 insert 완료 후 세션 삭제 
+//		//-> 검증 메소드에서 완료후 삭제(아니면 전부 리셋해야돼서 세션 유지하고자 함)
+//		session.removeAttribute("세션속 장바구니 상품 목록");
+//		return "/주문/주문완료 페이지";
 	}
 	
+	////////////////////////////////////////////////////////////////////
 	
+	/**
+	 * 5. 결제 검증 메소드 (API사용 특성상 필요한 메소드)
+	 * 
+	 * 1) 검증하기 : 실패하면 RuntimeException 일으킴. 성공시엔 아무 변화 없음
+	 * 2-1) 검증 성공시 : 주문상태 변경+장바구니 세션 삭제(서비스에 주문상태 변경 추가,테스트할것)
+	 * ->뷰에서 마이페이지-주문페이지 혹은 주문완료 페이지로 연결
+	 * 2-2) 검증 실패시 : 주문 삭제(서비스에 삭제 추가, 테스트할 것)
+	 */
+	@ResponseBody
+	@RequestMapping("/verifyIamport")//("/{imp_uid}")
+	public void ordersVerifyPayment(String imp_uid, HttpSession session) {
+		try {
+		//검증메소드 호출 및 검증위한 변수 저장
+		IamportResponse<Payment> resultData=ordersVerifyController.paymentByImpUid(imp_uid);
+		Long ordersNo=Long.parseLong(resultData.getResponse().getMerchantUid());
+		int verifyAmount=resultData.getResponse().getAmount().intValueExact();
+		
+		//금액을 비교하여 검증(금액 다를시 주문내역 삭제 및 재고량 원복후 runtimeException발생시킴)
+		ordersService.verifyOrders(ordersNo, verifyAmount, STATUS_AFTER);
+		
+		//이상 없을시 장바구니 세션 삭제
+		session.removeAttribute("cartList"); //장바구니속 상품 목록 혹은 orderdetailsList
+		
+		}catch (Exception e) {
+			//결제취소 메소드 넣기
+			//일단 필요없으니 보류
+			new RuntimeException("결제중 오류가 발생하였습니다");
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/{url}/{url2}")
+	public void url() {
+		//테스트용 url
+	}
 	/////////////////////////////////////////
 	//확장
 	/**
