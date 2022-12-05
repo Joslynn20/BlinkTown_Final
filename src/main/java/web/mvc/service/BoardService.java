@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import web.mvc.domain.Board;
+import web.mvc.domain.Likes;
 import web.mvc.domain.Users;
 
 
@@ -50,7 +51,26 @@ public interface BoardService {
      * 인수: userId
      * like 테이블과 조인 or 서브 쿼리
      */
-
+    List<Board> selectByUserId(String userId);
+    
+    
+    /**
+     * 좋아요 기능
+     * */
+    int isLike(Likes likes);
+    
+    /**
+     * 좋아요 늘리기
+     * : Long boardNo
+     * */
+    void increaseLikeNo(Likes likes);
+    
+    /**
+     * 좋아요 줄이기
+     * : Long boardNo
+     * */
+    void decreaseLikeNo(Likes likes);
+    
     
     
 }
