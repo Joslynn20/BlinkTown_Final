@@ -135,8 +135,9 @@ public class UsersServiceImpl implements UsersService {
 	
 	 //주문-멤버쉽업데이트
 	   @Override
-	   public void updateUsersMemberShip(Users users) {
-	      users.setUsersMemberShip(1);
+	   public void updateUsersMemberShip(Users users, boolean willMember) {
+		  if(willMember==true) users.setUsersMemberShip(1);
+		  else users.setUsersMemberShip(0);
 	   }
 
 

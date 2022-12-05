@@ -55,6 +55,6 @@ public interface UsersService  {
 	     * 멤버쉽으로 승급
 	     * 주문-멤버쉽카드 구매시 유저의 멤버쉽 업데이트
 	     */
-	 void updateUsersMemberShip(Users users);
+	 void updateUsersMemberShip(Users users, boolean willMember);
 	 
 }
