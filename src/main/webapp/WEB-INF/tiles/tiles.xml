@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="layout" template="/WEB-INF/tiles/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/> 
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/> 
+		<put-attribute name="popup-menu" value="/WEB-INF/tiles/popupMenu.jsp"/>
+	</definition>
+	
+	<definition name="layout_backgrond" template="/WEB-INF/tiles/layoutBackground.jsp">
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/> 
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/> 
+		<put-attribute name="popup-menu" value="/WEB-INF/tiles/popupMenu.jsp"/>
+	</definition>
+	<!-- shop -->
+	<definition name="shop/main" extends="layout_backgrond">
+		<put-attribute name="content" value="/WEB-INF/views/shop/main.jsp"></put-attribute>
+		<put-attribute name="banner" value="/WEB-INF/views/shop/mainBanner.jsp"/>
+	</definition> 
+	
+	<definition name="shop/**" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/shop/{1}.jsp"></put-attribute>
+	</definition> 
+	
+	<!-- board -->
+	<definition name="board/**" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"></put-attribute>
+	</definition> 
+</tiles-definitions>
