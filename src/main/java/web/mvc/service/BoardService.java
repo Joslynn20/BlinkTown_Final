@@ -26,7 +26,7 @@ public interface BoardService {
 	 * 게시글 상세보기
 	 * : Long boardNo(pk) 게시물번호를 인수로 받음
 	 */
-	Board selectBy(Long boardNo);	
+	Board selectByBoardNo(Long boardNo);	
 	
 	/**
 	 * 아티스트별 게시판 검색

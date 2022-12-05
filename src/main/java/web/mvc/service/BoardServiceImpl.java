@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board selectBy(Long boardNo) {
+	public Board selectByBoardNo(Long boardNo) {
 		// 조회수 기능을 추가한다면 erd변경하고 여기에 조회수 기능 추가!
 		Board board = boardRep.findById(boardNo).orElse(null);
 		if (board == null)
@@ -88,7 +88,7 @@ public class BoardServiceImpl implements BoardService {
 			decreaseLikeNo(likes);
 		}
 
-		return selectBy(likes.getBoardNo()).getBoardLikeNo();
+		return selectByBoardNo(likes.getBoardNo()).getBoardLikeNo();
 
 	}
 
@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
 		List<Likes> likesList = likeService.selectLikesListByUserId(userId);
 
 		for (Likes like : likesList) {
-			Board board = this.selectBy(like.getBoardNo());
+			Board board = this.selectByBoardNo(like.getBoardNo());
 			boardList.add(board);
 		}
 

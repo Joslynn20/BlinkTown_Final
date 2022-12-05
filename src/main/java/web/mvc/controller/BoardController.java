@@ -75,7 +75,7 @@ public class BoardController {
 	 * */
 	@RequestMapping("/read/{bno}")
 	public ModelAndView read(@PathVariable Long boardNo) {
-		Board board = boardService.selectBy(boardNo);		
+		Board board = boardService.selectByBoardNo(boardNo);		
 		return new ModelAndView("board/read", "board", board);
 	}
 	
