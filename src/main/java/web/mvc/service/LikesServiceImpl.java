@@ -24,6 +24,8 @@ public class LikesServiceImpl implements LikesService {
 	@Autowired
 	private JPAQueryFactory factory;
 
+	QLikes likes = QLikes.likes;
+
 	@Override
 	public void insertLike(Likes like) {
 		repository.save(like);
@@ -43,14 +45,11 @@ public class LikesServiceImpl implements LikesService {
 	public Likes selectLike(LikesID like) {
 		return repository.findById(like).orElse(null);
 	}
-
+	
 	@Override
-	public List<Long> selecLikesByUserId(String userId) {
-		QLikes likes = QLikes.likes;
-//		factory.selectFrom(likes)
-		return null;
+	public List<Likes> selectLikesListByUserId(String userId) {
+		List<Likes> likesList = factory.selectFrom(likes).where(likes.userId.eq(userId)).fetch();
+		return likesList;
 	}
-	
-	
 
 }

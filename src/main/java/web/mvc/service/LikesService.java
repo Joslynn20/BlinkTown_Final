@@ -29,9 +29,10 @@ public interface LikesService {
 	 */
 	Likes selectLike(LikesID like);
 	
+	
 	/**
-	 * 좋아요 한 글 목록 전달
-	 */
-	List<Long> selecLikesByUserId(String userId);
+	 * 좋아요 리스트 불러오기
+	 * */
+	List<Likes> selectLikesListByUserId(String userId);
 
 }
