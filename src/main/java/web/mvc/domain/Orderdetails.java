@@ -32,12 +32,10 @@ public class Orderdetails {
 	@SequenceGenerator(name="Orderdetails_gen", allocationSize = 1, sequenceName = "Orderdetails_seq")
 	private Long orderdetailsNo;
 
-	//@ManyToOne(fetch = FetchType.EAGER)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="orders_no")
 	private Orders orders; //private String usersId; @Column(length = 20)
 	
-	//@ManyToOne(fetch = FetchType.EAGER)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="product_code")
 	private Product product; //private String productCode; @Column(length = 30)
