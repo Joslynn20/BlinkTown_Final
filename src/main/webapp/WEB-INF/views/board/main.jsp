@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -11,50 +11,509 @@
 	href="${pageContext.request.contextPath}/css/board/boardMain.css">
 </head>
 <body>
-<div class="board-wrap">
-	  <!-- Hero -->
-  <section class="et-hero-tabs">
-    <div class="blackpink-board"></div>
-    <div class="blackpink-board"></div>
-    <div class="blackpink-board"></div>
-    <div class="blackpink-board"></div>
-    <div class="blackpink-board"></div>
-    
-    <div class="et-hero-tabs-container">
-      <a class="et-hero-tab" href="#tab-es6">BlackPink</a>
-      <a class="et-hero-tab" href="#tab-flexbox">Jisoo</a>
-      <a class="et-hero-tab" href="#tab-react">Jennie</a>
-      <a class="et-hero-tab" href="#tab-angular">Rose</a>
-      <a class="et-hero-tab" href="#tab-other">Lisa</a>
-      <span class="et-hero-tab-slider"></span>
-    </div>
-  </section>
+	<div class="board-wrap">
+		<!-- Hero -->
+		<section class="et-hero-tabs">
+		<div class="blackpink-board-wrap">
+			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
+			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
+			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+		</div>
+			<div class="et-hero-tabs-container">
+				<a class="et-hero-tab" href="#tab-es6">BlackPink</a> <a
+					class="et-hero-tab" href="#tab-flexbox">Jisoo</a> <a
+					class="et-hero-tab" href="#tab-react">Jennie</a> <a
+					class="et-hero-tab" href="#tab-angular">Rose</a> <a
+					class="et-hero-tab" href="#tab-other">Lisa</a> <span
+					class="et-hero-tab-slider"></span>
+			</div>
+		</section>
 
-  <!-- Main -->
-  <main class="et-main">
-    <section class="et-slide" id="tab-es6">
-      <h1>ES6</h1>
-      <h3>something about es6</h3>
-    </section>
-    <section class="et-slide" id="tab-flexbox">
-      <h1>Flexbox</h1>
-      <h3>something about flexbox</h3>
-    </section>
-    <section class="et-slide" id="tab-react">
-      <h1>React</h1>
-      <h3>something about react</h3>
-    </section>
-    <section class="et-slide" id="tab-angular">
-      <h1>Angular</h1>
-      <h3>something about angular</h3>
-    </section>
-    <section class="et-slide" id="tab-other">
-      <h1>Other</h1>
-      <h3>something about other</h3>
-    </section>
-  </main>
-</div>
-<script type="text/javascript">
+		<!-- Main -->
+		<main class="et-main">
+			<section class="et-slide" id="tab-es6">
+
+				<div class="cover">
+					<p class="first-parallel"></p>
+				</div>
+				<div class="et-slide-wrap">
+
+					<h3>BLACKPINK</h3>
+					<div class="wrapper">
+						<article class="flow">
+							<div class="team">
+								<ul class="auto-grid" role="list">
+									<li><a href="/shop/details" target="_blank "
+										class="profile">
+											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
+											alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+								</ul>
+							</div>
+						</article>
+					</div>
+					<div class="tbl-header">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tbl-content">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td>01</td>
+									<td>여기는 전체리스트 게시판이에요!</td>
+									<td>JENNIE♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<section class="et-slide" id="tab-flexbox">
+				<div class="cover">
+					<p class="second-parallel"></p>
+				</div>
+				<div class="et-slide-wrap">
+
+					<h3>JISOO</h3>
+					<div class="wrapper">
+						<article class="flow">
+							<div class="team">
+								<ul class="auto-grid" role="list">
+									<li><a href="/shop/details" target="_blank "
+										class="profile">
+											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
+											alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+								</ul>
+							</div>
+						</article>
+					</div>
+					<div class="tbl-header">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tbl-content">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td>01</td>
+									<td>여기는 JISOO 게시판이에요!</td>
+									<td>JENNIE♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<section class="et-slide" id="tab-react">
+				<div class="cover">
+					<p class="third-parallel"></p>
+				</div>
+				<div class="et-slide-wrap">
+
+					<h3>JENNIE</h3>
+					<div class="wrapper">
+						<article class="flow">
+							<div class="team">
+								<ul class="auto-grid" role="list">
+									<li><a href="/shop/details" target="_blank "
+										class="profile">
+											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
+											alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+								</ul>
+							</div>
+						</article>
+					</div>
+					<div class="tbl-header">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tbl-content">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td>01</td>
+									<td>여기는 JENNIE 게시판이에요!</td>
+									<td>JENNIE♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<section class="et-slide" id="tab-angular">
+				<div class="cover">
+					<p class="forth-parallel"></p>
+				</div>
+				<div class="et-slide-wrap">
+
+					<h3>ROSE</h3>
+					<div class="wrapper">
+						<article class="flow">
+							<div class="team">
+								<ul class="auto-grid" role="list">
+									<li><a href="/shop/details" target="_blank "
+										class="profile">
+											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
+											alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+								</ul>
+							</div>
+						</article>
+					</div>
+					<div class="tbl-header">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tbl-content">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td>01</td>
+									<td>여기는 ROSE 게시판이에요!</td>
+									<td>JENNIE♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<section class="et-slide" id="tab-other">
+				<div class="cover">
+					<p class="hifth-parallel"></p>
+				</div>
+				<div class="et-slide-wrap">
+
+					<h3>LISA</h3>
+					<div class="wrapper">
+						<article class="flow">
+							<div class="team">
+								<ul class="auto-grid" role="list">
+									<li><a href="/shop/details" target="_blank "
+										class="profile">
+											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
+											alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+									<li><a href="#" target="_blank " class="profile">
+											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
+												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
+											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
+									</a></li>
+
+								</ul>
+							</div>
+						</article>
+					</div>
+					<div class="tbl-header">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tbl-content">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td>01</td>
+									<td>여기는 LISA 게시판이에요!</td>
+									<td>JENNIE♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+								<tr>
+									<td>02</td>
+									<td>안녕하세요 제니에요~</td>
+									<td>LISA♥</td>
+									<td>2022-12-05</td>
+									<td>14</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+	<script type="text/javascript">
 class StickyNavigation {
 	
 	constructor() {
@@ -130,6 +589,76 @@ class StickyNavigation {
 }
 
 new StickyNavigation();
+</script>
+
+	<script type="text/javascript">
+const pTag1 = document.querySelector('.first-parallel')
+const pTag2 = document.querySelector('.second-parallel')
+const pTag3 = document.querySelector('.third-parallel')
+const pTag4 = document.querySelector('.forth-parallel')
+const pTag5 = document.querySelector('.hifth-parallel')
+
+const textArr1 = ' BLACKPINK IN YOUR AREA  BLACKPINK IN YOUR AREA  BLACKPINK IN YOUR AREA'.split(' ')
+const textArr2 = ' JISOO IN YOUR AREA  JISOO IN YOUR AREA  JISOO IN YOUR AREA'.split(' ')
+const textArr3 = ' JENNIE IN YOUR AREA  JENNIE IN YOUR AREA  JENNIE IN YOUR AREA'.split(' ')
+const textArr4 = ' ROSE IN YOUR AREA  ROSE IN YOUR AREA  ROSE IN YOUR AREA'.split(' ')
+const textArr5 = ' LISA IN YOUR AREA  LISA IN YOUR AREA  LISA IN YOUR AREA'.split(' ')
+
+let count1 = 0
+let count2 = 0
+let count3 = 0
+let count4 = 0
+let count5 = 0
+
+initTexts(pTag1, textArr1)
+initTexts(pTag2, textArr2)
+initTexts(pTag3, textArr3)
+initTexts(pTag4, textArr4)
+initTexts(pTag5, textArr5)
+
+function initTexts(element, textArray) {
+  textArray.push(...textArray)
+  for (let i = 0; i < textArray.length; i++) {
+    element.innerText += `${'${textArray[i]}'}\u00A0\u00A0\u00A0\u00A0`
+  }
+}
+
+function marqueeText(count, element, direction) {
+  if (count > element.scrollWidth / 2) {
+    element.style.transform = `translate3d(0, 0, 0)`
+    count = 0
+  }
+  element.style.transform = `translate3d(${'${direction * count}'}px, 0, 0)`
+
+  return count
+}
+
+function animate() {
+  count1++
+  count2++
+  count3++
+  count4++
+  count5++
+
+  count1 = marqueeText(count1, pTag1, -1)
+  count2 = marqueeText(count2, pTag2, -1)
+  count3 = marqueeText(count3, pTag3, -1)
+  count4 = marqueeText(count4, pTag4, -1)
+  count5 = marqueeText(count5, pTag5, -1)
+
+  window.requestAnimationFrame(animate)
+}
+
+function scrollHandler() {
+  count1 += 15
+  count2 += 15
+  count3 += 15
+  count4 += 15
+  count5 += 15
+}
+
+window.addEventListener('scroll', scrollHandler)
+animate()
 </script>
 </body>
 </html>
