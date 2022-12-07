@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,13 +41,15 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> selectAll() {
-		return boardRep.findAll();
-	}
+		return boardRep.findAll(Sort.by(Sort.Direction.DESC, "boardNo"));
+		//return boardRep.findAll();
+	}     
 
-	@Override
+	/*@Override
 	public Page<Board> selectAll(Pageable pageable) {
+		//null에 대한 대비?
 		return boardRep.findAll(pageable);
-	}
+	}*/
 
 	@Override
 	public Board selectByBoardNo(Long boardNo) {

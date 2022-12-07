@@ -2,6 +2,7 @@ package web.mvc.controller;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,35 +40,63 @@ public class BoardController {
 	/**
 	 * 전체 검색 페이지
 	 * */
-	/*
-	@RequestMapping("/list")
-	public void list(Model model, @RequestParam(defaultValue = "1") int nowPage) {	
-		List<Board> boardList = boardService.selectAll();
-		model.addAttribute("boardList", boardList);
-	}*/
+	@RequestMapping("/main") 
+	public void list(Model model) { 
+		List<Board> boardList = boardService.selectAll(); 
+		model.addAttribute("mainPageList", boardList);
+		
+		/**
+		 * 아티스트별 게시판
+		 * */
+		//1) 지수 담기
+		Users jisoo=Users.builder().usersId("jisoo").build();
+		List<Board> jisooList = boardService.selectByUsers(jisoo);
+		model.addAttribute("jisooList", jisooList);
+		
+		//2) 제니 담기
+		Users jennie=Users.builder().usersId("jennie").build();
+		List<Board> jennieList = boardService.selectByUsers(jennie);
+		model.addAttribute("jennieList", jennieList);
+		
+		//3) 로즈 담기
+		Users rose=Users.builder().usersId("rose").build();
+		List<Board> roseList = boardService.selectByUsers(rose);
+		model.addAttribute("roseList", roseList);
+		
+		//4) 리사 담기
+		Users lisa=Users.builder().usersId("lisa").build();
+		List<Board> lisaList = boardService.selectByUsers(lisa);
+		model.addAttribute("lisaList", lisaList);
+	}
+	
 	
 	// 페이징 처리
-	@RequestMapping("/list")
+	/*@RequestMapping("/mainImg")
 	public void list(Model model, @RequestParam(defaultValue = "1") int nowPage) {
 		
 		Pageable page = PageRequest.of((nowPage-1), PAGE_COUNT, Direction.DESC, "boardNo");
 		Page<Board> pageList = boardService.selectAll(page);
+		System.out.println("pageLis="+pageList);
 		
 		int temp =(nowPage-1)%BLOCK_COUNT;
 		int startPage = nowPage-temp;
 		
-		model.addAttribute("pageList", pageList);	
+		model.addAttribute("mainPageList", pageList);	
+		
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
 		
-	}	
+		//return "/board/main"; //${pageContext.request.contextPath}/
+	}*/	
 	
 	/**
 	 * 아티스트별 리스트
 	 * */
-	@RequestMapping("/list/artist")
-	public void list(Model model, Users users) {
+	@ResponseBody
+	@RequestMapping("/main/{artist}")
+	public void list(Model model, @RequestBody String artist) {//@RequestParam
+		Users users=Users.builder().usersId(artist).build();
 		List<Board> boardList = boardService.selectByUsers(users);
 		model.addAttribute("boardList", boardList);
 	}
@@ -73,7 +104,7 @@ public class BoardController {
 	/**
 	 * 상세보기
 	 * */
-	@RequestMapping("/read/{bno}")
+	@RequestMapping("/read/{boardNo}")
 	public ModelAndView read(@PathVariable Long boardNo) {
 		Board board = boardService.selectByBoardNo(boardNo);		
 		return new ModelAndView("board/read", "board", board);
@@ -107,7 +138,6 @@ public class BoardController {
 		//String saveDir = session.getServletContext().getRealPath("/resources/save");
 		String saveDir = session.getServletContext().getRealPath("/save");
 		
-		System.out.println("boardRegDateTest = "  + boardRegDateTest);
 		String [] s = boardRegDateTest.split("-");
 		LocalDate date = LocalDate.of(Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]));
 		board.setBoardRegDate(date);
@@ -134,7 +164,7 @@ public class BoardController {
 		mv.addObject("boardRegDate", board.getBoardRegDate());
 		
 		mv.addObject("boardLikeNo", board.getBoardLikeNo());		
-		mv.setViewName("uploadResult");
+		mv.setViewName("/board/uploadResult");
 
 		return mv;
 	}

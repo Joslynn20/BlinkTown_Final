@@ -20,7 +20,7 @@ public interface BoardService {
 	/**
 	 * 전체검색 - Page처리
 	 * */
-	Page<Board> selectAll(Pageable pageable);
+	/*Page<Board> selectAll(Pageable pageable);*/
 	
 	/**
 	 * 게시글 상세보기
