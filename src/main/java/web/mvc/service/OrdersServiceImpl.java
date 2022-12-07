@@ -159,7 +159,7 @@ public class OrdersServiceImpl implements OrdersService {
 		for(Orderdetails orderdetails : orderdetailsList){
 			amount+=orderdetails.getOrderdetailsPrice();
 		}
-		amount=1000;//테스트용
+//		amount=1000;//테스트용
 		
 		//총합계와 결제내역 비교하기
 		if (amount==verifyAmount) {

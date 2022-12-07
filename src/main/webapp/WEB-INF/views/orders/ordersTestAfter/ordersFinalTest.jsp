@@ -20,6 +20,7 @@
 <script>
 $(function() {
 // 			alert("시작"); //호출확인용
+// 			alert("${orderdetailsList}");
 		$("#checkOutBtn").on("click", function() {
 			//IMP객체 생성, 결제준비
 			var IMP = window.IMP;
@@ -32,14 +33,15 @@ $(function() {
 			$.ajax({
 				url: "${pageContext.request.contextPath}/orders/checkout", //${pageContext.request.contextPath}
 				type: "post",
-// 				contentType : "application/json",//컨트롤러로 보낼때 json사용시->작동안함
+// 				contentType : "application/json",//컨트롤러로 보낼때 json사용시 ->작동안함
  				dataType: "json", //리턴값 Map사용
 				data: $("#ordersForm").serialize(), 
 				success: function(result){
 // 					alert("db성공, amount="+result);//출력확인
 // 					alert(result.orders.ordersNo);
 // 					alert(result.amount);
-					
+// 					alert(result.orders.orderdetailsList[0].orderdetailsPrice);
+					var ordersNo=result.orders.ordersNo;
 					IMP.request_pay({ //결제창 호출
 						pg : "kakaopay", //"html5_inicis" //$("#paymentMethod").val()->선택지두고 페이팔도 구현할 수 있음
 						pay_method : "card",
@@ -60,7 +62,7 @@ $(function() {
 							$.ajax({
 							url: "${pageContext.request.contextPath}/orders/verifyIamport",
 				            type: "post",
-// 				            dataType: "json", //리턴되는 값이 collection일때 사용
+				            dataType: "json", //리턴되는 값이 collection일때 사용
 				            dataType: "text", //void도 text
 				            data: {
 				            	"${_csrf.parameterName}": "${_csrf.token}",
@@ -97,13 +99,14 @@ $(function() {
 					}); //rsp,IMPrequest_pay end
 				}, //success end
 				error : function(request,status,err){
-					$.ajax({
-						url: "${pageContext.request.contextPath}/orders/delete", //${pageContext.request.contextPath}
-						type: "post", //"post",
-// 						contentType : "application/json",//컨트롤러로 보낼때
-						dataType: "text",
-						data: result.orders
-					})//1실패 ajax끝
+// 					$.ajax({
+// 						url: "${pageContext.request.contextPath}/orders/delete", //${pageContext.request.contextPath}
+// 						type: "post", //"post",
+// // 						contentType : "application/json",//컨트롤러로 보낼때
+// 						dataType: "text",
+// // 						dataType: "Json",
+// 						data: 
+// 					})//1실패 ajax끝
 					let msg = "1주문에 실패했습니다. 다시 주문해주세요.";
 					alert(msg);
 					alert("code="+request.status+"\n"+"message"+request.responseText+"\n"+"error:"+err);
@@ -173,7 +176,14 @@ $(function() {
 
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 <%-- <input type="hidden" name="cartList" value="${cartList}"> --%>
-<input type="hidden" name="orderdetailsList" value="${orderdetailsList}">
+
+<c:forEach items="${orderdetailsList}" var="orderDetails" varStatus="state">
+   <input type="hidden" name="orderdetailsList[${state.index}].product.productCode" value="${orderDetails.product.productCode}">
+   <input type="hidden" name="orderdetailsList[${state.index}].product.productMembershipOnly" value="${orderDetails.product.productMembershipOnly}">
+   <input type="hidden" name="orderdetailsList[${state.index}].orderdetailsQty" value="${orderDetails.orderdetailsQty}">
+   <input type="hidden" name="orderdetailsList[${state.index}].orderdetailsPrice" value="${orderDetails.orderdetailsPrice}">
+</c:forEach>
+
 
 <input type="button" id="checkOutBtn" value="결제하기" >
 </form>
