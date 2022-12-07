@@ -1,6 +1,7 @@
 package web.mvc.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ public class Album extends Product {
 	
 
 	public Album(String productCode, String productName, String productEngName, int productPrice, int productStock,
-			String productSize, LocalDate productRegDate, String productMainImg, String productDetailImg,
+			String productSize, LocalDateTime productRegDate, String productMainImg, String productDetailImg,
 			int productReadNo, Category category, Integer productMembershipOnly, String albumComponent,
 			Date albumReleaseDate) {
 		super(productCode, productName, productEngName, productPrice, productStock, productSize, productRegDate,

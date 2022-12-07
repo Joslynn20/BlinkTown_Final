@@ -1,6 +1,7 @@
 package web.mvc.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 
@@ -21,7 +22,7 @@ public class Goods extends Product {
 	
 
 	public Goods(String productCode, String productName, String productEngName, int productPrice, int productStock,
-			String productSize, LocalDate productRegDate, String productMainImg, String productDetailImg,
+			String productSize, LocalDateTime productRegDate, String productMainImg, String productDetailImg,
 			int productReadNo, Category category, Integer productMembershipOnly, String goodsMaterial,
 			String goodsCountry) {
 		super(productCode, productName, productEngName, productPrice, productStock, productSize, productRegDate,
