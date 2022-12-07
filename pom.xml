@@ -77,14 +77,14 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>9.0.46</version>
+			<version>9.0.46</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 
 		<!-- jsp에서 jstl lib -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>1.2</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 
 		<dependency>
@@ -116,6 +116,26 @@
 	    <artifactId>iamport-rest-client-java</artifactId>
 	    <version>0.2.22</version>
 	  </dependency>
+	  
+	  <!-- Tiles 관련 설정문서 (3) -->
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-extras</artifactId>
+			<version>3.0.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-servlet</artifactId>
+			<version>3.0.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>3.0.8</version>
+		</dependency>
 
 	</dependencies>
 
