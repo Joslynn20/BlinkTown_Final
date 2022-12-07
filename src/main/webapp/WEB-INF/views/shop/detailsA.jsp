@@ -26,15 +26,15 @@
 					<div class="panel">
 						<br>
 						<h4>[<spring:message code="GoodsSize"/>]</h4>
-						<p>15.7 x 15.5 x 23cm / 약 203.5g</p>
+						<p>${product.productSize}</p>
 						<br>
 
-						<h4>[<spring:message code="GoodsMaterial"/>]</h4>
-						<p>PVC, ABS, STAINLESS STEEL</p>
+						<h4>[<spring:message code="AlbumComponent"/>]</h4>
+						<p>${product.albumComponent}</p>
 						<br>
-
-						<h4>[<spring:message code="GoodsCountry"/>]</h4>
-						<p>Thailand</p>
+						
+						<h4>[<spring:message code="AlbumReleaseDate"/>]</h4>
+						<p>${product.albumReleaseDate}</p>
 						<br>
 
 						<h4>[<spring:message code="GoodsCautions"/>]</h4>
@@ -49,10 +49,10 @@
 					<div>
 						<a href="">MEMBERSHIP</a>
 					</div>
-					<p>[EUP23] BLACKPINK COLLECTIBLE FIGURE_ JISOO</p>
+					<p>[${product.productEngName}]<br>${product.productName}</p>
 					<div id='detail-price'>
 						<div class='amount'>
-							<span id='won'><spring:message code="Won"/></span><span id='num'>000,000</span>
+							<span id='won'><spring:message code="Won"/></span><span id='num'>${product.productPrice}</span>
 						</div>
 					
 						<div class="product-quantity">

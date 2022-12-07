@@ -1,11 +1,10 @@
 package web.mvc.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -13,13 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -27,7 +26,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.JOINED)
-@ToString
+//@ToString
 public class Product {
 
 	@Id
@@ -46,7 +45,7 @@ public class Product {
 	private String productSize;
 
 	@CreationTimestamp
-	private LocalDate productRegDate;
+	private LocalDateTime productRegDate;
 
 	@Column(nullable = false)
 	private String productMainImg;
@@ -55,10 +54,10 @@ public class Product {
 	@Column(nullable = false)
 	private int productReadNo;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoryCode")
 	private Category category;
-	
 
 	@Column(columnDefinition = "number(1) default 0")
 	private Integer productMembershipOnly;

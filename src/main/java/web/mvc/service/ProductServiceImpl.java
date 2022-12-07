@@ -98,7 +98,6 @@ public class ProductServiceImpl implements ProductService {
 		Product dbProduct = repository.findById(productCode).orElse(null);
 		if (dbProduct == null)
 			throw new RuntimeException("상품 코드 오류로 삭제 불가합니다.");
-		repository.delete(dbProduct);
 	}
 
 	@Override
@@ -111,6 +110,10 @@ public class ProductServiceImpl implements ProductService {
 				.where(eqCategoryCode(categoryCode), eqProductMembershipOnly(productMembershipOnly))
 				.orderBy(this.getOrderSpecifier(sort).stream().toArray(OrderSpecifier[]::new)).fetch();
 		// .offset(1L).limit(PAGE_COUNT).fetch(); 페이지 설정
+		
+		System.out.println("productMembershipOnly = " + productMembershipOnly);
+		System.out.println("orderCondition = " + orderCondition);
+		
 
 		return productList;
 	}
