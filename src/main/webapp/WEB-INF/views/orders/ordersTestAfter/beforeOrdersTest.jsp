@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form name="cart" id="ordersForm" method="post" action="${pageContext.request.contextPath}/user/beforeOrdersForm" >
+<form name="cart" id="ordersForm" method="post" action="${pageContext.request.contextPath}/orders/user/beforeOrdersForm" >
 <input type="hidden" name="productCode" value="A01">
 <input type="hidden" name="cartPrice" value="2000">
 <input type="hidden" name="cartQty" value="2">
@@ -18,7 +18,7 @@
 <input type="submit" value="유저 주문하러가기">
 </form>
 
-<form name="cart" id="ordersForm" method="post" action="${pageContext.request.contextPath}/member/beforeOrdersForm" >
+<form name="cart" id="ordersForm" method="post" action="${pageContext.request.contextPath}/orders/member/beforeOrdersForm" >
 <input type="hidden" name="productCode" value="A01">
 <input type="hidden" name="cartPrice" value="2000">
 <input type="hidden" name="cartQty" value="2">
@@ -26,7 +26,7 @@
 <input type="submit" value="멤버 주문하러가기">
 </form>
 
-<form name="cart" id="ordersForm" method="post" action="${pageContext.request.contextPath}/ordersTestAfter/ordersFinalTest" >
+<form name="cart" id="ordersForm" method="post" action="${pageContext.request.contextPath}/orders/ordersTestAfter/ordersFinalTest" >
 <input type="hidden" name="productCode" value="A01">
 <input type="hidden" name="cartPrice" value="2000">
 <input type="hidden" name="cartQty" value="2">

@@ -58,7 +58,7 @@ $(function() {
 							//결제 성공 시: 결제 승인에 성공한 경우
 							//일치하는지 검증하기(검증 메소드 컨트롤러에서 호출)
 							$.ajax({
-							url: "${pageContext.request.contextPath}/verifyIamport",
+							url: "${pageContext.request.contextPath}/orders/verifyIamport",
 				            type: "post",
 // 				            dataType: "json", //리턴되는 값이 collection일때 사용
 				            dataType: "text", //void도 text
@@ -69,7 +69,7 @@ $(function() {
 							success: function(done){
 								alert("주문 및 결제가 완료되었습니다");
 							    //검증이후 페이지 이동:주문내역 페이지나 주문성공 페이지로 이동~~(1-1 : Orders컨트롤러의 마이페이지-주문내역출력 mapping url 또는 주문 성공 페이지)
-								location.href="${pageContext.request.contextPath}/ordersTest/ordersResult";//&${_csrf.parameterName}=${_csrf.token}";
+								location.href="${pageContext.request.contextPath}/orders/ordersTestAfter/ordersTestResult";//&${_csrf.parameterName}=${_csrf.token}";
 							}, //success end
 							error: function(err){
 								alert("3결제에 실패하였습니다");

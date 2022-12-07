@@ -41,6 +41,7 @@ import web.mvc.session.Session;
 
 //@RestController
 @Controller
+@RequestMapping("/orders")
 public class OrdersController {
 	
 	@Autowired
@@ -218,32 +219,32 @@ public class OrdersController {
 	@RequestMapping("/ordersTestAfter/beforeOrdersTest")
 	public void testBefore() {}
 	/**테스트용 간편*/
-	@RequestMapping("/ordersTest")
+	@RequestMapping("/test")
 	public String testBe() {
-		return "ordersTestAfter/beforeOrdersTest";
+		return "/orders/ordersTestAfter/beforeOrdersTest";
 	}
-///////////////////////////////////////////////////////////////////////////////
+	
 	/*바로주문*/
-	@RequestMapping("/ordersTestAfter/ordersFinalTest")
-	public void formtest(
-			String productCode, Integer cartQty, Integer cartPrice , Model model){
+//	@RequestMapping("/ordersTestAfter/ordersFinalTest")
+//	public void formtest(
+//			String productCode, Integer cartQty, Integer cartPrice , Model model){
 //		Product product=Product.builder().productCode(productCode)
 //				.productMembershipOnly(0)
 //				.build();
 //		Orderdetails orderdetails=Orderdetails.builder().product(product)
 //		.orderdetailsPrice(cartPrice).orderdetailsQty(cartQty).build();
-		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+//		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
 //		orderdetailsList.add(orderdetails);
-		model.addAllAttributes(orderdetailsList);
-		Users users=Users.builder().usersId("user").build(); 
-		//////////테스트용 생성///////////////////////////////////////////
-		//실 사용 security
-//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//재고량 체크
-//		ordersService.selectCheckBeforeOrders(users, cartList);
-		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
-		ordersService.selectCheckBeforeOrders(users, orders);
-	}
+//		model.addAllAttributes(orderdetailsList);
+//		Users users=Users.builder().usersId("user").build(); 
+//		//////////테스트용 생성///////////////////////////////////////////
+//		//실 사용 security
+////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		//재고량 체크
+////		ordersService.selectCheckBeforeOrders(users, cartList);
+//		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		ordersService.selectCheckBeforeOrders(users, orders);
+//	}
 	/**
 	 * 주문폼으로 넘겨주는 진입점(장바구니 혹은 바로구매에서 진입)
 	 * 상품 구매 버튼에 입력할 경로
@@ -267,65 +268,83 @@ public class OrdersController {
 	 * 3-3) 주문전 체크 : 이상 발생시 RunTimeException 발생
 	 *   -> 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
 	 */
+	/**(일반회원) 바로구매or카트구매시 주문폼으로 가는 컨트롤러*/
 //	@RequestMapping("/user/beforeOrdersForm")
-//	public String checkBeforeDirectOrders(
+//	public String UserCheckBeforeOrdersForm(
+//			Model model,
 //			String productCode, Integer cartQty, Integer cartPrice
-//			,
-////			)
-//			@RequestParam List<Cart> cartList) 
+////			,Product product
+////			,
+//			)
+////			@RequestParam 
+////			List<Cart> cartList) 
 //			{
 //		//테스트용
 //		Product product=Product.builder().productCode(productCode)
 //				.productMembershipOnly(0)
 //				.build();
 //		Cart cart2=new Cart(product, cartQty, cartPrice);
-////		List<Cart> cartList=new ArrayList<Cart>();
-////		model.addAllAttributes(cartList);
+//		List<Cart> cartList=new ArrayList<Cart>();
 //		cartList.add(cart2);
 //		Users users=Users.builder().usersId("user").build(); 
-//		///테스트용 생성//
-//		
-////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//		//권한과 맞는지 설정
+//		///테스트용 생성/////////////////////////////
+////		
+//		//카트의 상품을 orderdetails 리스트로 담기
+//		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+//		//+카트속 상품이 권한과 맞는지 체크
 //		for(Cart cart:cartList) {
 //			if (cart.getProduct().getProductMembershipOnly()==1) 
 //				throw new RuntimeException("멤버쉽 가입 후 이용해 주세요");
+//			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty()).product(product).build();
+//			orderdetailsList.add(orderdetails);
 //		}
+//		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		//재고량 체크
-//		ordersService.selectCheckBeforeOrders(users, cartList);
+//		ordersService.selectCheckBeforeOrders(users, orders);
+//		model.addAttribute("orderdetailsList", orderdetailsList);
 ////		return "/orders/ordersForm";
-//		return "/ordersTest/ordersFinalTest";//테스트용 뷰 연결
+//		return "/orders/ordersTest/ordersFinalTest";//테스트용 뷰 연결
 //	}
 
 	/**
 	 * 3-2. 멤버쉽회원 바로 주문하기/카트 주문하기
 	 * @param cartList
-	 * @return
+	 * @return Model -> orderdetailsList (상세내역 리스트)
 	 */
 //	@RequestMapping("/member/beforeOrdersForm")
-//	public String memberCheckBeforeDirectOrders(
-//			String productCode, Integer cartQty, Integer cartPrice //테스트용
-////			)
-//			,
-//			@RequestParam List<Cart> cartList) 
+//	public String memberCheckBeforeOrdersForm(
+//			Model model,
+//			String productCode, Integer cartQty, Integer cartPrice
+////			,Product product
+////			,
+//			)
+////			@RequestParam 
+////			List<Cart> cartList) 
 //			{
 //		//테스트용
 //		Product product=Product.builder().productCode(productCode)
 //				.productMembershipOnly(0)
 //				.build();
-//		Cart cart=new Cart(product, cartQty, cartPrice);
-////		List<Cart> cartList=new ArrayList<Cart>();
-////		model.addAllAttributes(cartList);
-//		cartList.add(cart);
+//		Cart cart2=new Cart(product, cartQty, cartPrice);
+//		List<Cart> cartList=new ArrayList<Cart>();
+//		cartList.add(cart2);
 //		Users users=Users.builder().usersId("user").build(); 
-//		///테스트용 생성//
-//		//실 사용 security
+//		///테스트용 생성/////////////////////////////
+////		
+//		//카트의 상품을 orderdetails 리스트로 담기
+//		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+//		for(Cart cart:cartList) {
+//			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty()).product(product).build();
+//			orderdetailsList.add(orderdetails);
+//		}
+//		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
 ////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		//재고량 체크
-//		ordersService.selectCheckBeforeOrders(users, cartList);
+//		ordersService.selectCheckBeforeOrders(users, orders);
+//		model.addAttribute("orderdetailsList", orderdetailsList);
 ////		return "/orders/ordersForm";
-//		return "/ordersTest/ordersFinalTest";//테스트용 뷰 연결
+//		return "/orders/ordersTest/ordersFinalTest";//테스트용 뷰 연결
 //	}
 ///////////////////////////////////////////////////////////////	
 	/**
@@ -347,7 +366,7 @@ public class OrdersController {
 	 *     ->결제완료후 검증까지 필요 ->이후 세션 삭제
 	 * 
 	 */
-	@RequestMapping("/orders/checkout")
+	@RequestMapping("/checkout")
 	@ResponseBody
 	public Map<String, Object>  insertOrdersOrderdetails(
 			Orders orders
@@ -433,7 +452,7 @@ public class OrdersController {
 	}
 	
 	/**삭제 메소드*/
-	@RequestMapping("/orders/delete")
+	@RequestMapping("/delete")
 	public void ordersDelete(Orders orders/* Long ordersNo */) {
 		System.out.println("삭제 컨트롤러");
 		Long ordersNo=orders.getOrdersNo();
@@ -445,50 +464,8 @@ public class OrdersController {
 	////////////////////////////////////////////////////////////////////
 	//테스트용 메소드들
 	/**성공 출력 페이지-테스트용도*/
-	@RequestMapping("/ordersTest/ordersResult")
+	@RequestMapping("/ordersTestAfter/ordersTestResult")
 	public void resultUrl() {}
-	
-//	@ResponseBody
-	@RequestMapping("/ordersTest/ordersTotalTest")
-	public void insertTesturl(@RequestParam List<Cart> cartList) {
-		//주문폼 테스트용 url
-		
-//		Cart cart=new Cart(Product.builder().productCode("A01").build(), 2000, 2);
-//		Cart cart2=new Cart(Product.builder().productCode("A03").build(), 2000, 1);
-//		cartList=new ArrayList<Cart>();
-//		cartList.add(cart);
-//		cartList.add(cart2);
-//		model.addAttribute("cartList", cartList);
-//		model.addAllAttributes(cartList);
-		
-//		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
-//			orderdetailsList.add(Orderdetails.
-//					builder()
-//					.orderdetailsPrice(1000)
-//					.orderdetailsQty(1)
-//					.product
-//					(Product
-//							.builder()
-//							.productCode("A01")
-//							.build())
-//					.build());
-//		model.addAllAttributes(orderdetailsList);
-			
-//		Orderdetails orderdetails=
-//		Orderdetails.
-//		builder()
-//		.orderdetailsPrice(1000)
-//		.orderdetailsQty(1)
-//		.product
-//		(Product
-//				.builder()
-//				.productCode("A01")
-//				.build())
-//		.build();
-//		
-//		model.addAttribute("orderdetails", orderdetails);
-	}
-	
 	
 	/////////////////////////////////////////
 	//확장
