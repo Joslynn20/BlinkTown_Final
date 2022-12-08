@@ -1,22 +1,14 @@
 package web.mvc.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +16,6 @@ import web.mvc.domain.Orderdetails;
 import web.mvc.domain.Orders;
 import web.mvc.domain.Product;
 import web.mvc.domain.Users;
-import web.mvc.dto.Cart;
 import web.mvc.repository.OrderdetailsRepository;
 import web.mvc.repository.OrdersRepository;
 import web.mvc.repository.ProductRepository;
@@ -43,7 +34,16 @@ public class OrdersServiceImpl implements OrdersService {
 	private final UsersService usersService;
 	private final ProductService productService;
 	
+
 	@Override
+	public List<Orders> selectAllOrdersAdmin() {
+		List<Orders> ordersList=ordersRep
+				.findAll(Sort.by(Sort.Direction.DESC,"ordersDate"));
+		return ordersList;
+	}
+	
+	@Override
+//	public List<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate) {
 	public Page<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate, Pageable pageable) {
 		Page<Orders> ordersList=null;
 //		List<Orders> ordersList=ordersRep.findAll(Sort.by(Sort.Direction.DESC,"ordersDate"));
@@ -195,5 +195,6 @@ public class OrdersServiceImpl implements OrdersService {
 		ordersRep.delete(orders); //cascade설정으로 주문상세도 삭제됨
 		System.out.println("삭제 끝");
 	}
+
 	
 }

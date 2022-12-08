@@ -220,30 +220,28 @@
 						<thead>
 							<tr>
 								<th style="width: 12%;">주문번호</th>
+								<th style="width: 13%;">주문날짜</th>
 								<th style="width: 13%;">아이디</th>
-								<th style="width: 14%;">주소지</th>
 								<th style="width: 12.5%;">이름</th>
 								<th style="width: 12%;">전화번호</th>
-								<th style="width: 12%;">우편번호</th>
-								<th style="width: 12.5%;">주문날짜</th>
-								<th style="width: 12%;">주문상태</th>
+								<th style="width: 37.5%;">주소지</th>
 							</tr>
 						</thead>
 					</table>
 				</div>
-				<div class="tbl-content">
+				<div class="tbl-content" id="ordersList">
 					<table cellpadding="0" cellspacing="0" border="0">
 						<tbody>
+						<c:forEach items="${ordersList}" var="orders">
 							<tr>
-								<td style="width: 12%;">A01</td>
-								<td style="width: 13%;">asdasdqwdasd-sadasdas</td>
-								<td style="width: 14%;">경기도 성남시 분당구 오리역</td>
-								<td style="width: 12.5%;">김이름</th>
-								<td style="width: 12%;">010-0000-0000</td>
-								<td style="width: 12%;">00000</td>
-								<td style="width: 12.5%;">2022-12-07</td>
-								<td style="width: 12%;">주문완료</td>
+								<td style="width: 12%;">${orders.ordersNo}</td>
+								<td style="width: 13.5%;">${orders.ordersDate}</td>
+								<td style="width: 13%;">${orders.users.usersId}</td>
+								<td style="width: 12.5%;">${orders.ordersReceiverName}</td>
+								<td style="width: 12%;">${orders.ordersReceiverPhone}</td>
+								<td style="width: 37%;">${orders.ordersAddr}</td>
 							</tr>
+						</c:forEach>
 						</tbody>
 					</table>
 				</div>

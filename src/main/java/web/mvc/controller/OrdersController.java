@@ -49,14 +49,14 @@ public class OrdersController {
 	private OrdersService ordersService;
 	@Autowired
 	private OrdersVerifyController ordersVerifyController;
-	@Autowired
-	private CartController cartController;
+//	@Autowired
+//	private CartController cartController;
 	
 	/**상수관리*/
 	private final static int PAGE_COUNT=10;//페이지당 출력 숫자
 	private final static int BLOCK_COUNT=10;//
 	private final static String STATUS_BEFORE="결제중";
-	private final static String STATUS_AFTER="결제완료";
+	private final static String STATUS_AFTER="주문완료";
 	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	
@@ -137,7 +137,7 @@ public class OrdersController {
 	////////////////////////////////////////////////////
 	
 	/**
-	 * 2-1. 관리자 페이지 - 주문 조회
+	 * 2-1. 관리자 페이지 - 주문 조회  ->AdminController로 이관
 	 * 
 	 * 1-1) 넘어오기 전 : 관리자페이지
 	 * 1-2) 넘어오는 인수 : (현재 페이지: int nowPage)
@@ -515,7 +515,7 @@ public class OrdersController {
 		//이상 없을시 장바구니 세션 삭제->dto삭제 메소드 호출
 //		Users users=(Users)principal;
 //		cartController.deleteAllCart(users);
-		cartController.deleteAllCart(session);
+//		cartController.deleteAllCart(session);
 		//장바구니DTO 삭제
 		}catch (Exception e) {
 			//결제취소 메소드 넣기
