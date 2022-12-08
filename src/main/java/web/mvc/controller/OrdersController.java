@@ -56,7 +56,7 @@ public class OrdersController {
 	private final static int PAGE_COUNT=10;//페이지당 출력 숫자
 	private final static int BLOCK_COUNT=10;//
 	private final static String STATUS_BEFORE="결제중";
-	private final static String STATUS_AFTER="주문완료";
+	private final static String STATUS_AFTER="결제완료";
 	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	
@@ -137,7 +137,7 @@ public class OrdersController {
 	////////////////////////////////////////////////////
 	
 	/**
-	 * 2-1. 관리자 페이지 - 주문 조회  ->AdminController로 이관
+	 * 2-1. 관리자 페이지 - 주문 조회
 	 * 
 	 * 1-1) 넘어오기 전 : 관리자페이지
 	 * 1-2) 넘어오는 인수 : (현재 페이지: int nowPage)
@@ -350,8 +350,8 @@ public class OrdersController {
 		product1.setProductCode("A01");
 		product1.setProductMembershipOnly(0);
 		Product product2=new Product();
-		product1.setProductCode("A05");
-		product1.setProductMembershipOnly(0);
+		product2.setProductCode("A05");
+		product2.setProductMembershipOnly(0);
 		
 		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
 		Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(2000).orderdetailsQty(2)
@@ -418,7 +418,8 @@ public class OrdersController {
 	/**테스트용 간편*/
 	@RequestMapping("/test")
 	public String testBe() {
-		return "/orders/ordersTestAfter/beforeOrdersTest";
+		return "redirect:/orders/ordersTestAfter/ordersFinalTest";
+//		return "/orders/ordersTestAfter/beforeOrdersTest";
 	}
 ///////////////////////////////////////////////////////////////	
 	/**

@@ -16,7 +16,7 @@
 	<ul class="tabs">
 	  <li class="active" rel="tab1">Users</li>
 	  <li rel="tab2">Shop</li>
-	  <li rel="tab3">Order</li>
+	  <li rel="tab3" id="ordersTab3">Order</li>
 	  <li rel="tab4">Chart</li>
 	</ul>
 	<div class="tab_container">
@@ -220,28 +220,18 @@
 						<thead>
 							<tr>
 								<th style="width: 12%;">주문번호</th>
-								<th style="width: 13%;">주문날짜</th>
+								<th style="width: 13.5%;">주문날짜</th>
 								<th style="width: 13%;">아이디</th>
 								<th style="width: 12.5%;">이름</th>
 								<th style="width: 12%;">전화번호</th>
-								<th style="width: 37.5%;">주소지</th>
+								<th style="width: 37%;">주소지</th>
 							</tr>
 						</thead>
 					</table>
 				</div>
-				<div class="tbl-content" id="ordersList">
+				<div class="tbl-content" >
 					<table cellpadding="0" cellspacing="0" border="0">
-						<tbody>
-						<c:forEach items="${ordersList}" var="orders">
-							<tr>
-								<td style="width: 12%;">${orders.ordersNo}</td>
-								<td style="width: 13.5%;">${orders.ordersDate}</td>
-								<td style="width: 13%;">${orders.users.usersId}</td>
-								<td style="width: 12.5%;">${orders.ordersReceiverName}</td>
-								<td style="width: 12%;">${orders.ordersReceiverPhone}</td>
-								<td style="width: 37%;">${orders.ordersAddr}</td>
-							</tr>
-						</c:forEach>
+						<tbody id="ordersList">
 						</tbody>
 					</table>
 				</div>
@@ -663,6 +653,39 @@ var barConfig = new Chart(bar, {
     }
 })
         </script>
-
+<!-- 주문목록 리스트 -->
+<script>
+$(function(){
+	$(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+    });
+	$("#ordersTab3").click(function(){
+// 		alert("#ordersTab3 click");
+		$.ajax({ 
+			  url : "${pageContext.request.contextPath}/admin/ordersList", 
+			  type : "post", 
+			  dataType : "json",
+			  success : function(result){
+// 				  alert("클릭성공");
+				let str="";  
+			  	$.each(result, function(index, orders){
+			  		str+='<tr>';
+			  		str+='<td style="width: 12%;">'+orders.ordersNo+'</td>';
+			  		str+='<td style="width: 13.5%;">'+orders.ordersDate+'</td>';
+			  		str+='<td style="width: 13%;">'+orders.users.usersId+'</td>';
+			  		str+='<td style="width: 12.5%;">'+orders.ordersReceiverName+'</td>';
+			  		str+='<td style="width: 12%;">'+orders.ordersReceiverPhone+'</td>';
+			  		str+='<td style="width: 37%;">'+orders.ordersAddr+'</td>';
+			  		str+='</tr>';
+			  	});
+			  	$("#ordersList").html(str);
+			  }, 
+			  error : function(request,status,err){//에러 : 보통 콜백함수
+// 				  alert("code="+request.status+"\n"+"message"+request.responseText+"\n"+"error:"+err);	  
+			  } 
+		  })//ajax끝
+	})//#ordersTab3 click end
+})//첫function end
+</script>
 </body>
 </html>

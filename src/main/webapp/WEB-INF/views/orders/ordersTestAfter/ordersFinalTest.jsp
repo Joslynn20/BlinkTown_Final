@@ -20,7 +20,7 @@
 <script>
 $(function() {
 // 			alert("시작"); //호출확인용
-// 			alert("${orderdetailsList}");
+			alert("${orderdetailsList}");
 		$("#checkOutBtn").on("click", function() {
 			//IMP객체 생성, 결제준비
 			var IMP = window.IMP;
