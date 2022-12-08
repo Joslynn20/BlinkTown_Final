@@ -22,37 +22,17 @@
 			<div class="column-col">
 				<div class="product-col-img">
 					<img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png">
-					<button class="accordion"><spring:message code="GoodsProductDeails"/> </button>
-					<div class="panel">
-						<br>
-						<h4>[<spring:message code="GoodsSize"/>]</h4>
-						<p>15.7 x 15.5 x 23cm / 약 203.5g</p>
-						<br>
-
-						<h4>[<spring:message code="GoodsMaterial"/>]</h4>
-						<p>PVC, ABS, STAINLESS STEEL</p>
-						<br>
-
-						<h4>[<spring:message code="GoodsCountry"/>]</h4>
-						<p>Thailand</p>
-						<br>
-
-						<h4>[<spring:message code="GoodsCautions"/>]</h4>
-						<p>
-						<spring:message code="GoodsCautionsDetails"/>
-						</p>
-						<br> <br> <br>
-					</div>
+					
 				</div>
 				<div class="product-text-wrap">
 				<div class="product-text">
 					<div>
 						<a href="">MEMBERSHIP</a>
 					</div>
-					<p>[EUP23] BLACKPINK COLLECTIBLE FIGURE_ JISOO</p>
+					<p>[${product.productEngName}]<br><h5>${product.productName}</h5></p>
 					<div id='detail-price'>
 						<div class='amount'>
-							<span id='won'><spring:message code="Won"/></span><span id='num'>000,000</span>
+							<span id='won'><spring:message code="Won"/></span><span id='num'>${product.productPrice}</span>
 						</div>
 					
 						<div class="product-quantity">

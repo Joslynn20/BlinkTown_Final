@@ -1,6 +1,7 @@
 package web.mvc.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,8 @@ public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPr
 
 	
 	
-	//이메일 중복여부확인 때 사용
-	Users findByUsersEmail(String usersEmail);
+	//이메일 중복여부확인 때 사용, 카카오 중복확인
+	Optional<Users> findByUsersEmail(String usersEmail);
 	
 	//전화번호 중복여부확인 때 사용
 	Users findByUsersPhone(String usersPhone);
@@ -32,7 +33,7 @@ public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPr
 	
 	//유무료 회원 조회할 때 
 	List<Users> findByUsersMemberShip(int usersmemebership);
-
+	
 	
 	
 

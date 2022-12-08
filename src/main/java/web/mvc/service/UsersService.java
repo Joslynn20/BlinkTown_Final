@@ -45,6 +45,11 @@ public interface UsersService  {
 	 * usersId에 해당하는 회원조회
 	 * */
 	 Users selectByUsersId(String userId);
+	 
+	 /**
+	  * usersEmail레 해당하는 회원조회 (카카오 회원가입 시 중복체크)
+	  * */
+	 Users selectbyUserEmail(String usersEmail);
 	
 	/**
 	 * 멤버쉽 유무에 따른 유/무료 회원 조회

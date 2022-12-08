@@ -1,10 +1,14 @@
 package web.mvc.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Users;
@@ -16,13 +20,18 @@ import web.mvc.repository.UsersRepository;
 public class UsersServiceImpl implements UsersService {
 
 	private final UsersRepository usersRep;
-	
 	/*@Autowired
-	private JPAQueryFactory queryFactory;*/
+	private BCryptPasswordEncoder encoder;*/
+	
+	@Autowired
+	private JPAQueryFactory queryFactory;
 
 	//회원가입 
 	@Override
 	public void insertUser(Users users) throws Exception {
+		String rawPwd = users.getUsersPwd();//원문
+		//String enPwd = encoder.encode(rawPwd);//해쉬
+		//users.setUsersPwd(enPwd);
 		usersRep.save(users);
 
 	}
@@ -47,7 +56,7 @@ public class UsersServiceImpl implements UsersService {
 	public boolean UsersEmailCheck(String UsersEmail) throws Exception {
 		boolean result = false;
 		
-		Users users = usersRep.findByUsersEmail(UsersEmail);
+		Users users = usersRep.findByUsersEmail(UsersEmail).orElse(null);
 		if (users != null)
 			result = true;
 		return result;
@@ -91,6 +100,14 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public void deleteByUsersId(String usersId) {
 		usersRep.deleteById(usersId);
+	}
+	
+	//Email로 회원찾기 (카카오 회원가입시 중복체크 시 사용)
+	@Transactional
+	public Users selectbyUserEmail(String usersEmail) {
+		Optional<Users> users = usersRep.findByUsersEmail(usersEmail);
+		
+		return users.orElseGet(Users::new);
 	}
 	
 	//관리자 회원 전체조회

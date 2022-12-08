@@ -1,23 +1,13 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 *:focus{
     outline: none;
 }
-
-body{
-    width: 100%;
-    background: #000000;
-    position: relative;
-}
-
-
 
 .brand-img{
     height: 100%;
@@ -36,11 +26,10 @@ body{
     padding: 40px 0;
     display: flex;
     justify-content: center;
-    margin-top: 50px;
 }
 
 .wrapper{
-    width: 70%;
+    width: 90%;
     max-width: 1000px;
     display: grid;
     grid-template-columns: 60% 40%;
@@ -50,20 +39,10 @@ body{
 .left-col{
     display: flex;
     flex-direction: column;
-}
-
-.status-wrapper{
-    width: 100%;
-    height: 120px;
-    background: #fff;
-    border: 1px solid #dfdfdf;
-    border-radius: 2px;
-    padding: 10px;
-    padding-right: 0;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    overflow-x: auto;
+    	 max-height: 700px;
+     overflow-y: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
 }
 
 .status-wrapper::-webkit-scrollbar{
@@ -100,17 +79,18 @@ body{
 .username{
     width: 100%;
     overflow: hidden;
-    text-align: center;
+    text-align: left;
     font-size: 12px;
     margin-top:5px;
-    color: rgba(0, 0, 0, 0.5)
+    color: #ffffff;
+
 }
 .post{
     width: 100%;
     height: auto;
-    background: #fff;
-    border: 1px solid #dfdfdf;
-    margin-top: 40px;
+    background: #000000;
+    color: #ffffff;
+    
 }
 
 .info{
@@ -119,13 +99,13 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    background-color: #FF6089;
 }
 
 .info .username{
     width: auto;
     font-weight: bold;
-    color: #000;
+    color: #ffffff;
     font-size: 14px;
     margin-left: 10px;
 }
@@ -144,6 +124,7 @@ body{
     height: 40px;
     width: 40px;
     padding: 0;
+    margin-left:20px;
     background: none;
 }
 
@@ -178,14 +159,13 @@ body{
 }
 
 .post-time{
-    color: rgba(0, 0, 0, 0.5);
+    color: #ffffff50;
     font-size: 12px;
 }
 
 .comment-wrapper{
     width: 100%;
     height: 50px;
-    border-radius: 1px solid #dfdfdf;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -201,6 +181,8 @@ body{
     border: none;
     outline: none;
     font-size: 14px;
+    background-color: inherit;
+    color: #ffffff;
 }
 
 .comment-btn,
@@ -212,8 +194,8 @@ body{
     outline: none;
     text-transform: capitalize;
     font-size: 16px;
-    color: rgb(0, 162, 255);
-    opacity: 0.5;
+    color: #ffffff80;
+    cursor: pointer;
 }
 
 .reaction-wrapper{
@@ -235,12 +217,19 @@ body{
 }
 .right-col{
     padding: 20px;
-    background-color: #ffffff;
-    height: 95%;
-    position: relative;
-    top: 40px;
+    background-color: #00000099;
+
+}
+.profile-card-wrap{
+	 max-height: 600px;
+     overflow-y: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
 }
 
+::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
 .profile-card{
     width: fit-content;
     display: flex;
@@ -253,44 +242,33 @@ body{
     flex: 0 0 auto;
     padding: 0;
     background: none;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     margin-right: 10px;
 }
 
-.profile-card:first-child .profile-pic{
-    width: 70px;
-    height: 70px;
-}
 
 .profile-card .profile-pic img{
     border: none;
 }
 
 .profile-card .username{
-    font-weight: 500;
-    font-size: 14px;
-    color: #000;
+    font-weight: 600;
+    font-size: 12px;
+    color: #ffffff;
+    
 }
 
 .sub-text{
-    color: rgba(0, 0, 0, 0.5);
+    color: #ffffff90;
     font-size:12px;
     font-weight: 500;
-    margin-top: 5px;
 }
 
 .action-btn{
     opacity: 1;
     font-weight: 700;
     font-size: 12px;
-}
-
-.suggestion-text{
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.5);
-    font-weight: 700;
-    margin: 20px 0;
 }
 
 @media (max-width: 1100px){
@@ -318,10 +296,6 @@ body{
 
 /*box*/
 
-* {
-	box-sizing: border-box;
-}
-
 @property --angle {
   syntax: '<angle>';
   initial-value: 90deg;
@@ -340,41 +314,17 @@ body{
   inherits: true;
 }
 
-body {
-	font-family: Raleway, sans-serif;
-	text-align: center;
-	margin: 0;
-	padding: 1rem;
-	background-color: rgba(10, 12, 18, 1);
-	color: white;
-	min-height: 100vh;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-}
-
-p {
-	margin: 0;
-}
-
 :root {
 	--d: 2500ms;
 	--angle: 90deg;
 	--gradX: 100%;
 	--gradY: 50%;
 	--c1: rgba(255, 96, 137, 1);
-	--c2: rgba(248, 216, 227, 0.1);
-}
-
-.wrapper {
-	min-width: min(40rem, 100%);
+	--c2: rgba(248, 216, 227, 0);
 }
 
 .box {
-	margin: 0 auto;
-	border: 0.2rem solid;
-	padding: 3vw;
+	border: 0.15rem solid;
 	border-image: radial-gradient(ellipse at var(--gradX) var(--gradY), var(--c1), var(--c1) 10%, var(--c2) 40%) 30;
 	animation: borderRadial var(--d) linear infinite forwards;
 }
@@ -406,4 +356,86 @@ p {
 		--gradX: 50%;
 		--gradY: 0%;
 	}
+}
+
+/**gradaion*/
+.moving-grad {
+  background: linear-gradient(270deg, #FF3166, #F8D8E3);
+  background-size: 200% 200%;
+  animation: MoveGrad 5s ease infinite;
+}
+
+.moving-grad2 {
+  background: linear-gradient(270deg, #FF316650, #F8D8E350);
+  background-size: 200% 200%;
+  animation: MoveGrad 5s ease infinite;
+}
+.moving-grad__txt {
+  font-size: 50px;
+  font-family: Arial;
+  font-weight: 700;
+  color: #fff;
+}
+
+@keyframes MoveGrad {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/***/
+
+.background-img{
+  width: 100%;
+  overflow: hidden;
+  background-color:#000000;
+  position:fixed;
+  top:0px;
+  z-index:-1;
+}
+
+.cover {
+  margin-bottom: 10vw;
+  display: flex;
+  
+}
+
+.cover:nth-child(1) {
+  transform: rotate(-2deg);
+  background-color: #F8D8E350;
+  width: 100vw;
+}
+
+.cover:nth-child(2) {
+  transform: rotate(2deg);
+  background-color: #F4A7BB50;
+  width: 100vw;
+  justify-content: flex-end;
+}
+
+.cover:nth-child(3) {
+  transform: rotate(-2deg);
+  background-color: #F8D8E350;
+  width: 100vw;
+}
+.cover:nth-child(4) {
+  transform: rotate(2deg);
+  background-color: #F4A7BB50;
+  width: 100vw;
+  justify-content: flex-end;
+}
+
+
+.cover p {
+  display: flex;
+  font-size: clamp(1vw, 4vw, 2.5rem);
+  font-weight: 800;
+  font-family: NotoSans;
+  font-style: italic;
 }

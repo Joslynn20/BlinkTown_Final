@@ -34,10 +34,11 @@
 		<!-- Main -->
 		<main class="et-main">
 			<section class="et-slide" id="tab-es6">
-
 				<div class="cover">
 					<p class="first-parallel"></p>
 				</div>
+				<br>
+			
 				<div class="et-slide-wrap">
 
 					<h3>BLACKPINK</h3>
@@ -45,7 +46,7 @@
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<li><a href="/shop/details" target="_blank "
+									<li><a href="/board/details" target="_blank "
 										class="profile">
 											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
 											alt="Anita Simmons"

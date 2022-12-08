@@ -2,19 +2,25 @@ package web.mvc.controller;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.engine.query.spi.ReturnMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,16 +35,22 @@ import web.mvc.domain.Orderdetails;
 import web.mvc.domain.Orders;
 import web.mvc.domain.Product;
 import web.mvc.domain.Users;
+import web.mvc.dto.Cart;
+import web.mvc.dto.OrderdetailsListDTO;
 import web.mvc.service.OrdersService;
+import web.mvc.session.Session;
 
 //@RestController
 @Controller
+@RequestMapping("/orders")
 public class OrdersController {
 	
 	@Autowired
 	private OrdersService ordersService;
 	@Autowired
 	private OrdersVerifyController ordersVerifyController;
+	@Autowired
+	private CartController cartController;
 	
 	/**상수관리*/
 	private final static int PAGE_COUNT=10;//페이지당 출력 숫자
@@ -73,32 +85,33 @@ public class OrdersController {
 		
 		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
 		Page<Orders> ordersList=null;
-		
 		//유저정보 받아와서 users에 넣기
 		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
 		//유저 메인페이지 정보 호출 : (inCase==2)
 		if(startDate==null||finalDate==null) {
+			//10개만 출력시 주석 풀기
+//			usersId=users.getUsersId();
+//			Pageable mainPage=PageRequest.of(0, 10, Direction.DESC, "ordersDate");
+//			ordersList=ordersService.selectAllOrders(2, users, null, null, mainPage);
+			
 			ordersList=ordersService.selectAllOrders(2, users, null, null, ordersPage);
 		}else {
 		//기간 조회용 페이지 정보 호출 : (inCase==3) -> 차후 삭제하거나 하기(현재로선 안쓰는 방향)
 			ordersList=ordersService.selectAllOrders(3, users, startDate, finalDate, ordersPage);
 		}
-		
+		model.addAttribute("ordersList", ordersList);
+		///////////////////////////////////////////////////
 		//페이징 처리 메소드
 		int temp=0;
 		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
 			temp=(nowPage-1)%BLOCK_COUNT;
 		}
 		int startPage=nowPage-temp;
-		
-		model.addAttribute("ordersList", ordersList);
-		
 		//페이징 처리 위한 정보들 값으로 넣어 전달
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
-	}
+	}//주문전체 끝(유저)
 
 	/**
 	 * 1-2. 유저 마이페이지 - 주문 상세내역 
@@ -116,29 +129,10 @@ public class OrdersController {
 	 * 3) 주문 번호별 주문상세 전체 조회
 	 */
 	@RequestMapping("/유저/마이페이지/주문상세페이지/{ordersNo}") //페이징처리 주석처리
-	public void selectAllOrderdetails(Model model, @PathVariable Long ordersNo
-			/*, @RequestParam(defaultValue="1") int nowPage*/) {
-		
-//		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "orderdetailsNo");
-		
-//		Page<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo, ordersPage);
+	public void selectAllOrderdetails(Model model, @PathVariable Long ordersNo) {
 		List<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo);
-
 		model.addAttribute("orderdetailsList", orderdetailsList);
-		
-		//페이징 처리 메소드
-//		int temp=0;
-//		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
-//			temp=(nowPage-1)%BLOCK_COUNT;
-//		}
-//		int startPage=nowPage-temp;
-//		
-//		
-//		//페이징 처리 위한 정보들 값으로 넣어 전달
-//		model.addAttribute("blockCount", BLOCK_COUNT);
-//		model.addAttribute("startPage", startPage);
-//		model.addAttribute("nowPage", nowPage);
-	}
+	}//유저 상세조회 끝
 	
 	////////////////////////////////////////////////////
 	
@@ -159,27 +153,21 @@ public class OrdersController {
 	@RequestMapping("/관리자/주문페이지")
 	public void selectAllOrdersAdmin(Model model,
 			@RequestParam(defaultValue="1") int nowPage) {
-		
 		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
-		
 		Page<Orders> ordersList=ordersService.selectAllOrders(3, null, null, null, ordersPage);
-		
-		model.addAttribute(ordersList);
-		
+		model.addAttribute("ordersList", ordersList);
+		/////////////////////////////////////////////////
 		//페이징 처리 메소드
 		int temp=0;
 		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
 			temp=(nowPage-1)%BLOCK_COUNT;
 		}
 		int startPage=nowPage-temp;
-		
-		model.addAttribute("ordersList", ordersList);
-		
 		//페이징 처리 위한 정보들 값으로 넣어 전달
 		model.addAttribute("blockCount", BLOCK_COUNT);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("nowPage", nowPage);
-	}
+	}//관리자 주문 리스트 끝
 	
 	/**
 	 * 2-2. 관리자 마이페이지 - 주문 상세내역 
@@ -196,72 +184,45 @@ public class OrdersController {
 	 * 기능들
 	 * 3) 주문 번호별 주문상세 전체 조회
 	 */
-	@RequestMapping("/관리자/주문상세페이지/{ordersNo}") //페이징처리 안하는 방향으로 우선 주석처리
-	public void selectAllOrderdetailsAdmin(Model model, @PathVariable Long ordersNo
-	/* ,@RequestParam(defaultValue="1") int nowPage */) {
-		
-//		Pageable ordersPage=PageRequest.of(nowPage-1, PAGE_COUNT, Direction.DESC, "ordersDate");
-		
+	@RequestMapping("/관리자/주문상세페이지/{ordersNo}")
+	public void selectAllOrderdetailsAdmin(Model model, @PathVariable Long ordersNo) {
 		List<Orderdetails> orderdetailsList=ordersService.selectAllOrderdetails(ordersNo);
-
 		model.addAttribute("orderdetailsList", orderdetailsList);
-		
-		//페이징 처리 메소드
-//		int temp=0;
-//		if (nowPage!=1) { //내가 추가함 0나누기하면 안되니까
-//			temp=(nowPage-1)%BLOCK_COUNT;
-//		}
-//		int startPage=nowPage-temp;
-//		
-//		
-//		//페이징 처리 위한 정보들 값으로 넣어 전달
-//		model.addAttribute("blockCount", BLOCK_COUNT);
-//		model.addAttribute("startPage", startPage);
-//		model.addAttribute("nowPage", nowPage);
-	}
-	
+	}//관리자 주문 상세 끝
 	
 	//////////////////////////////////////////////////
-	/*
-	 * 3) 주문 폼 이동
-	 * -> 주문폼에서 다음카카오 주소지API사용, 스크립트만 하면 될지 확인해보고 완성할 것
-	 * (메소드는 폼으로 연결)
-	 * 
-	 * 배송지 주소 API사용 -> 뷰에서 폼으로 작성 (자바스크립트)
-	 */
-	
-	/**
-	 * 
-	 * 3-1. 일반회원 바로 주문하기-> 밑에서 통합
-	 * 
-	 * 1-1) 넘어오기 전 : 일반상품/상세페이지(바로구매 버튼)
-	 * 1-2) 넘어오는 인수 : 상품번호-통일위해 List로(List<Product> productList),
-	 *                   주문수량,가격(List<Orderdetails> orderdetailsList)
-	 * 
-	 * 2-1) 보내는 곳 : 주문폼
-	 * 2-2) 보내는 인수 :  인수들 Hidden으로 넣어놓기
-	 *                  상품번호-통일위해 List로(List<Product> productList),
-	 *                  주문수량,가격(List<Orderdetails> orderdetailsList)
-	 * 
-	 * 기능들
-	 * 3-1) MappingUrl통해서 접근권한 구분:일반회원
-	 *   ->전달 받은 값 그대로 주문폼으로 전달
-	 * 3-2) 주문전 체크 : 이상 발생시 RunTimeException 발생
-	 *   -> 주문상품-카테고리 : 주문상품의 카테고리 확인하여 멤버쉽과 유료상품이 매치되는지 체크 / 멤버쉽카드 인지도 체크 (주문전 불가체크:1.유무료/2.카드재구매)
-	 * 3-3) 주문전 체크 : 이상 발생시 RunTimeException 발생
-	 *   -> 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
-	 */
-//	@RequestMapping("/일반회원/구매/주문폼") /**인수 List들 Hidden으로 넣기(?)*/
-//	public String usersOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList /*, Model model*/) {
-////		model.addAttribute(productList);
-////		model.addAttribute(orderdetailsList);
-//		
-//		return "주문폼";
+	/**테스트용 진입점*/
+//	@RequestMapping("/ordersTestAfter/ordersFinalTest")
+//	public void formtest(
+//			String productCode, Integer cartQty, Integer cartPrice //테스트용
+////			)
+////			,
+//			, Model model)
+////			@RequestParam List<Cart> cartList)
+//			{
+//		//테스트용
+//		Product product=new Product();
+//		product.setProductCode(productCode);
+//		product.setProductMembershipOnly(0);
+			
+//		Cart cart=new Cart(product, cartQty, cartPrice);
+//		List<Cart> cartList=new ArrayList<Cart>();
+//		cartList.add(cart);
+//		model.addAllAttributes(cartList);
+//		Users users=Users.builder().usersId("user").build(); 
+//		//////////테스트용 생성///////////////////////////////////////////
+//		//실 사용 security
+////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		//재고량 체크
+//		ordersService.selectCheckBeforeOrders(users, cartList);
 //	}
+	///////////////////////////////////////////////////
 	
 	/**
-	 * 3-1. 일반회원 바로 주문하기
-	 * 3-2. 멤버쉽회원 바로 주문하기
+	 * 주문폼으로 넘겨주는 진입점(장바구니 혹은 바로구매에서 진입)
+	 * 상품 구매 버튼에 입력할 경로
+	 * 
+	 * 3-1. 일반회원 바로 주문하기/카트 주문하기
 	 * 
 	 * 1-1) 넘어오기 전 : {일반회원 혹은 멤버쉽회원}/상세페이지(바로구매 버튼)
 	 * 1-2) 넘어오는 인수 : 상품번호-통일위해 List로(List<Product> productList),
@@ -280,32 +241,186 @@ public class OrdersController {
 	 * 3-3) 주문전 체크 : 이상 발생시 RunTimeException 발생
 	 *   -> 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
 	 */
-	@RequestMapping("/{author}/주문/주문체크")
-	public String checkOrdersForm(List<Product> productList, List<Orderdetails> orderdetailsList/*, Model model*/) {
-//		model.addAttribute(productList);
-//		model.addAttribute(orderdetailsList);
-		
-		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		//insert에서도 사용
-		//상품 번호로 상품 객체에 들어가는지 확인할 것->안될것같음
-		//->현재 orderdetailsList에는 상품 객체로 들어가 있음
-		//->Product의 List로 받아서 꺼내서 대입하여 상세주문에 넣기(index가 매치되니까 괜찮을듯)
-		for(int i=0; i<productList.size(); i++) {
-			orderdetailsList.get(i).setProduct(productList.get(i));
+	/**(일반회원) 바로구매or카트구매시 주문폼으로 가는 컨트롤러*/
+	@RequestMapping("/user/beforeOrdersForm")
+	public String UserCheckBeforeOrdersForm(
+			Model model,
+			String productCode, Integer cartQty, Integer cartPrice
+//			,Product product
+//			,
+			)
+//			@RequestParam 
+//			List<Cart> cartList) 
+			{
+		//테스트용
+		Product product=new Product();
+		product.setProductCode(productCode);
+		product.setProductMembershipOnly(0);
+				
+		Cart cart2=new Cart(product, cartQty, cartPrice);
+		List<Cart> cartList=new ArrayList<Cart>();
+		cartList.add(cart2);
+		Users users=Users.builder().usersId("user").build(); 
+		///테스트용 생성/////////////////////////////
+//		
+		//카트의 상품을 orderdetails 리스트로 담기
+		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+		//+카트속 상품이 권한과 맞는지 체크
+		for(Cart cart:cartList) {
+			if (cart.getProduct().getProductMembershipOnly()==1) 
+				throw new RuntimeException("멤버쉽 가입 후 이용해 주세요");
+			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty()).product(product).build();
+			orderdetailsList.add(orderdetails);
 		}
-		
-		//받은 카트 리스트를 주문에 담기
-		Orders orders=new Orders();
-		orders.setOrderdetailsList(orderdetailsList);	
-		
-		//체크 메소드 호출
+		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//재고량 체크
 		ordersService.selectCheckBeforeOrders(users, orders);
-		//이상 없을시 리턴
-		
-		return "/주문/주문폼";
+		model.addAttribute("orderdetailsList", orderdetailsList);
+//		return "/orders/ordersForm";
+		return "/orders/ordersTest/ordersFinalTest";//테스트용 뷰 연결
 	}
+
+	/**
+	 * 3-2. 멤버쉽회원 바로 주문하기/카트 주문하기
+	 * @param cartList
+	 * @return Model -> orderdetailsList (상세내역 리스트)
+	 */
+	@RequestMapping("/member/beforeOrdersForm")
+	public String memberCheckBeforeOrdersForm(
+			Model model,
+			String productCode, Integer cartQty, Integer cartPrice
+//			,Product product
+//			,
+			)
+//			@RequestParam 
+//			List<Cart> cartList) 
+			{
+		//테스트용
+		Product product=new Product();
+		product.setProductCode(productCode);
+		product.setProductMembershipOnly(0);
+				
+		Cart cart2=new Cart(product, cartQty, cartPrice);
+		List<Cart> cartList=new ArrayList<Cart>();
+		cartList.add(cart2);
+		Users users=Users.builder().usersId("user").build(); 
+		///테스트용 생성/////////////////////////////
+//		
+		//카트의 상품을 orderdetails 리스트로 담기
+		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+		for(Cart cart:cartList) {
+			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty()).product(product).build();
+			orderdetailsList.add(orderdetails);
+		}
+		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//재고량 체크
+		ordersService.selectCheckBeforeOrders(users, orders);
+		model.addAttribute("orderdetailsList", orderdetailsList);
+//		return "/orders/ordersForm";
+		return "/orders/ordersTest/ordersFinalTest";//테스트용 뷰 연결
+	}
+////////////////////////////////////////////////////////////////
 	
+	/**
+	 * 주문폼 갈 때 메소드
+	 */
+	@RequestMapping("/ordersTestAfter/ordersFinalTest")
+	public void formtest(
+			Model model
+//			,
+//			String productCode, 
+//			Integer productMembershipOnly,
+//			Integer cartQty, Integer cartPrice,
+//			Product product,
+//			int orderdetailsQty, int orderdetailsPrice,
+//			@RequestParam
+//			(value="cart")
+//			(required=false)
+//			List<Cart> cartList,
+//			@RequestBody
+//			OrderdetailsListDTO orderdetailsList
+//			@RequestParam
+//			List<Orderdetails> orderdetailsList
+			){
+		//테스트용도
+
+		Product product1=new Product();
+		product1.setProductCode("A01");
+		product1.setProductMembershipOnly(0);
+		Product product2=new Product();
+		product1.setProductCode("A05");
+		product1.setProductMembershipOnly(0);
+		
+		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+		Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(2000).orderdetailsQty(2)
+//				.product(product)
+				.product(product1)
+//				.product(cart.getProduct())
+				.build();
+		Orderdetails orderdetails2=Orderdetails.builder().orderdetailsPrice(1000).orderdetailsQty(1)
+//				.product(product)
+				.product(product2)
+//				.product(cart.getProduct())
+				.build();
+		orderdetailsList.add(orderdetails);
+		orderdetailsList.add(orderdetails2);
+		
+		
+		//테스트용
+//		Product product=Product.builder()
+//				.productCode(productCode)
+//				.productMembershipOnly(0)
+//				.build();
+//		Cart cart2=new Cart(product, cartQty, cartPrice);
+//		List<Cart> cartList=new ArrayList<Cart>();
+//		cartList.add(cart2);
+		
+//		for(Cart cart:orderdetailsList.getCartList()) {
+//			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty())
+////					.product(product)
+//					.product(
+//					Product.builder()
+//					.productCode(productCode)
+//					.productMembershipOnly(0)
+//					.build())
+////					.product(cart.getProduct())
+//					.build();
+//			orderdetailsList.getOrderdetailsList().add(orderdetails);
+//		}
+		
+		Users users=Users.builder().usersId("user").build(); 
+		///테스트용 생성/////////////////////////////
+		
+		//카트의 상품을 orderdetails 리스트로 담기
+//		for(Cart cart:orderdetailsList.getCartList()) {
+//			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty())
+//					.product(cart.getProduct())
+//					.build();
+//			orderdetailsList.getOrderdetailsList().add(orderdetails);
+//		}
+//		System.out.println("detailsList="+orderdetailsList.getOrderdetailsList().get(0).getOrderdetailsPrice());
+		
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//재고량 체크
+		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		Orders orders=Orders.builder().orderdetailsList(orderdetailsList.getOrderdetailsList()).build();
+		ordersService.selectCheckBeforeOrders(users, orders);
+//		model.addAttribute("orderdetailsList", orderdetailsList.getOrderdetailsList());
+		model.addAttribute("orderdetailsList", orderdetailsList);
+//		return "/orders/ordersForm";
+	}
+
+	/**테스트용*/
+	@RequestMapping("/ordersTestAfter/beforeOrdersTest")
+	public void testBefore() {}
+	/**테스트용 간편*/
+	@RequestMapping("/test")
+	public String testBe() {
+		return "/orders/ordersTestAfter/beforeOrdersTest";
+	}
+///////////////////////////////////////////////////////////////	
 	/**
 	 * 4. 주문
 	 * 
@@ -325,49 +440,55 @@ public class OrdersController {
 	 *     ->결제완료후 검증까지 필요 ->이후 세션 삭제
 	 * 
 	 */
-	@ResponseBody // 주문하기는 AJAX로 할 예정, (REST API사용) 위에서 RestController선언하면 주석처리
-	@RequestMapping("/주문/주문하기")
-	public Model insertOrdersOrderdetails(Model model, HttpSession session, Principal principal, Orders orders, List<Product> productList/*, List<Orderdetails> orderdetailsList*/) {
+	@RequestMapping("/checkout")
+	@ResponseBody
+	public Map<String, Object>  insertOrdersOrderdetails(
+			Orders orders
+			, 
+//			@RequestBody
+//			@RequestParam
+			OrderdetailsListDTO orderdetailsList
+			){
+//		System.out.println("orderdetailsList = " + orderdetailsList);
+//		 System.out.println("size = "+orderdetailsList.getOrderdetailsList().size());
+//		 System.out.println("info = "+orderdetailsList.getOrderdetailsList());
+		 //System.out.println("info = "+);
+		 //orderdetailsList.getOrderdetailsList().forEach(o-> System.out.println(o));
 		
-		//Orders에 한 번에 들어간다면 인수로 하나만 받기
-		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();//안쓰면 주석처리하긴
-		
-		//상품 번호로 상품 객체에 들어가는지 확인할 것->안될것같음
-		//->현재 orderdetailsList에는 상품 객체로 들어가 있음
-		//->Product의 List로 받아서 꺼내서 대입하여 상세주문에 넣기(index가 매치되니까 괜찮을듯)
-		//+추가로 총계 계산해서 결제하기 위해(카트담기 뿐만 아니라 바로주문에도 동일효과위해) 합계값 구하기  
-		int amount=0;
-		for(int i=0; i<productList.size(); i++) {
-			orderdetailsList.get(i).setProduct(productList.get(i));
-			amount+=orderdetailsList.get(i).getOrderdetailsPrice();
-		}
+		//orderdetails값 넣는수단 강구 필요->DTO사용할 것
 		
 		//받은 카트 리스트를 주문에 담기
-		orders.setOrderdetailsList(orderdetailsList);
+		List<Orderdetails> orderdetailsDomainList=new ArrayList<Orderdetails>();
+		for(Orderdetails dtoDetails : orderdetailsList.getOrderdetailsList()) {
+			orderdetailsDomainList.add(dtoDetails);
+		}
+		orders.setOrderdetailsList(orderdetailsDomainList);
+		int amount=0;
+		for(Orderdetails orderdetails : orderdetailsDomainList){
+			amount+=orderdetails.getOrderdetailsPrice();
+		}
+		System.out.println("orderdetailsList"+orderdetailsList); //값 안들어오니까 dto사용할 것
+		System.out.println("amount="+amount);
+//		amount=1000;//테스트용*/
 		
 		//주문상태 결제중으로 입력
 		orders.setOrdersStatus(STATUS_BEFORE);
-		
-		Users users=(Users)principal;
 //		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Users users=Users.builder().usersId("user").build(); //////////테스트용 생성
 		
-		//결제 창 호출위해 결과값 담기
+		//결제 창 호출위해 결과값 담기, cartList);
 		Orders finishOrders=ordersService.insertOrdersOrderdetails(users, orders);
-		model.addAttribute("orders", finishOrders);
 		
-		//총결제금액 담기
-		model.addAttribute("amount", amount);
+		//ajax로 리턴값 Map으로 보냄->jason 사용, mappedby ignore설정완료
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("orders", finishOrders);
+		map.put("amount", amount);
 		
-		return model;
-		
-//		//장바구니 세션 사용하여 insert 완료 후 세션 삭제 
-//		//-> 검증 메소드에서 완료후 삭제(아니면 전부 리셋해야돼서 세션 유지하고자 함)
-//		session.removeAttribute("세션속 장바구니 상품 목록");
-//		return "/주문/주문완료 페이지";
+		System.out.println("checkout끝");//확인용 출력
+		return map;
 	}
 	
 	////////////////////////////////////////////////////////////////////
-	
 	/**
 	 * 5. 결제 검증 메소드 (API사용 특성상 필요한 메소드)
 	 * 
@@ -377,8 +498,10 @@ public class OrdersController {
 	 * 2-2) 검증 실패시 : 주문 삭제(서비스에 삭제 추가, 테스트할 것)
 	 */
 	@ResponseBody
-	@RequestMapping("/verifyIamport")//("/{imp_uid}")
-	public void ordersVerifyPayment(String imp_uid, HttpSession session) {
+	@RequestMapping("/verifyIamport")
+	public void ordersVerifyPayment(String imp_uid, HttpSession session
+			, Principal principal
+			) {
 		try {
 		//검증메소드 호출 및 검증위한 변수 저장
 		IamportResponse<Payment> resultData=ordersVerifyController.paymentByImpUid(imp_uid);
@@ -388,21 +511,36 @@ public class OrdersController {
 		//금액을 비교하여 검증(금액 다를시 주문내역 삭제 및 재고량 원복후 runtimeException발생시킴)
 		ordersService.verifyOrders(ordersNo, verifyAmount, STATUS_AFTER);
 		
-		//이상 없을시 장바구니 세션 삭제
-		session.removeAttribute("cartList"); //장바구니속 상품 목록 혹은 orderdetailsList
-		
+//		session.removeAttribute("cartList"); //세션 사용 안함, dto 삭제
+		//이상 없을시 장바구니 세션 삭제->dto삭제 메소드 호출
+//		Users users=(Users)principal;
+//		cartController.deleteAllCart(users);
+		cartController.deleteAllCart(session);
+		//장바구니DTO 삭제
 		}catch (Exception e) {
 			//결제취소 메소드 넣기
 			//일단 필요없으니 보류
+			System.out.println("오류 발생 : 결제금액 위조 (검증 실패)");
 			new RuntimeException("결제중 오류가 발생하였습니다");
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping("/{url}/{url2}")
-	public void url() {
-		//테스트용 url
+	/**삭제 메소드*/
+	@RequestMapping("/delete")
+	public void ordersDelete(/* Orders orders */Long ordersNo) {
+		System.out.println("삭제 컨트롤러");
+//		Long ordersNo=orders.getOrdersNo();
+		ordersService.deleteOrders(ordersNo);
+		System.out.println("삭제 컨트롤러 끝");
 	}
+	
+	/**성공시 성공페이지 혹은 마이페이지-상품리스트로 가기*/
+	////////////////////////////////////////////////////////////////////
+	//테스트용 메소드들
+	/**성공 출력 페이지-테스트용도*/
+	@RequestMapping("/ordersTestAfter/ordersTestResult")
+	public void resultUrl() {}
+	
 	/////////////////////////////////////////
 	//확장
 	/**

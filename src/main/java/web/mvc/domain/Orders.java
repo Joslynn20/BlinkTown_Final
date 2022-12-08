@@ -17,6 +17,9 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,13 +60,12 @@ public class Orders {
 	private String ordersStatus;
 	
 	@Column(nullable=false)
-//	@Temporal(TemporalType.DATE) //값 생성시 new Date()
-//	private Date ordersDate;
 	@CreationTimestamp
 	private LocalDateTime ordersDate;
 	
 	//LAZY , 주문결제-취소시 삭제 필요하여 cascade설정
-	//@OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JsonManagedReference //안됨
+	@JsonIgnore 
 	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL) 
 	private List<Orderdetails> orderdetailsList;
 }
