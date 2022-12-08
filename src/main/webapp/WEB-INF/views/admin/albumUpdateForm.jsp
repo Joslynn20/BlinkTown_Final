@@ -79,7 +79,7 @@ margin-bottom: 20px;
 </style>
 </head>
 <body>
-
+<form action="">
 	<section class="main">
 		<div class="wrapper">
 			<div class="left-col">
@@ -115,7 +115,7 @@ margin-bottom: 20px;
 			</div>
 		</div>
 	</section>
-
+</form>
 	<div class="background-img">
 		<div class="cover">
 			<p class="first-parallel"></p>
