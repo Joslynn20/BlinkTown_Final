@@ -27,8 +27,8 @@
 
 		<div class="shop-main-coontainer">
 			<div class="title">
+			<div></div>
 				<div>MEMBERSHIP</div>
-				<div>ONLY</div>
 			</div>
 			<div class="wrapper">
 				<article class="flow">
@@ -76,63 +76,6 @@
 						</ul>
 					</div>
 				</article>
-				<div class="goods-shop">
-				<div class="title">
-					<div>GOODS</div>
-					<div>SHOP</div>							
-				</div>
-				<div class="select-sort">
-					<select class="sort-option">
-						<option class="sort-option"><spring:message code="Sort"/></option>
-						<option class="sort-option" value="<spring:message code='Newproduct'/>"><spring:message code='Newproduct'/></option>
-						<option class="sort-option" value="<spring:message code='Popularity'/>"><spring:message code='Popularity'/></option>
-						<option class="sort-option" value="<spring:message code='Highprice'/>"><spring:message code='Highprice'/></option>
-						<option class="sort-option" value="<spring:message code='Lowprice'/>"><spring:message code='Lowprice'/></option>
-					</select>
-				</div>
-				<article class="flow">
-					<div class="team">
-						<ul class="auto-grid" role="list">
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-						</ul>
-					</div>
-				</article>
-				</div><!-- goods-shop -->
 			</div>
 <div class="pagination">
   <a href="#">&laquo;</a>

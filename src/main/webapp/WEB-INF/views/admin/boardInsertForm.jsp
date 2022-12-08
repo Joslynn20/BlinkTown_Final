@@ -9,74 +9,6 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/board/boardInsertForm.css">
-<style type="text/css">
-.input_field{
-margin-bottom: 5px;
- border: 1px solid #F4A7BB50;
- padding: .5em .75em;
- width: 90%;
-}
-
-.filebox input[type="file"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip:rect(0,0,0,0);
-  border: 0;
-}
-
-.filebox label {
-  display: inline-block;
-  float:left;
-  padding: .4em .75em;
-  color: #fff;
-  font-size: inherit;
-  line-height: normal;
-  vertical-align: middle;
-  background-color: #F4A7BB;
-  cursor: pointer;
-  border: 1px solid #F4A7BB;
-  border-bottom-color: #F4A7BB;
-  border-radius: .25em;
-  margin: 10px 0px 20px 0px;
-}
-
-/* named upload */
-.filebox .upload-name {
-  float:left;
-  display: block;
-  width:70%;
-  padding: .4em .75em;  /* label의 패딩값과 일치 */
-  font-size: inherit;
-  font-family: inherit;
-  line-height: normal;
-  vertical-align: middle;
-  background-color: #000000;
-  border: 1px solid #F4A7BB50;
-  border-bottom-color: #F4A7BB50;
-  border-radius: .25em;
-  -webkit-appearance: none; /* 네이티브 외형 감추기 */
-  -moz-appearance: none;
-  appearance: none;
-  color: #ffffff;
-  margin: 10px 5px 20px 0px;
-}
-h3{
-margin-bottom: 20px;
-}
-.image {
-    width: 100%;
-    height: 500px;
-    background-position: center center;
-    background-size: cover;
- 	background-repeat:no-repeat;
-    display: inline-block;
- 	box-shadow:0px -3px 6px 2px rgba(0,0,0,0.2);
-}
-</style>
 </head>
 <body>
 <form action="">
@@ -86,7 +18,11 @@ margin-bottom: 20px;
 				<div class="post">
 					<div class="row">
 						<div class="col-sm-2 imgUp">
-							<div class="image" style="background-image: url('${pageContext.request.contextPath}/img/FIGURE_JENNIE.png')"></div>
+							<div class="imagePreview"></div>
+							<label class="btn btn-primary">파일업로드하기<input type="file"
+								class="uploadFile img" value="Upload Photo"
+								style="width: 0px; height: 0px; overflow: hidden;">
+							</label>
 						</div>
 						<!-- col-2 -->
 					</div>
@@ -97,19 +33,21 @@ margin-bottom: 20px;
 			<div class="right-col">
 
 
-				<h3>Goods Update</h3>
-				<input type="text" value="카테고리코드" class="input_field" readonly="readonly"><br>
-				<input type="text" placeholder="상품명 [KOR]" class="input_field"><br>
-				<input type="text" placeholder="상품명 [ENG]" class="input_field"><br>
-				<input type="text" placeholder="가격" class="input_field"><br>
-				<input type="number" placeholder="재고" class="input_field"><br>
-				<input type="text" placeholder="사이즈" class="input_field"><br>
-				<input type="text" placeholder="재질" class="input_field"><br>
-				<input type="text" placeholder="제조국" class="input_field"><br>
+				<h3>게시물 올리기</h3>
+				<select class="select_field">
+					<option selected="selected" value="">카테고리</option>
+					<option value="BLACKPINK">BLACKPINK</option>
+					<option value="JISOO">JISOO</option>
+					<option value="JENNIE">JENNIE</option>
+					<option value="ROSE">ROSE</option>
+					<option value="LISA">LISA</option>
+				</select> <input type="text" placeholder="제목을 입력해주세요" class="input_field"><br>
+				<textarea placeholder="내용을 입력해주세요." class="textarea_field"></textarea>
+				<br>
 
 				<div class='insert-submt'>
 					<button class='closeBtn'>취소</button>
-					<button type="submit" class='submitBtn'>수정</button>
+					<button type="submit" class='submitBtn'>등록</button>
 				</div>
 
 			</div>
@@ -194,6 +132,28 @@ margin-bottom: 20px;
 
 	window.addEventListener('scroll', scrollHandler)
 	animate()
+</script>
+<script type="text/javascript">
+
+$(function() {
+    $(document).on("change",".uploadFile", function()
+    {
+    		var uploadFile = $(this);
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+ 
+        if (/^image/.test( files[0].type)){ // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+ 
+            reader.onloadend = function(){ // set image data as background of div
+                //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url("+this.result+")");
+            }
+        }
+      
+    });
+});
 </script>
 </body>
 </html>
