@@ -5,17 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import web.mvc.dto.Cart;
-import web.mvc.session.Session;
 
 public interface CartService {
 
-	/**
-	 * 장바구니 조회
-	 * 
-	 * @param sessionId
-	 * @return
-	 */
-	List<Cart> selectCartList(String sessionId);
 
 	/**
 	 * 장바구니 넣기
@@ -23,10 +15,10 @@ public interface CartService {
 	 * @param sessionId
 	 * @param cart
 	 */
-	void insertCart(String sessionId, Cart cart);
+	List<Cart> insertCart(HttpSession session, Cart cart);
 
 	/**
-	 * 장바구니 넣기
+	 * 사용자 로그아웃
 	 * 
 	 * @param session
 	 */
@@ -37,7 +29,7 @@ public interface CartService {
 	 * 
 	 * @param sessionId
 	 */
-	void deleteAllCart(String sessionId);
+	void deleteAllCart(HttpSession session);
 
 	/**
 	 * 장바구니 개별삭제
@@ -45,6 +37,6 @@ public interface CartService {
 	 * @param sessionId
 	 * @param productCode
 	 */
-	void deleteCart(String sessionId, String productCode);
+	void deleteCart(HttpSession session, List<String> productCode);
 
 }

@@ -6,9 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.mvc.domain.Product;
 import web.mvc.dto.Cart;
@@ -25,38 +25,39 @@ public class CartController {
 	 * 장바구니 조회
 	 */
 	@RequestMapping("/select")
-	public ModelAndView selectCartList(HttpSession session) {
-
-		String sessionId = session.getId();
-		List<Cart> cartList = service.selectCartList(sessionId);
-
-		return new ModelAndView("카트조회페이지", "cartList", cartList);
+	public String selectCartList() {
+		return "shop/cart";
 	}
 
 	/**
 	 * 장바구니 넣기
 	 */
 	@RequestMapping("/insert")
-	public void insertCart(HttpSession session, Product product, Integer qty) {
+	@ResponseBody
+	public boolean insertCart(HttpSession session, Product product, Integer qty) {
+
 		Cart cart = new Cart(product, (product.getProductPrice() * qty), qty);
-		service.insertCart(session.getId(), cart);
+		List<Cart> cartList = service.insertCart(session, cart);
+		session.setAttribute("cartList", cartList);
+		return true;
 	}
 
 	/**
 	 * 장바구니 삭제
 	 */
 	@RequestMapping("/deleteAll")
-	public void deleteAllCart(HttpSession session) {
-		service.deleteAllCart(session.getId());
+	public String deleteAllCart(HttpSession session) {
+		service.deleteAllCart(session);
+
+		return "redirect:/cart/select";
 	}
 
-	/**
-	 * 장바구니 개별삭제
-	 */
-	@RequestMapping("/delete/{productCode}")
-	public void deleteCart(HttpSession session, @PathVariable String productCode) {
-		service.deleteCart(session.getId(), productCode);
-	}
+	@RequestMapping("/deleteOne")
+	@ResponseBody
+	public boolean deleteCart(HttpSession session, @RequestBody List<String> productCodes) {
+		service.deleteCart(session, productCodes);
+		return true;
+	};
 
 	/**
 	 * 사용자 제거 - 로그아웃 메소드에 추가

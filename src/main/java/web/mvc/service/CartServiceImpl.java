@@ -1,101 +1,87 @@
 package web.mvc.service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
-import web.mvc.domain.Product;
 import web.mvc.dto.Cart;
-import web.mvc.session.Session;
 
 @Service
-public class CartServiceImpl {
-
-	private static Set<Session> sessionSet;
-
-	@PostConstruct
-	public void init() {
-		sessionSet = new HashSet<Session>();
-	}
-
-	public List<Cart> selectCartList(String sessionId) {
-		Session currentUser = this.getSession(sessionId);
-
-		if (currentUser == null)
-			return null;
-
-		return currentUser.getCartList();
-	}
-
-	/**
-	 * 사용자 찾기
-	 */
-	private Session getSession(String sessionId) {
-		for (Session s : sessionSet) {
-			if (s.getSessionId().equals(sessionId))
-				return s;
-		}
-		return null;
-	}
+public class CartServiceImpl implements CartService {
 
 	/**
 	 * 장바구니 넣기
 	 */
-	public void insertCart(String sessionId, Cart cart) {
-		Session currentUser = this.getSession(sessionId);
-		if (currentUser == null) {
-			Session newUser = new Session(sessionId, null);
-			newUser.getCartList().add(cart);
-			sessionSet.add(newUser);
+	public List<Cart> insertCart(HttpSession session, Cart cart) {
+		List<Cart> cartList = (List<Cart>) session.getAttribute("cartList");
+		
+		if (cartList == null) {
+			cartList = new ArrayList<Cart>();
+			cartList.add(cart);
 		} else {
-			List<Cart> cartList = currentUser.getCartList();
-			for (Cart sessionCart : cartList) {
-				Product product = sessionCart.getProduct();
-				if (product.getProductCode().equals(cart.getProduct().getProductCode())) {
-					sessionCart.setCartQty(sessionCart.getCartQty() + cart.getCartQty());
-					sessionCart.setCartPrice(sessionCart.getCartQty() + cart.getCartPrice());
-				} else
-					cartList.add(cart);
-			}
+			modifyCart(cartList, cart);
 		}
+		
+		return cartList;
 	}
 
-	/**
-	 * 로그아웃
-	 * 
-	 * @param session
-	 */
-	public void deleteSession(HttpSession session) {
-		sessionSet.remove(this.getSession(session.getId()));
-		session.invalidate();
+	private void modifyCart(List<Cart> cartList, Cart cart) {
+		// 객체 추가
+		boolean state = false;
+
+		if(cartList.isEmpty())
+			state = true;
+		
+		for (Cart sessionCart : cartList) {
+			if (sessionCart.getProduct().getProductCode().equals(cart.getProduct().getProductCode())) {
+
+				sessionCart.setCartPrice(cart.getCartPrice() + sessionCart.getCartPrice());
+				sessionCart.setCartQty(cart.getCartQty() + sessionCart.getCartQty());
+				break;
+			} else
+				state = true;
+		}
+
+		if (state) {
+			cartList.add(cart);
+		}
+
 	}
+
 
 	/**
 	 * 장바구니 전체삭제
 	 */
-	public void deleteAllCart(String sessionId) {
-		Session session = this.getSession(sessionId);
-		session.getCartList().clear();
+	public void deleteAllCart(HttpSession session) {
+		List<Cart> cartList = (List<Cart>) session.getAttribute("cartList");
+		cartList.clear();
 	}
 
 	/**
 	 * 장바구니 개별삭제
 	 */
-	public void deleteCart(String sessionId, String productCode) {
-		Session session = this.getSession(sessionId);
-		List<Cart> cartList = session.getCartList();
-
+	public void deleteCart(HttpSession session, List<String> productCodes) {
+		List<Cart> cartList = (List<Cart>) session.getAttribute("cartList");
+		List<Cart> deleteList = new ArrayList<Cart>();
 		for (Cart cart : cartList) {
-			if (cart.getProduct().getProductCode().equals(productCode)) {
-				cartList.remove(cart);
-				return;
+			for(String productCode:productCodes) {
+				if(productCode.equals(cart.getProduct().getProductCode())) {
+					deleteList.add(cart);
+				}
 			}
 		}
+		cartList.removeAll(deleteList);
+	}
+
+	/**
+	 * 로그아웃
+	 */
+	@Override
+	public void deleteSession(HttpSession session) {
+		session.invalidate();
 	}
 
 }
