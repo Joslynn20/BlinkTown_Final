@@ -9,7 +9,7 @@ public interface ReplyService {
 	 * : 아이디, 댓글내용, 댓글등록일
 	 * (댓글번호는 시퀀스로 생성된다)
 	 * */
-	void insertReply(Reply reply);
+	Reply insertReply(Reply reply);
 		
 	/**
 	 * 댓글삭제

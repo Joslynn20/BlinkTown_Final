@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,16 +41,18 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> selectAll() {
-		return boardRep.findAll();
-	}
+		return boardRep.findAll(Sort.by(Sort.Direction.DESC, "boardNo"));
+		//return boardRep.findAll();
+	}     
 
-	@Override
+	/*@Override
 	public Page<Board> selectAll(Pageable pageable) {
+		//null에 대한 대비?
 		return boardRep.findAll(pageable);
-	}
+	}*/
 
 	@Override
-	public Board selectBy(Long boardNo) {
+	public Board selectByBoardNo(Long boardNo) {
 		// 조회수 기능을 추가한다면 erd변경하고 여기에 조회수 기능 추가!
 		Board board = boardRep.findById(boardNo).orElse(null);
 		if (board == null)
@@ -88,7 +91,7 @@ public class BoardServiceImpl implements BoardService {
 			decreaseLikeNo(likes);
 		}
 
-		return selectBy(likes.getBoardNo()).getBoardLikeNo();
+		return selectByBoardNo(likes.getBoardNo()).getBoardLikeNo();
 
 	}
 
@@ -117,7 +120,7 @@ public class BoardServiceImpl implements BoardService {
 		List<Likes> likesList = likeService.selectLikesListByUserId(userId);
 
 		for (Likes like : likesList) {
-			Board board = this.selectBy(like.getBoardNo());
+			Board board = this.selectByBoardNo(like.getBoardNo());
 			boardList.add(board);
 		}
 

@@ -19,20 +19,20 @@
                 <div class="info moving-grad">
                     <div class="user">
                         <div class="profile-pic"><img src="${pageContext.request.contextPath}/img/board/cover 9.png" alt=""></div>
-                        <p class="username">JENNI ♥</p>
+                        <p class="username">${board.users.usersId}</p>
                     </div>
                     <img src="img/option.PNG" class="options" alt="">
                 </div>
-                <img src="${pageContext.request.contextPath}/img/board/cover 1.png" class="post-image" alt="">
+                <img src="${pageContext.request.contextPath}/save/${board.boardImg}" class="post-image" alt="">
                 <div class="post-content">
                     <div class="reaction-wrapper">
                         <img src="${pageContext.request.contextPath}/img/board/like.PNG" class="icon" alt="">
                         <img src="${pageContext.request.contextPath}/img/board/comment.PNG" class="icon" alt="">
                         <img src="${pageContext.request.contextPath}/img/board/send.PNG" class="icon" alt="">
                     </div>
-                    <p class="likes">좋아요 <span>1,012</span>개</p>
-                    <p class="description"> 안녕하세요~~~~~제니에요!!!!!~</p>
-                    <p class="post-time">2022-12-06</p>
+                    <p class="likes">좋아요 <span>${board.boardLikeNo}</span>개</p>
+                    <p class="description">${board.boardContent}</p>
+                    <p class="post-time">${board.boardRegDate}</p>
                 </div>
                
             </div>
@@ -44,22 +44,50 @@
                 <div class="profile-pic">
                     <img src="${pageContext.request.contextPath}/img/board/cover 10.png" alt="">
                 </div>
-                <div>
-                    <p class="username">닉네임입니다</p>
+                
+                <div id="result">
+                	<p class="username">${board.users.usersNickName}</p>
+                    <p class="sub-text"> </p>
+                    
                     <p class="sub-text">댓글입니다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</p>
+                    
                 </div>
                 <button class="action-btn">x</button>
             </div><!-- 댓글양식 -->
             
-            
-            
-            
+          
             </div>
             <div class="comment-wrapper">
                     <img src="${pageContext.request.contextPath}/img/board/smile.PNG" class="icon" alt="">
-                    <input type="text" class="comment-box" placeholder="댓글을 입력해주세요">
-                    <button class="comment-btn" type="submit">post</button>
-                </div>           
+                    <input type="text" class="comment-box" placeholder="댓글을 입력해주세요" name="replyContent" id="replyContent">
+                    <button class="comment-btn" type="submit" id="submitReply">post</button>
+            </div>  
+			<script type="text/javascript">
+						$('#submitReply').on("click", function(){
+							var replyContent = $('#replyContent').val();
+							var boardNo = ${board.boardNo}
+							
+							$.ajax({
+								url : "/reply/details/{boardNo}",
+								type : "post",
+								datatype : "text",
+								data : {
+									"boardNo" : ${board.boardNo},
+									"replyContent" : replyContent
+								},
+								
+								success : function(reply) {
+									$('#result').html(reply);
+									alert("등록 성공");
+								},
+								error : function() {
+									alert("등록 실패");
+			
+								}
+				
+							})
+						})		
+			</script>        
         </div>
 </div>
 </section>
