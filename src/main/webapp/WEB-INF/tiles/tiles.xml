@@ -54,4 +54,13 @@
 		<put-attribute name="banner" value="/WEB-INF/views/mypage/banner.jsp"/>
 	</definition> 
 	
+	<!-- error/success -->
+	<definition name="error/**" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/error/{1}.jsp"/>
+	</definition> 
+	<definition name="success/**" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/success/{1}.jsp"/>
+	</definition>
+	
+	
 </tiles-definitions>
