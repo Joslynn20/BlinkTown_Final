@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -12,46 +12,53 @@
 </head>
 <body>
 
- <section class="main">
-    <div class="wrapper">
-        <div class="left-col">
-            <div class="post box">
-                <div class="info moving-grad">
-                    <div class="user">
-                        <div class="profile-pic"><img src="${pageContext.request.contextPath}/img/board/cover 9.png" alt=""></div>
-                        <p class="username">${board.users.usersId}</p>
-                    </div>
-                    <img src="img/option.PNG" class="options" alt="">
-                </div>
-                <img src="${pageContext.request.contextPath}/save/${board.boardImg}" class="post-image" alt="">
-                <div class="post-content">
-                    <div class="reaction-wrapper">
-                        <img src="${pageContext.request.contextPath}/img/board/like.PNG" class="icon" alt="">
-                        <img src="${pageContext.request.contextPath}/img/board/comment.PNG" class="icon" alt="">
-                        <img src="${pageContext.request.contextPath}/img/board/send.PNG" class="icon" alt="">
-                    </div>
-                    <p class="likes" id="likeBtn">좋아요 <span>${board.boardLikeNo}</span>개</p>
-                    <p class="description">${board.boardContent}</p>
-                    <p class="post-time">${board.boardRegDate}</p>
-                </div>            
-            </div>
-        </div>
+	<section class="main">
+		<div class="wrapper">
+			<div class="left-col">
+				<div class="post box">
+					<div class="info moving-grad">
+						<div class="user">
+							<div class="profile-pic">
+								<img
+									src="${pageContext.request.contextPath}/img/board/blackpinkprofile.jfif"
+									alt="">
+							</div>
+							<p class="username">${board.users.usersId}</p>
+						</div>
+						<img src="img/option.PNG" class="options" alt="">
+					</div>
+					<img
+						src="${pageContext.request.contextPath}/save/${board.boardImg}"
+						class="post-image" alt="">
+					<div class="post-content">
+						<div class="reaction-wrapper">
+							<div class="heart"></div>
+							<p class="likes">
+								좋아요 <span>${board.boardLikeNo}</span>개
+							</p>
+						</div>
+						<p class="description">${board.boardContent}</p>
+						<p class="post-time">${board.boardRegDate}</p>
+					</div>
+				</div>
+			</div>
 
-        <div class="right-col box">
-        <div class="profile-card-wrap">
-         <!-- 댓글양식 -->
-        <div id="reply"></div>
-    
-         <!-- 댓글양식 -->
-            
-          
-            </div>
-            <div class="comment-wrapper">
-                    <img src="${pageContext.request.contextPath}/img/board/smile.PNG" class="icon" alt="">
-                    <input type="text" class="comment-box" placeholder="댓글을 입력해주세요" name="replyContent" id="replyContent">
-                    <button class="comment-btn" type="submit" id="submitReply">post</button>
-            </div>  
-		<script type="text/javascript">
+			<div class="right-col box">
+				<div class="profile-card-wrap">
+					<!-- 댓글양식 -->
+					<div id="reply"></div>
+
+					<!-- 댓글양식 -->
+
+
+				</div>
+				<div class="comment-wrapper">
+					<img src="${pageContext.request.contextPath}/img/board/reply.png"
+						class="icon" alt=""> <i class="fi fi-rr-comment-alt"></i> <input
+						type="text" class="comment-box" placeholder="댓글을 입력해주세요">
+					<button class="comment-btn" type="submit">post</button>
+				</div>
+				<script type="text/javascript">
 		$(function(){
 			
 			$(document).ajaxSend(function(e, xhr, options) {
@@ -94,10 +101,10 @@
 							//result.nicList[index]
 							str+='<div class="profile-card" >';
 							str+="<div class='profile-pic'>"
-							str+=" <img src='${pageContext.request.contextPath}/img/board/cover 10.png' alt=''> </div>";
+							str+=" <img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
 							str+='<div class="profile-text"><p class="username">'+result.nicList[index] +'</p>';
 							str+='<p class="sub-text">'+item.replyContent+'</p></div>';
-							str+='<button class="action-btn" name="'+item.replyNo +'">x</button>';
+							str+="<button class='action-btn'><i class='fi fi-br-cross'></i></button>";
 							str+='</div>';
 						})														
 						$("#reply").html(str);							
@@ -137,25 +144,25 @@
 	</script>
 
 
-        </div>
-</div>
-</section>
-
-  <div class="background-img">
-				<div class="cover">
-				  <p class="first-parallel"></p>
-				</div>
-				<div class="cover">
-				  <p class="second-parallel"></p>
-				</div>
-				<div class="cover">
-				  <p class="third-parallel"></p>
-				</div>
-				<div class="cover">
-				  <p class="forth-parallel"></p>
-				</div>
 			</div>
-<script type="text/javascript">
+		</div>
+	</section>
+
+	<div class="background-img">
+		<div class="cover">
+			<p class="first-parallel"></p>
+		</div>
+		<div class="cover">
+			<p class="second-parallel"></p>
+		</div>
+		<div class="cover">
+			<p class="third-parallel"></p>
+		</div>
+		<div class="cover">
+			<p class="forth-parallel"></p>
+		</div>
+	</div>
+	<script type="text/javascript">
 	const pTag1 = document.querySelector('.first-parallel')
 	const pTag2 = document.querySelector('.second-parallel')
 	const pTag3 = document.querySelector('.third-parallel')
@@ -219,6 +226,14 @@
 
 	window.addEventListener('scroll', scrollHandler)
 	animate()
+</script>
+
+	<script type="text/javascript">
+$(function() {
+	  $(".heart").on("click", function() {
+	    $(this).toggleClass("is-active");
+	  });
+	});
 </script>
 </body>
 </html>

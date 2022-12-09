@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 <style>
 /*
 Noto+Sans+KR
@@ -57,7 +58,6 @@ Roboto
 	position: relative;
 	margin-left: 20px;
 	top: -13px;
-	background-color: #ffffff;
 	display: block;
 }
 
@@ -121,7 +121,7 @@ border: none;
 	<div class="header-bottom">
 		<div class="menu-popup-button" id="popup-button">
 			<a href="#popup-article" class="open-popup"
-				onclick="openPopup('popup-button')"> </a>
+				onclick="openPopup('popup-button')"> <i class="fi fi-br-menu-burger" style="color: #ffffff; font-size: 20px;"></i></a>
 		</div>
 		<div class="header-logo">logo</div>
 	</div>
