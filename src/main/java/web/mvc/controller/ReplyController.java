@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Board;
 import web.mvc.domain.Reply;
 import web.mvc.domain.Users;
-import web.mvc.repository.ReplyRepository;
 import web.mvc.service.BoardService;
 import web.mvc.service.ReplyService;
 
@@ -42,7 +41,10 @@ public class ReplyController {
 		
 		Board board=boardService.selectByBoardNo(boardNo);
 		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(Users.builder().usersId("jisoo").build()).build();
+//		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(users).build(); //users등록할때 주석풀고 사용
+		
 		Reply newReply=replyService.insertReply(beforeReply);
+//		Reply newReply=replyService.insertReply(beforeReply, users);
 		return newReply;
 	}
 	

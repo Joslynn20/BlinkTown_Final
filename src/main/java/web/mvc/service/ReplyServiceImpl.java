@@ -25,6 +25,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public Reply insertReply(Reply reply) {
+//	public Reply insertReply(Reply reply, Users users) {	
 		Reply afterReply=replyRep.save(reply);
 		return afterReply;
 	}

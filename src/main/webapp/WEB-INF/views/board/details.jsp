@@ -24,8 +24,11 @@
 									alt="">
 							</div>
 							<p class="username">${board.users.usersId}</p>
+							<button class="board-delete">
+								<i class="fi fi-br-cross"></i>
+							</button>
 						</div>
-						<img src="img/option.PNG" class="options" alt="">
+			
 					</div>
 					<img
 						src="${pageContext.request.contextPath}/save/${board.boardImg}"
@@ -55,8 +58,8 @@
 				<div class="comment-wrapper">
 					<img src="${pageContext.request.contextPath}/img/board/reply.png"
 						class="icon" alt=""> <i class="fi fi-rr-comment-alt"></i> <input
-						type="text" class="comment-box" placeholder="댓글을 입력해주세요">
-					<button class="comment-btn" type="submit">post</button>
+						type="text" class="comment-box" placeholder="댓글을 입력해주세요" id="replyContent">
+					<button class="comment-btn" type="submit" id="submitReply">post</button>
 				</div>
 				<script type="text/javascript">
 		$(function(){

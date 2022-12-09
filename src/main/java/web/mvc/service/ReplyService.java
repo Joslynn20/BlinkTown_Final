@@ -12,6 +12,7 @@ public interface ReplyService {
 	 * (댓글번호는 시퀀스로 생성된다)
 	 * */
 	Reply insertReply(Reply reply);
+//	Reply insertReply(Reply reply, Users users);
 		
 	
 	/**

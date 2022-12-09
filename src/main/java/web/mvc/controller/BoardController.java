@@ -133,17 +133,10 @@ public class BoardController {
 	 * 파일등록을 포함한 게시물등록하기
 	 * */
 	@RequestMapping("/upload")
-	public ModelAndView insertBoard(Board board, MultipartFile file, HttpSession session, String boardRegDateTest) {
-		//Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//board.setUsers(users);
-		
-		//String saveDir = session.getServletContext().getRealPath("/resources/save");
+	public ModelAndView insertBoard(Board board, MultipartFile file, HttpSession session) {
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
 		String saveDir = session.getServletContext().getRealPath("/save/boardImg");
-		
-		String [] s = boardRegDateTest.split("-");
-		LocalDate date = LocalDate.of(Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]));
-		board.setBoardRegDate(date);
-		
 		String originalFileName = file.getOriginalFilename();
 		
 		try {
@@ -153,21 +146,13 @@ public class BoardController {
 			e.printStackTrace();
 		}
 
-		board.setBoardImg(originalFileName);
+		board.setBoardImg("boardImg/"+originalFileName);
 		
 		boardService.insertBoard(board);
+//		boardService.insertBoard(board, users);
 		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.addObject("users", board.getUsers());
-		mv.addObject("boardTitle", board.getBoardTitle());
-		mv.addObject("boardContent", board.getBoardContent());		
-		mv.addObject("boardImg", saveDir+ "/" + originalFileName);
-		mv.addObject("boardRegDate", board.getBoardRegDate());
-		
-		mv.addObject("boardLikeNo", board.getBoardLikeNo());		
-		mv.setViewName("/board/uploadResult");
-
+		ModelAndView mv = new ModelAndView();	
+		mv.setViewName("/success/success");
 		return mv;
 	}
 		

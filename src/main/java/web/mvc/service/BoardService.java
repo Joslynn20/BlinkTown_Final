@@ -39,6 +39,7 @@ public interface BoardService {
 	 * : 아이디, 제목, 내용, 이미지(없어도 됨), 작성일, 좋아요 수(기본 0으로)
 	 * */
 	void insertBoard(Board board);
+//	void insertBoard(Board board, Users users);
 
     /**
      * 게시글 삭제하기
