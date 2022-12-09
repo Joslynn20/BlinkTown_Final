@@ -104,7 +104,7 @@
 							str+=" <img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
 							str+='<div class="profile-text"><p class="username">'+result.nicList[index] +'</p>';
 							str+='<p class="sub-text">'+item.replyContent+'</p></div>';
-							str+="<button class='action-btn'><i class='fi fi-br-cross'></i></button>";
+							str+="<button class='action-btn' name='"+item.replyNo +"'><i class='fi fi-br-cross'></i></button>";
 							str+='</div>';
 						})														
 						$("#reply").html(str);							
