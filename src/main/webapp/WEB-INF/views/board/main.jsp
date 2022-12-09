@@ -22,12 +22,12 @@
 			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
 		</div>
 			<div class="et-hero-tabs-container">
-				<a class="et-hero-tab" href="#tab-es6">BlackPink</a> <a
-					class="et-hero-tab" href="#tab-flexbox">Jisoo</a> <a
-					class="et-hero-tab" href="#tab-react">Jennie</a> <a
-					class="et-hero-tab" href="#tab-angular">Rose</a> <a
-					class="et-hero-tab" href="#tab-other">Lisa</a> <span
-					class="et-hero-tab-slider"></span>
+				<a class="et-hero-tab" href="#tab-es6" >BlackPink</a>
+				<a class="et-hero-tab" href="#tab-flexbox">Jisoo</a> 
+				<a class="et-hero-tab" href="#tab-react">Jennie</a> 
+				<a class="et-hero-tab" href="#tab-angular">Rose</a> 
+				<a class="et-hero-tab" href="#tab-other">Lisa</a> 
+				<span class="et-hero-tab-slider"></span>
 			</div>
 		</section>
 
@@ -37,52 +37,30 @@
 				<div class="cover">
 					<p class="first-parallel"></p>
 				</div>
-				<br>
-			
 				<div class="et-slide-wrap">
-
+	
 					<h3>BLACKPINK</h3>
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<li><a href="/board/details" target="_blank "
-										class="profile">
-											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
-											alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
+								
+									<c:set var="doneLoop" value="false"/>   
+									 
+									<c:forEach items="${mainPageList}" var="mainImage" varStatus="state">
+										    <c:if test="${state.count > 6}">
+										       <c:set var="doneLoop" value="true"/>
+										    </c:if> 
+										    <c:if test="${not doneLoop}" >
+										    <li>
+										    <a href="${pageContext.request.contextPath}/board/details/${mainImage.boardNo}"
+										    target="_blank " class="profile">
+										 		 <h3 class="profile__name">${mainImage.boardTitle}</h3>
+									           <img src="${pageContext.request.contextPath}/save/${mainImage.boardImg}">
+									        </a>  
+									        </c:if>		
+								           </li>
+									</c:forEach> 
 								</ul>
 							</div>
 						</article>
@@ -95,70 +73,34 @@
 									<th>제목</th>
 									<th>작성자</th>
 									<th>작성일</th>
-									<th>조회수</th>
+									<th>댓글수</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
 					<div class="tbl-content">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>
-								<tr>
-									<td>01</td>
-									<td>여기는 전체리스트 게시판이에요!</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
+	<table cellpadding="0" cellspacing="0" border="0">
+		<tbody>
+			<c:choose>
+		    <c:when test="${empty mainPageList}">
+			<tr>
+		        <td colspan="5">
+		            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+		        </td>
+				    </tr>
+				    </c:when>	    
+					    <c:otherwise>
+						<c:forEach items="${mainPageList}" var="mainBoard">
+							    <tr>
+									<td>${mainBoard.boardNo}</td>
+									<td><a href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}">${mainBoard.boardTitle}</a></td>
+									<td>${mainBoard.users.usersId}</td>
+									<td>${mainBoard.boardRegDate}</td>
+									<td>${mainBoard.replyList.size()}</td>
 								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
+					    </c:forEach>
+						</c:otherwise>
+					    </c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -175,43 +117,21 @@
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<li><a href="/shop/details" target="_blank "
-										class="profile">
-											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
-											alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
+									<c:set var="doneLoop" value="false"/>   									 
+									<c:forEach items="${jisooList}" var="jisooImage" varStatus="state">
+										    <c:if test="${state.count > 6}">
+										       <c:set var="doneLoop" value="true"/>
+										    </c:if>     
+										    <c:if test="${not doneLoop}" >
+										    <li>
+										    <a href="${pageContext.request.contextPath}/board/details/${jisooImage.boardNo}"
+										    target="_blank " class="profile">
+										 		 <h3 class="profile__name">${jisooImage.boardTitle}</h3>
+									           <img src="${pageContext.request.contextPath}/save/${jisooImage.boardImg}">
+									        </a>  
+									        </c:if>		
+								           </li>
+									</c:forEach> 
 								</ul>
 							</div>
 						</article>
@@ -224,28 +144,35 @@
 									<th>제목</th>
 									<th>작성자</th>
 									<th>작성일</th>
-									<th>조회수</th>
+									<th>댓글수</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>
+							<tbody>			
+								<c:choose>
+							    <c:when test="${empty jisooList}">
 								<tr>
-									<td>01</td>
-									<td>여기는 JISOO 게시판이에요!</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
+							        <td colspan="5">
+							            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+							        </td>
+							    </tr>
+							    
+							    </c:when>	    
+							    <c:otherwise>
+								<c:forEach items="${jisooList}" var="jisooBoard">
+									    <tr>
+											<td>${jisooBoard.boardNo}</td>
+											<td><a href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}">${jisooBoard.boardTitle}</a></td>
+											<td>${jisooBoard.users.usersId}</td>
+											<td>${jisooBoard.boardRegDate}</td>
+											<td>${jisooBoard.replyList.size()}</td>
+										</tr>
+							    </c:forEach>
+								</c:otherwise>
+							    </c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -262,43 +189,21 @@
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<li><a href="/shop/details" target="_blank "
-										class="profile">
-											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
-											alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
+									<c:set var="doneLoop" value="false"/>   									 
+									<c:forEach items="${jennieList}" var="jennieImage" varStatus="state">
+										    <c:if test="${state.count > 6}">
+										       <c:set var="doneLoop" value="true"/>
+										    </c:if>  
+										    <c:if test="${not doneLoop}" >
+										    <li>
+										    <a href="${pageContext.request.contextPath}/board/details/${jennieImage.boardNo}"
+										    target="_blank " class="profile">
+										 		 <h3 class="profile__name">${jennieImage.boardTitle}</h3>
+									           <img src="${pageContext.request.contextPath}/save/${jennieImage.boardImg}">
+									        </a>  
+									        </c:if>		
+								           </li>
+									</c:forEach> 
 								</ul>
 							</div>
 						</article>
@@ -311,7 +216,7 @@
 									<th>제목</th>
 									<th>작성자</th>
 									<th>작성일</th>
-									<th>조회수</th>
+									<th>댓글수</th>
 								</tr>
 							</thead>
 						</table>
@@ -319,20 +224,27 @@
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tbody>
-								<tr>
-									<td>01</td>
-									<td>여기는 JENNIE 게시판이에요!</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
+							<c:choose>
+						    <c:when test="${empty jennieList}">
+							<tr>
+						        <td colspan="5">
+						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+						        </td>
+						    </tr>
+						    
+						    </c:when>	    
+						    <c:otherwise>
+							<c:forEach items="${jennieList}" var="jennieBoard">
+								    <tr>
+										<td>${jennieBoard.boardNo}</td>
+										<td><a href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}">${jennieBoard.boardTitle}</a></td>
+										<td>${jennieBoard.users.usersId}</td>
+										<td>${jennieBoard.boardRegDate}</td>
+										<td>${jennieBoard.replyList.size()}</td>
+									</tr>
+						    </c:forEach>
+							</c:otherwise>
+						    </c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -349,43 +261,21 @@
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<li><a href="/shop/details" target="_blank "
-										class="profile">
-											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
-											alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
+									<c:set var="doneLoop" value="false"/>   									 
+									<c:forEach items="${roseList}" var="roseImage" varStatus="state">
+										    <c:if test="${state.count > 6}">
+										       <c:set var="doneLoop" value="true"/>
+										    </c:if>  
+										    <c:if test="${not doneLoop}" >
+										    <li>
+										    <a href="${pageContext.request.contextPath}/board/details/${roseImage.boardNo}"
+										    target="_blank " class="profile">
+										 		 <h3 class="profile__name">${roseImage.boardTitle}</h3>
+									           <img src="${pageContext.request.contextPath}/save/${roseImage.boardImg}">
+									        </a>  
+									        </c:if>		
+								           </li>
+									</c:forEach> 
 								</ul>
 							</div>
 						</article>
@@ -398,7 +288,7 @@
 									<th>제목</th>
 									<th>작성자</th>
 									<th>작성일</th>
-									<th>조회수</th>
+									<th>댓글수</th>
 								</tr>
 							</thead>
 						</table>
@@ -406,20 +296,27 @@
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tbody>
-								<tr>
-									<td>01</td>
-									<td>여기는 ROSE 게시판이에요!</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
+							<c:choose>
+						    <c:when test="${empty roseList}">
+							<tr>
+						        <td colspan="5">
+						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+						        </td>
+						    </tr>
+						    
+						    </c:when>	    
+						    <c:otherwise>
+							<c:forEach items="${roseList}" var="roseBoard">
+								    <tr>
+										<td>${roseBoard.boardNo}</td>
+										<td><a href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}">${roseBoard.boardTitle}</a></td>
+										<td>${roseBoard.users.usersId}</td>
+										<td>${roseBoard.boardRegDate}</td>
+										<td>${roseBoard.replyList.size()}</td>
+									</tr>
+						    </c:forEach>
+							</c:otherwise>
+						    </c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -436,43 +333,21 @@
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<li><a href="/shop/details" target="_blank "
-										class="profile">
-											<h3 class="profile__name">안녕하세요~~~~~제니에요</h3> <img
-											alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
-									<li><a href="#" target="_blank " class="profile">
-											<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-												FIGURE_ JISOO</h3> <img alt="Anita Simmons"
-											src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-									</a></li>
-
+									<c:set var="doneLoop" value="false"/>   									 
+									<c:forEach items="${lisaList}" var="lisaImage" varStatus="state">
+										    <c:if test="${state.count > 6}">
+										       <c:set var="doneLoop" value="true"/>
+										    </c:if>  
+										    <c:if test="${not doneLoop}" >
+										    <li>
+										    <a href="${pageContext.request.contextPath}/board/details/${lisaImage.boardNo}"
+										    target="_blank " class="profile">
+										 		 <h3 class="profile__name">${lisaImage.boardTitle}</h3>
+									           <img src="${pageContext.request.contextPath}/save/${lisaImage.boardImg}">
+									        </a>  
+									        </c:if>		
+								           </li>
+									</c:forEach> 
 								</ul>
 							</div>
 						</article>
@@ -485,7 +360,7 @@
 									<th>제목</th>
 									<th>작성자</th>
 									<th>작성일</th>
-									<th>조회수</th>
+									<th>댓글수</th>
 								</tr>
 							</thead>
 						</table>
@@ -493,20 +368,27 @@
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tbody>
-								<tr>
-									<td>01</td>
-									<td>여기는 LISA 게시판이에요!</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
+							<c:choose>
+						    <c:when test="${empty lisaList}">
+							<tr>
+						        <td colspan="5">
+						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+						        </td>
+						    </tr>
+						    
+						    </c:when>	    
+						    <c:otherwise>
+							<c:forEach items="${lisaList}" var="lisaBoard">
+								    <tr>
+										<td>${lisaBoard.boardNo}</td>
+										<td><a href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}">${lisaBoard.boardTitle}</a></td>
+										<td>${lisaBoard.users.usersId}</td>
+										<td>${lisaBoard.boardRegDate}</td>
+										<td>${lisaBoard.replyList.size()}</td>
+									</tr>
+						    </c:forEach>
+							</c:otherwise>
+						    </c:choose>
 							</tbody>
 						</table>
 					</div>

@@ -36,19 +36,21 @@ import web.mvc.domain.Orders;
 import web.mvc.domain.Product;
 import web.mvc.domain.Users;
 import web.mvc.dto.Cart;
+import web.mvc.dto.OrderdetailsListDTO;
 import web.mvc.service.OrdersService;
 import web.mvc.session.Session;
 
 //@RestController
 @Controller
+@RequestMapping("/orders")
 public class OrdersController {
 	
 	@Autowired
 	private OrdersService ordersService;
 	@Autowired
 	private OrdersVerifyController ordersVerifyController;
-	@Autowired
-	private CartController cartController;
+//	@Autowired
+//	private CartController cartController;
 	
 	/**상수관리*/
 	private final static int PAGE_COUNT=10;//페이지당 출력 숫자
@@ -199,9 +201,10 @@ public class OrdersController {
 ////			@RequestParam List<Cart> cartList)
 //			{
 //		//테스트용
-//		Product product=Product.builder().productCode(productCode)
-//				.productMembershipOnly(0)
-//				.build();
+//		Product product=new Product();
+//		product.setProductCode(productCode);
+//		product.setProductMembershipOnly(0);
+			
 //		Cart cart=new Cart(product, cartQty, cartPrice);
 //		List<Cart> cartList=new ArrayList<Cart>();
 //		cartList.add(cart);
@@ -214,36 +217,7 @@ public class OrdersController {
 //		ordersService.selectCheckBeforeOrders(users, cartList);
 //	}
 	///////////////////////////////////////////////////
-	/**테스트용*/
-	@RequestMapping("/ordersTestAfter/beforeOrdersTest")
-	public void testBefore() {}
-	/**테스트용 간편*/
-	@RequestMapping("/ordersTest")
-	public String testBe() {
-		return "ordersTestAfter/beforeOrdersTest";
-	}
-///////////////////////////////////////////////////////////////////////////////
-	/*바로주문*/
-	@RequestMapping("/ordersTestAfter/ordersFinalTest")
-	public void formtest(
-			String productCode, Integer cartQty, Integer cartPrice , Model model){
-//		Product product=Product.builder().productCode(productCode)
-//				.productMembershipOnly(0)
-//				.build();
-//		Orderdetails orderdetails=Orderdetails.builder().product(product)
-//		.orderdetailsPrice(cartPrice).orderdetailsQty(cartQty).build();
-		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
-//		orderdetailsList.add(orderdetails);
-		model.addAllAttributes(orderdetailsList);
-		Users users=Users.builder().usersId("user").build(); 
-		//////////테스트용 생성///////////////////////////////////////////
-		//실 사용 security
-//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//재고량 체크
-//		ordersService.selectCheckBeforeOrders(users, cartList);
-		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
-		ordersService.selectCheckBeforeOrders(users, orders);
-	}
+	
 	/**
 	 * 주문폼으로 넘겨주는 진입점(장바구니 혹은 바로구매에서 진입)
 	 * 상품 구매 버튼에 입력할 경로
@@ -267,66 +241,186 @@ public class OrdersController {
 	 * 3-3) 주문전 체크 : 이상 발생시 RunTimeException 발생
 	 *   -> 주문수량-상품재고량 : if 재고량이 1이상일때 / 재고량==0이거나, 재고량-구매수량<0 이면 실패
 	 */
-//	@RequestMapping("/user/beforeOrdersForm")
-//	public String checkBeforeDirectOrders(
-//			String productCode, Integer cartQty, Integer cartPrice
+	/**(일반회원) 바로구매or카트구매시 주문폼으로 가는 컨트롤러*/
+	@RequestMapping("/user/beforeOrdersForm")
+	public String UserCheckBeforeOrdersForm(
+			Model model,
+			String productCode, Integer cartQty, Integer cartPrice
+//			,Product product
 //			,
-////			)
-//			@RequestParam List<Cart> cartList) 
-//			{
-//		//테스트용
-//		Product product=Product.builder().productCode(productCode)
-//				.productMembershipOnly(0)
-//				.build();
-//		Cart cart2=new Cart(product, cartQty, cartPrice);
-////		List<Cart> cartList=new ArrayList<Cart>();
-////		model.addAllAttributes(cartList);
-//		cartList.add(cart2);
-//		Users users=Users.builder().usersId("user").build(); 
-//		///테스트용 생성//
+			)
+//			@RequestParam 
+//			List<Cart> cartList) 
+			{
+		//테스트용
+		Product product=new Product();
+		product.setProductCode(productCode);
+		product.setProductMembershipOnly(0);
+				
+		Cart cart2=new Cart(product, cartQty, cartPrice);
+		List<Cart> cartList=new ArrayList<Cart>();
+		cartList.add(cart2);
+		Users users=Users.builder().usersId("user").build(); 
+		///테스트용 생성/////////////////////////////
 //		
-////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//		//권한과 맞는지 설정
-//		for(Cart cart:cartList) {
-//			if (cart.getProduct().getProductMembershipOnly()==1) 
-//				throw new RuntimeException("멤버쉽 가입 후 이용해 주세요");
-//		}
-//		//재고량 체크
-//		ordersService.selectCheckBeforeOrders(users, cartList);
-////		return "/orders/ordersForm";
-//		return "/ordersTest/ordersFinalTest";//테스트용 뷰 연결
-//	}
+		//카트의 상품을 orderdetails 리스트로 담기
+		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+		//+카트속 상품이 권한과 맞는지 체크
+		for(Cart cart:cartList) {
+			if (cart.getProduct().getProductMembershipOnly()==1) 
+				throw new RuntimeException("멤버쉽 가입 후 이용해 주세요");
+			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty()).product(product).build();
+			orderdetailsList.add(orderdetails);
+		}
+		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//재고량 체크
+		ordersService.selectCheckBeforeOrders(users, orders);
+		model.addAttribute("orderdetailsList", orderdetailsList);
+//		return "/orders/ordersForm";
+		return "/orders/ordersTest/ordersFinalTest";//테스트용 뷰 연결
+	}
 
 	/**
 	 * 3-2. 멤버쉽회원 바로 주문하기/카트 주문하기
 	 * @param cartList
-	 * @return
+	 * @return Model -> orderdetailsList (상세내역 리스트)
 	 */
-//	@RequestMapping("/member/beforeOrdersForm")
-//	public String memberCheckBeforeDirectOrders(
-//			String productCode, Integer cartQty, Integer cartPrice //테스트용
-////			)
+	@RequestMapping("/member/beforeOrdersForm")
+	public String memberCheckBeforeOrdersForm(
+			Model model,
+			String productCode, Integer cartQty, Integer cartPrice
+//			,Product product
 //			,
-//			@RequestParam List<Cart> cartList) 
-//			{
-//		//테스트용
-//		Product product=Product.builder().productCode(productCode)
+			)
+//			@RequestParam 
+//			List<Cart> cartList) 
+			{
+		//테스트용
+		Product product=new Product();
+		product.setProductCode(productCode);
+		product.setProductMembershipOnly(0);
+				
+		Cart cart2=new Cart(product, cartQty, cartPrice);
+		List<Cart> cartList=new ArrayList<Cart>();
+		cartList.add(cart2);
+		Users users=Users.builder().usersId("user").build(); 
+		///테스트용 생성/////////////////////////////
+//		
+		//카트의 상품을 orderdetails 리스트로 담기
+		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+		for(Cart cart:cartList) {
+			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty()).product(product).build();
+			orderdetailsList.add(orderdetails);
+		}
+		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//재고량 체크
+		ordersService.selectCheckBeforeOrders(users, orders);
+		model.addAttribute("orderdetailsList", orderdetailsList);
+//		return "/orders/ordersForm";
+		return "/orders/ordersTest/ordersFinalTest";//테스트용 뷰 연결
+	}
+////////////////////////////////////////////////////////////////
+	
+	/**
+	 * 주문폼 갈 때 메소드
+	 */
+	@RequestMapping("/ordersTestAfter/ordersFinalTest")
+	public void formtest(
+			Model model
+//			,
+//			String productCode, 
+//			Integer productMembershipOnly,
+//			Integer cartQty, Integer cartPrice,
+//			Product product,
+//			int orderdetailsQty, int orderdetailsPrice,
+//			@RequestParam
+//			(value="cart")
+//			(required=false)
+//			List<Cart> cartList,
+//			@RequestBody
+//			OrderdetailsListDTO orderdetailsList
+//			@RequestParam
+//			List<Orderdetails> orderdetailsList
+			){
+		//테스트용도
+
+		Product product1=new Product();
+		product1.setProductCode("A01");
+		product1.setProductMembershipOnly(0);
+		Product product2=new Product();
+		product2.setProductCode("A05");
+		product2.setProductMembershipOnly(0);
+		
+		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
+		Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(2000).orderdetailsQty(2)
+//				.product(product)
+				.product(product1)
+//				.product(cart.getProduct())
+				.build();
+		Orderdetails orderdetails2=Orderdetails.builder().orderdetailsPrice(1000).orderdetailsQty(1)
+//				.product(product)
+				.product(product2)
+//				.product(cart.getProduct())
+				.build();
+		orderdetailsList.add(orderdetails);
+		orderdetailsList.add(orderdetails2);
+		
+		
+		//테스트용
+//		Product product=Product.builder()
+//				.productCode(productCode)
 //				.productMembershipOnly(0)
 //				.build();
-//		Cart cart=new Cart(product, cartQty, cartPrice);
-////		List<Cart> cartList=new ArrayList<Cart>();
-////		model.addAllAttributes(cartList);
-//		cartList.add(cart);
-//		Users users=Users.builder().usersId("user").build(); 
-//		///테스트용 생성//
-//		//실 사용 security
-////		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		//재고량 체크
-//		ordersService.selectCheckBeforeOrders(users, cartList);
-////		return "/orders/ordersForm";
-//		return "/ordersTest/ordersFinalTest";//테스트용 뷰 연결
-//	}
+//		Cart cart2=new Cart(product, cartQty, cartPrice);
+//		List<Cart> cartList=new ArrayList<Cart>();
+//		cartList.add(cart2);
+		
+//		for(Cart cart:orderdetailsList.getCartList()) {
+//			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty())
+////					.product(product)
+//					.product(
+//					Product.builder()
+//					.productCode(productCode)
+//					.productMembershipOnly(0)
+//					.build())
+////					.product(cart.getProduct())
+//					.build();
+//			orderdetailsList.getOrderdetailsList().add(orderdetails);
+//		}
+		
+		Users users=Users.builder().usersId("user").build(); 
+		///테스트용 생성/////////////////////////////
+		
+		//카트의 상품을 orderdetails 리스트로 담기
+//		for(Cart cart:orderdetailsList.getCartList()) {
+//			Orderdetails orderdetails=Orderdetails.builder().orderdetailsPrice(cart.getCartPrice()).orderdetailsQty(cart.getCartQty())
+//					.product(cart.getProduct())
+//					.build();
+//			orderdetailsList.getOrderdetailsList().add(orderdetails);
+//		}
+//		System.out.println("detailsList="+orderdetailsList.getOrderdetailsList().get(0).getOrderdetailsPrice());
+		
+//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//재고량 체크
+		Orders orders=Orders.builder().orderdetailsList(orderdetailsList).build();
+//		Orders orders=Orders.builder().orderdetailsList(orderdetailsList.getOrderdetailsList()).build();
+		ordersService.selectCheckBeforeOrders(users, orders);
+//		model.addAttribute("orderdetailsList", orderdetailsList.getOrderdetailsList());
+		model.addAttribute("orderdetailsList", orderdetailsList);
+//		return "/orders/ordersForm";
+	}
+
+	/**테스트용*/
+	@RequestMapping("/ordersTestAfter/beforeOrdersTest")
+	public void testBefore() {}
+	/**테스트용 간편*/
+	@RequestMapping("/test")
+	public String testBe() {
+		return "redirect:/orders/ordersTestAfter/ordersFinalTest";
+//		return "/orders/ordersTestAfter/beforeOrdersTest";
+	}
 ///////////////////////////////////////////////////////////////	
 	/**
 	 * 4. 주문
@@ -347,55 +441,51 @@ public class OrdersController {
 	 *     ->결제완료후 검증까지 필요 ->이후 세션 삭제
 	 * 
 	 */
-	@RequestMapping("/orders/checkout")
+	@RequestMapping("/checkout")
 	@ResponseBody
 	public Map<String, Object>  insertOrdersOrderdetails(
 			Orders orders
-//			, 
-//			@RequestBody(value = "cartList") 
-//			@RequestParam List<Cart> cartList //List엔 RequestParam사용
-//			, HttpSession session)
+			, 
+//			@RequestBody
+//			@RequestParam
+			OrderdetailsListDTO orderdetailsList
 			){
+//		System.out.println("orderdetailsList = " + orderdetailsList);
+//		 System.out.println("size = "+orderdetailsList.getOrderdetailsList().size());
+//		 System.out.println("info = "+orderdetailsList.getOrderdetailsList());
+		 //System.out.println("info = "+);
+		 //orderdetailsList.getOrderdetailsList().forEach(o-> System.out.println(o));
+		
 		//orderdetails값 넣는수단 강구 필요->DTO사용할 것
 		
 		//받은 카트 리스트를 주문에 담기
-//		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
-//		Orderdetails beforedetails=new Orderdetails();
-//		for(Cart cart:cartList) {
-//			beforedetails.setProduct(cart.getProduct());
-//			beforedetails.setOrderdetailsPrice(cart.getCartPrice());
-//			beforedetails.setOrderdetailsQty(cart.getCartQty());
-//			orderdetailsList.add(beforedetails);
-//		}
-//		orders.setOrderdetailsList(orderdetailsList);	
-		////////////////////////////////////////////////////
-		System.out.println("checkout출력 테스트 = " + orders.getOrdersAddr());
-
-		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();
+		List<Orderdetails> orderdetailsDomainList=new ArrayList<Orderdetails>();
+		for(Orderdetails dtoDetails : orderdetailsList.getOrderdetailsList()) {
+			orderdetailsDomainList.add(dtoDetails);
+		}
+		orders.setOrderdetailsList(orderdetailsDomainList);
 		int amount=0;
-		for(Orderdetails orderdetails : orderdetailsList){
+		for(Orderdetails orderdetails : orderdetailsDomainList){
 			amount+=orderdetails.getOrderdetailsPrice();
 		}
-		
-		System.out.println("ordersdetailsList"+orderdetailsList); //값 안들어오니까 dto사용할 것
+		System.out.println("orderdetailsList"+orderdetailsList); //값 안들어오니까 dto사용할 것
 		System.out.println("amount="+amount);
-		amount=1000;//테스트용
+//		amount=1000;//테스트용*/
 		
 		//주문상태 결제중으로 입력
 		orders.setOrdersStatus(STATUS_BEFORE);
 //		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Users users=Users.builder().usersId("user").build(); //////////테스트용 생성
 		
-		//결제 창 호출위해 결과값 담기
-//		Orders finishOrders=ordersService.insertOrdersOrderdetails(users, orders, cartList);
+		//결제 창 호출위해 결과값 담기, cartList);
 		Orders finishOrders=ordersService.insertOrdersOrderdetails(users, orders);
 		
 		//ajax로 리턴값 Map으로 보냄->jason 사용, mappedby ignore설정완료
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orders", finishOrders);
 		map.put("amount", amount);
-		System.out.println("checkout끝");//확인용 출력
 		
+		System.out.println("checkout끝");//확인용 출력
 		return map;
 	}
 	
@@ -410,7 +500,9 @@ public class OrdersController {
 	 */
 	@ResponseBody
 	@RequestMapping("/verifyIamport")
-	public void ordersVerifyPayment(String imp_uid, HttpSession session) {
+	public void ordersVerifyPayment(String imp_uid, HttpSession session
+			, Principal principal
+			) {
 		try {
 		//검증메소드 호출 및 검증위한 변수 저장
 		IamportResponse<Payment> resultData=ordersVerifyController.paymentByImpUid(imp_uid);
@@ -422,21 +514,23 @@ public class OrdersController {
 		
 //		session.removeAttribute("cartList"); //세션 사용 안함, dto 삭제
 		//이상 없을시 장바구니 세션 삭제->dto삭제 메소드 호출
-		cartController.deleteAllCart(session);
+//		Users users=(Users)principal;
+//		cartController.deleteAllCart(users);
+//		cartController.deleteAllCart(session);
 		//장바구니DTO 삭제
 		}catch (Exception e) {
 			//결제취소 메소드 넣기
 			//일단 필요없으니 보류
 			System.out.println("오류 발생 : 결제금액 위조 (검증 실패)");
-//			new RuntimeException("결제중 오류가 발생하였습니다");
+			new RuntimeException("결제중 오류가 발생하였습니다");
 		}
 	}
 	
 	/**삭제 메소드*/
-	@RequestMapping("/orders/delete")
-	public void ordersDelete(Orders orders/* Long ordersNo */) {
+	@RequestMapping("/delete")
+	public void ordersDelete(/* Orders orders */Long ordersNo) {
 		System.out.println("삭제 컨트롤러");
-		Long ordersNo=orders.getOrdersNo();
+//		Long ordersNo=orders.getOrdersNo();
 		ordersService.deleteOrders(ordersNo);
 		System.out.println("삭제 컨트롤러 끝");
 	}
@@ -445,50 +539,8 @@ public class OrdersController {
 	////////////////////////////////////////////////////////////////////
 	//테스트용 메소드들
 	/**성공 출력 페이지-테스트용도*/
-	@RequestMapping("/ordersTest/ordersResult")
+	@RequestMapping("/ordersTestAfter/ordersTestResult")
 	public void resultUrl() {}
-	
-//	@ResponseBody
-	@RequestMapping("/ordersTest/ordersTotalTest")
-	public void insertTesturl(@RequestParam List<Cart> cartList) {
-		//주문폼 테스트용 url
-		
-//		Cart cart=new Cart(Product.builder().productCode("A01").build(), 2000, 2);
-//		Cart cart2=new Cart(Product.builder().productCode("A03").build(), 2000, 1);
-//		cartList=new ArrayList<Cart>();
-//		cartList.add(cart);
-//		cartList.add(cart2);
-//		model.addAttribute("cartList", cartList);
-//		model.addAllAttributes(cartList);
-		
-//		List<Orderdetails> orderdetailsList=new ArrayList<Orderdetails>();
-//			orderdetailsList.add(Orderdetails.
-//					builder()
-//					.orderdetailsPrice(1000)
-//					.orderdetailsQty(1)
-//					.product
-//					(Product
-//							.builder()
-//							.productCode("A01")
-//							.build())
-//					.build());
-//		model.addAllAttributes(orderdetailsList);
-			
-//		Orderdetails orderdetails=
-//		Orderdetails.
-//		builder()
-//		.orderdetailsPrice(1000)
-//		.orderdetailsQty(1)
-//		.product
-//		(Product
-//				.builder()
-//				.productCode("A01")
-//				.build())
-//		.build();
-//		
-//		model.addAttribute("orderdetails", orderdetails);
-	}
-	
 	
 	/////////////////////////////////////////
 	//확장

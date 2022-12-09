@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +44,9 @@ public class Orders {
 	@SequenceGenerator(name="Orders_gen", allocationSize=1, sequenceName="Orders_seq")
 	private Long ordersNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+//	@JsonIgnore
+//	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="users_id")
 	private Users users; //코드 합칠때 객체 주소 주의
 	
@@ -63,7 +66,8 @@ public class Orders {
 	private LocalDateTime ordersDate;
 	
 	//LAZY , 주문결제-취소시 삭제 필요하여 cascade설정
-	@JsonIgnore
+//	@JsonManagedReference //안됨
+	@JsonIgnore 
 	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL) 
 	private List<Orderdetails> orderdetailsList;
 }

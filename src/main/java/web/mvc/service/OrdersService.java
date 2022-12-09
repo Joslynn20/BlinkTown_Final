@@ -25,7 +25,12 @@ public interface OrdersService {
 	 *  
 	 */
 	Page<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate, Pageable pageable);
-
+	
+	/**
+	 * 관리자용 주문목록 스크롤 사용
+	 */
+	List<Orders> selectAllOrdersAdmin();
+	
 	/**
 	 * 주문 상세 내역 조회
 	 * - 인수 : 주문정보, 페이징처리 정보->우선 안하는 방향으로

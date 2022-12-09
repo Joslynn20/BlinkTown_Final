@@ -1,17 +1,26 @@
 package web.mvc.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Board;
 import web.mvc.domain.Reply;
+import web.mvc.domain.Users;
+import web.mvc.repository.ReplyRepository;
 import web.mvc.service.BoardService;
 import web.mvc.service.ReplyService;
 
-@Controller
+@RestController
 @RequestMapping("/reply")
 @RequiredArgsConstructor
 public class ReplyController {
@@ -20,37 +29,61 @@ public class ReplyController {
 	private final BoardService boardService;
 	
 	/**
-	 * 댓글 작성폼
-	 * */
-	@RequestMapping("/writeForm")
-	public String writeForm(Long boardNo, Model model) {
-		model.addAttribute("boardNo", boardNo);
-		return "/reply/write";
-	}
-	
-	/**
 	 * 댓글 등록하기
+	 * ->ajax로 사용
+	 * ->text형태로
 	 * */
-	@RequestMapping("/insert")
-	public String insertReply(Reply reply, Long boardNo) {
-		//Board board = new Board();//1개짜리 생성자만들기
-		Board board=Board.builder().boardNo(boardNo).build();
-		reply.setBoard(board);
+	@RequestMapping("/details/{boardNo}")
+	public Reply insertReply(String replyContent, @PathVariable Long boardNo) { 
+		//System.out.println("replyContent="+replyContent);
+		//System.out.println("boardNo"+boardNo);
 		
-		replyService.insertReply(reply);
+		//Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		return "redirect:/board/read/"+boardNo+"?flag=1";
+		Board board=boardService.selectByBoardNo(boardNo);
+		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(Users.builder().usersId("jisoo").build()).build();
+		Reply newReply=replyService.insertReply(beforeReply);
+		return newReply;
 	}
 	
 	/**
 	 * 댓글 삭제하기
 	 * */
-	@RequestMapping("/delete/{replyNo}/{boardNo}")
-	public String deleteReply(@PathVariable Long replyNo, @PathVariable Long boardNo) {
+	@RequestMapping("/delete")
+	public String deleteReply( Long replyNo,  Long boardNo) {
+		System.out.println("replyNo= "+replyNo);
+		System.out.println("boardNo= "+boardNo);
 		replyService.deleteReply(replyNo);
 		
-		return "redirect:/board/read/"+boardNo+"?flag=1";
+		return "ok";
+	}
+	
+	/**
+	 * 부모글에 해당되는 댓글 가져오기
+	 * */
+	@RequestMapping("/select")
+	public Map<String, Object> selectReply(Long boardNo) {
+		System.out.println("boardNo = " + boardNo);
+		List<Reply> replyList = replyService.findByBoardOrderByReplyNoDesc(boardNo);
+		System.out.println("replyList = " + replyList);
+		Map<String, Object> map = new HashMap<>();
+		
+		List<String> nicList = new ArrayList<String>();
+		for(Reply r : replyList) {
+			nicList.add(r.getUsers().getUsersNickName());
+		}
+		map.put("nicList", nicList);
+		map.put("replyList", replyList);
+		
+		return map;
 	}
 		
 	
 }
+
+
+
+
+
+
+

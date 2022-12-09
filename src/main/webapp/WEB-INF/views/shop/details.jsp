@@ -9,50 +9,50 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/shop/details.css">
-	<script type="text/javascript">
-		$(function() {
-			$("#addCart").on("click", function() {
-				$.ajax({
-					type:"POST",
-					url:"${pageContext.request.contextPath}/cart/insert",
-					data:{"productCode":"${product.productCode}", "productName":"${product.productName}", "productMainImg":$("#productImg").attr("src"),
-						"productEngName":"${product.productEngName}","productPrice":"${product.productPrice}", "qty":$("input[type=number]").val()},	
-					dataType:"text",
-					success:function(result){
-						if(confirm('장바구니 추가 완료했습니다. 장바구니로 이동하시겠습니까?')){
-							location.href="${pageContext.request.contextPath}/cart/select";
-						}
-					},
-					error:function(error){
-						alert(error);
-					}
-				});
-			});
-		})
-	</script>
+</head>
 </head>
 <body>
 	<div id='contents' class="contents-wrap">
 		<div class="container">
 			<div class="product-img">
-				<img id="productImg" src="${pageContext.request.contextPath}/img/FIGURE_JENNIE2.png">
+				<img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE2.png">
 			</div>
 		</div>
 		<div class="product-cont">
 			<div class="column-col">
 				<div class="product-col-img">
 					<img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png">
-					
+					<button class="accordion"><spring:message code="GoodsProductDeails"/> </button>
+					<div class="panel">
+						<br>
+						<h4>[<spring:message code="GoodsSize"/>]</h4>
+						<p>15.7 x 15.5 x 23cm / 약 203.5g</p>
+						<br>
+
+						<h4>[<spring:message code="GoodsMaterial"/>]</h4>
+						<p>PVC, ABS, STAINLESS STEEL</p>
+						<br>
+
+						<h4>[<spring:message code="GoodsCountry"/>]</h4>
+						<p>Thailand</p>
+						<br>
+
+						<h4>[<spring:message code="GoodsCautions"/>]</h4>
+						<p>
+						<spring:message code="GoodsCautionsDetails"/>
+						</p>
+						<br> <br> <br>
+					</div>
 				</div>
 				<div class="product-text-wrap">
 				<div class="product-text">
 					<div>
 						<a href="">MEMBERSHIP</a>
 					</div>
-					<p>[${product.productEngName}]<br><h5>${product.productName}</h5></p>
+					<p>[EUP23] BLACKPINK COLLECTIBLE FIGURE_ JISOO</p>
 					<div id='detail-price'>
 						<div class='amount'>
-							<span id='won'><spring:message code="Won"/></span><span id='num'>${product.productPrice}</span>
+							<span id='won'><spring:message code="Won"/></span><span id='num'>000,000</span>
 						</div>
 					
 						<div class="product-quantity">
@@ -60,7 +60,7 @@
 					    </div>
 					</div>
 					<button class="btn-order sell"><spring:message code="GoodsBuy"/></button>
-					<button class="button" id="addCart">
+					<button class="button">
 					    <span><spring:message code="GoodsAddCart"/></span>
 					    <div class="cart">
 					        <svg viewBox="0 0 36 26">

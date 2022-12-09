@@ -9,6 +9,60 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/shop/cart.css">
+	
+	<script type="text/javascript">
+	
+	$(function() {
+		
+		$("#deleteAll").on("click", function() {
+			if(confirm("장바구니를 비우시겠습니까?")){
+				location.href = "${pageContext.request.contextPath}/cart/deleteAll";
+			}
+		});
+			
+		$("#deleteOne").on("click", function() {
+			
+			let array = [];
+			let i = 0;
+			$('input:checkbox[name=cart-select]').each(function (index) {
+				if($(this).is(":checked")==true && $(this).val() != 'selectall'){
+			    	array[i++] = $(this).val();
+			    }
+			});	
+			
+			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath}/cart/deleteOne",
+				dataType:"json",
+				data:JSON.stringify(array),
+				contentType: 'application/json',
+				success:function(result){
+					
+					location.reload();
+				},
+				error:function(error){
+					alert(error);
+				}
+			});
+				
+		});
+	
+		calc_total();
+	})
+		
+		function calc_total(){
+			  let sum = 0;
+			  
+			  $('.price_cart').each(function(){
+				console.log($(this).text());
+			    sum += parseInt($(this).text());
+			  });
+			  console.log(sum);
+			  $("#totalPrice").html(sum);
+		}
+	
+
+	</script>
 </head>
 <body>
   <section class="cart">
@@ -21,8 +75,8 @@
         </div>
          <form>
          <div class="cart__optionbtn">
-         	<button class="cart__list__optionbtn moving-grad">선택상품 삭제</button>
-         	<button class="cart__list__optionbtn moving-grad">장바구니 비우기</button>
+         	<button class="cart__list__optionbtn moving-grad" id="deleteOne" onclick="return false;">선택상품 삭제</button>
+         	<button class="cart__list__optionbtn moving-grad" id="deleteAll" onclick="return false;">장바구니 비우기</button>
         </div>
         <table class="cart__list">   
      
@@ -41,27 +95,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="cart__list__detail">
-                        <td>
-							<div class="checkbox-animate">
-							  <label>
-							    <input type="checkbox"  name='cart-select' value='제품명'>
-							    <span class="input-check"></span>
-							  </label>
-							</div>
-						</td>
-                        <td><img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" alt="magic keyboard"></td>
-                        <td><a href="#">카테고리명</a>
-                            <p>제품명</p>
-                          
-                        <td>
-                            <p>총 주문수량: <span>1</span>개</p>
-                        </td>
-                        <td>
-							  <span class="price">11662</span><span>원</span>
-                        </td>
-                    </tr>
-           
+                <c:choose>
+                	<c:when test="${empty sessionScope.cartList}">
+                		<tr>
+                			<td colspan="9" style="text-align: center;"> <h3>장바구니 내역이 없습니다.</h3></td>
+                		</tr>
+                	</c:when>
+                	
+                	<c:otherwise>
+		                <c:forEach items="${sessionScope.cartList}" var="cart" varStatus="state">
+		                	 <tr class="cart__list__detail">
+		                        <td>
+									<div class="checkbox-animate">
+									  <label>
+									    <input type="checkbox"  name='cart-select' value='${cart.product.productCode}'>
+									    <span class="input-check"></span>
+									  </label>
+									</div>
+								</td>
+		                        <td><img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" alt="magic keyboard"></td>
+		                        <td id="productCode"><a href="#">${cart.product.productCode}</a>
+		                            <p>${cart.product.productEngName}<br>${cart.product.productName}</p>
+		         
+		                        <td>
+		                            <p>총 주문수량: <span>${cart.cartQty}</span>개</p>
+		                        </td>
+		                        <td>
+									  <span class="price_cart">${cart.cartPrice}</span><span>원</span>
+		                        </td>
+		                    </tr>
+		                </c:forEach>
+	                </c:otherwise>
+                </c:choose>
+                
+        
                 </tbody>
                
                 <tfoot>
@@ -72,7 +139,7 @@
                         <td></td>
                         <td colspan="3" style="background-color: inherit;"></td>
   
-                        <td><span class="price"><span>총 </span>116620<span>원</span></span><br>
+                        <td><span class="price"><span>총 </span><span id="totalPrice"></span></span><span>원</span></span><br>
                         </td>
                     </tr>
                     
@@ -80,7 +147,7 @@
             
         </table>
         <div class="cart__mainbtns">
-            <button class="cart__bigorderbtn left">쇼핑 계속하기</button>
+            <button class="cart__bigorderbtn left" onsubmit="location.href='${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
             <button class="cart__bigorderbtn right" type="submit">주문하기</button>
         </div>
         </form>
