@@ -3,21 +3,33 @@ package web.mvc.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import lombok.AllArgsConstructor;
+import web.mvc.security.UserAuthenticationFailureHandler;
+import web.mvc.security.UserAuthenticationProvider;
 import web.mvc.service.UsersService;
 
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	
+	@Autowired
+	private AuthenticationProvider userAuthenticationProvider;
+	
+	@Autowired
+	private UserAuthenticationFailureHandler failurehander;
+	
+
 	@Bean
-    public BCryptPasswordEncoder encodePassword() {  // 회원가입 시 비밀번호 암호화에 사용할 Encoder 빈 등록
+    public static BCryptPasswordEncoder encodePassword() {  // 회원가입 시 비밀번호 암호화에 사용할 Encoder 빈 등록
         return new BCryptPasswordEncoder();
 	}
    
@@ -46,12 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       .and()
       //.csrf().disable() // <security:csrf disabled="true"/>
       .formLogin()
-      .loginPage("/system/loginForm")
+      .loginPage("/users/loginForm")
       .loginProcessingUrl("/loginCheck")
-      .usernameParameter("id")
-      .passwordParameter("pwd")
+      .usernameParameter("usersId")
+      .passwordParameter("usersPwd")
       .defaultSuccessUrl("/")
-      .failureForwardUrl("/user/loginForm?err")
+      .failureHandler(failurehander)
       .and()
       .logout()
       .logoutUrl("/logout")
@@ -61,12 +73,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       .and();
    }
 
-	/*
-	 * @Override protected void configure(AuthenticationManagerBuilder auth) throws
-	 * Exception { // 로그인 처리를 하기 위한 AuthenticationManagerBuilder를 설정
-	 * auth.userDetailsService(UsersService).passwordEncoder(new
-	 * BCryptPasswordEncoder()); }
-	 */
+
+   
+   
+   @Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(userAuthenticationProvider);
+	}
+	
     
   
 }

@@ -22,10 +22,6 @@ public class UsersController {
 	@Autowired
 	private UsersService usersService;
 
-	/** 등록폼 */
-	@RequestMapping("/write")
-	public void write() {
-	}
 
 	/** 등록하기 */
 	
@@ -33,7 +29,7 @@ public class UsersController {
 	@ResponseBody
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
 	public boolean idCheck(String usersId) throws Exception {
-		System.out.println("id체크시직"+usersId);
+		//System.out.println("id체크시직"+usersId);
 		boolean result = usersService.UsersIdCheck(usersId);
 		return result;
 	}
@@ -62,17 +58,33 @@ public class UsersController {
 	}
 	
 	//회원가입하기
-	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	@RequestMapping(value = "/signup2", method = RequestMethod.POST)
 	public String registerPOST(Users users) throws Exception {
 		usersService.insertUser(users);
-		return "redirect:/loginForm";
+		return "system/loginForm";
 	}
 	
+	/**
+	 * 가입 폼
+	 * */
 	@RequestMapping("/signup")
 	public String moveForm() {
 		return "/system/signup";
 	}
-
+	
+	//로그인하기
+	@RequestMapping("/loginForm")
+	public String moveLoginForm() {
+		return "/system/loginForm";
+	}
+	
+	/**
+	 *예외처리
+	 **/
+	@ExceptionHandler(Exception.class)
+	public ModelAndView error(Exception e) {
+		return new ModelAndView("error/errorMessage","errorMsg",e.getMessage());
+	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**

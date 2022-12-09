@@ -41,16 +41,11 @@ public class UsersServiceImpl implements UsersService {
 		String enPwd = encoderPwd.encode(rawPwd);//해쉬
 		users.setUsersPwd(enPwd);
 		
+		 usersRep.save(users);
 		 authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_USER));
 		//authoritiesRep.save(new Authority(users.getId(),RoleConstants.ROLE_MEMBER));
-			
 		
-		
-	 usersRep.save(users);
-		
-		//
-		
-		
+	   
 
 	}
 
@@ -154,6 +149,8 @@ public class UsersServiceImpl implements UsersService {
 		}else{ //null이 아닌 경우
 			//membership(0 또는 1에 해당하는 user조회
 			usersList=usersRep.findByUsersMemberShip(usersMemberShip);
+	
+			
 		}
 	
 		
@@ -166,6 +163,9 @@ public class UsersServiceImpl implements UsersService {
 	   public void updateUsersMemberShip(Users users, boolean willMember) {
 		  if(willMember==true) users.setUsersMemberShip(1);
 		  else users.setUsersMemberShip(0);
+		  
+		  authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_MEMBER));
+
 	   }
 
 

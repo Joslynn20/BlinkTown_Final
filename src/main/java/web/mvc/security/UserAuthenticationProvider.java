@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,14 +24,17 @@ import web.mvc.service.UsersServiceImpl;
 /**
  * 인증을 처리할 클래스
  **/
-@Service //id= "memberAuthenticationProvider"
-@RequiredArgsConstructor
+@Service //id= "userAuthenticationProvider"
 public class UserAuthenticationProvider implements AuthenticationProvider {
 	
+	@Autowired
+	private  UsersRepository usesRep;
 	
-	private final UsersRepository usesRep;
-	private final AuthoritiesRepository authoritiesRep;
-	private final PasswordEncoder passwordEncoder;
+	@Autowired
+	private  AuthoritiesRepository authoritiesRep;
+	
+	@Autowired
+	private  PasswordEncoder passwordEncoder;
 
 	/**
 	 * 로그인 폼에서 전달된 userName(=id)과 password가 userNamePasswordAuthenticationToken객제로 만들어져서
@@ -42,15 +46,24 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		String id = authentication.getName();
-		
-		 Users users = usesRep.getById(id);
+		String usersId = authentication.getName();
+		System.out.println("usersId = " + usersId);
+		 Users users = usesRep.findById(usersId).orElse(null);
+		 if(users==null) {
+	            throw new UsernameNotFoundException(usersId+" 없는 아이디 입니다.");
+	        }
+		 
 		//평문과 암호화된 비번을 체크
 		String pass= (String)authentication.getCredentials().toString();
 		
+		if(!passwordEncoder.matches(pass, users.getUsersPwd())) {
+			throw  new UsernameNotFoundException("비밀번호 오류입니다.");
+		}
 		
 		//인증된 사용자의 권한 조회 
-		List<Authority> authorityList =  authoritiesRep.findByUsersId(id);
+		List<Authority> authorityList =  authoritiesRep.findByUsersId(usersId);
+		System.out.println("authorityList = " + authorityList);
+		
 		 //나온 authorityListfmf security의 권한타입(grantedAuthority)에 맞게 형변환
 		List<SimpleGrantedAuthority> simpleAuthList = new ArrayList<SimpleGrantedAuthority>();
 		for(Authority authority:authorityList) {
@@ -72,7 +85,6 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 	 * */
 	@Override
 	public boolean supports(Class<?> authentication) {
-		System.out.println("MemberAuthenticationProvider의 supports()호출됨. ");
 		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 

@@ -418,7 +418,7 @@
   
   
   <!-- Form -->
-  <form name="f1" action="${pageContext.request.contextPath}/users/signup" method="post">
+  <form name="f1" action="${pageContext.request.contextPath}/users/signup2" method="post">
   
    <!-- id input -->
     <div class="input__block">

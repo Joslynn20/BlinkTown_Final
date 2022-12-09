@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -278,7 +280,7 @@ function loginChk() {
         form.password.focus();
         return;
     }
-    form.action = "login_ok.php"; //로그않ㅏ기 눌렀을 떄
+    form.action = "${pageContext.request.contextPath}/users/login"; //로그인하기기 눌렀을 떄
     form.submit();
 }
 
@@ -305,23 +307,33 @@ function loginChk() {
   </ul>
   
   <!-- Form -->
-  <form name="f1" action="/UsersController" method="post">
+  
+   <c:if test="${errorMessage!=null}">
+     <b style="color:red">error : ${errorMessage}</b>
+   </c:if>
+  
+  <form name="f1" action="${pageContext.request.contextPath}/loginCheck" method="post">
     <!-- email input -->
     <div class="first-input input__block first-input__block">
-       <input type="text" placeholder="Id" class="input" id="id"   />
+       <input type="text" placeholder="Id" class="input" id="id" name="usersId"  />
     </div>
     <!-- password input -->
     <div class="input__block">
-       <input type="password" placeholder="Password" class="input" id="password"    />
+       <input type="password" placeholder="Password" class="input" id="password" name="usersPwd"  />
     </div>
     <!-- repeat password input -->
     <div class="input__block">
        <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password"    />
     </div>
     <!-- sign in button -->
-    <button class="signin__btn" onclick="loginChk()">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
+    
+    <input type="submit" id="signin__btn" value="로그인">
+    
+  <!--   <button class="signin__btn" onclick="loginChk()">
       로그인
-    </button>
+    </button> -->
+    
   </form>
   <!-- separator -->
   <div class="separator">
