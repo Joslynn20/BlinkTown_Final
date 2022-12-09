@@ -1,0 +1,72 @@
+package web.mvc.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import web.mvc.service.UsersService;
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	@Bean
+    public BCryptPasswordEncoder encodePassword() {  // 회원가입 시 비밀번호 암호화에 사용할 Encoder 빈 등록
+        return new BCryptPasswordEncoder();
+	}
+   
+   @Override
+   protected void configure(HttpSecurity http) throws Exception {
+
+      http.authorizeRequests()  //  security-context  <security:intercept-url
+     //로그인 없이 접근 가능한url
+      .antMatchers( "/error/**",
+    		  		"/info/**",
+    		  		"/main/**",
+    		  		"/system/**", 
+    		  		"/success/**"
+    		  		).permitAll() 
+      //
+      .antMatchers("/mypage/**")
+      .access("hasRole('MEMBER') or hasRole('USER')")
+      .antMatchers("/shop/**") 
+      .access("hasRole('MEMBER') or hasRole('USER')")
+      .antMatchers("/board/**") 
+      .access("hasRole('MEMBER') or hasRole('ADMIN')")  
+             
+      ///admin'의 경우 ADMIN 권한이 있는 사용자만 접근이 가능
+      .antMatchers("/admin/**")
+      .hasRole("ADMIN")
+      .and()
+      //.csrf().disable() // <security:csrf disabled="true"/>
+      .formLogin()
+      .loginPage("/system/loginForm")
+      .loginProcessingUrl("/loginCheck")
+      .usernameParameter("id")
+      .passwordParameter("pwd")
+      .defaultSuccessUrl("/")
+      .failureForwardUrl("/user/loginForm?err")
+      .and()
+      .logout()
+      .logoutUrl("/logout")
+      .logoutSuccessUrl("/")
+      .invalidateHttpSession(true)
+      .deleteCookies("JSESSIONID")
+      .and();
+   }
+
+	/*
+	 * @Override protected void configure(AuthenticationManagerBuilder auth) throws
+	 * Exception { // 로그인 처리를 하기 위한 AuthenticationManagerBuilder를 설정
+	 * auth.userDetailsService(UsersService).passwordEncoder(new
+	 * BCryptPasswordEncoder()); }
+	 */
+    
+  
+}

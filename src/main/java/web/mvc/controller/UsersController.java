@@ -32,16 +32,17 @@ public class UsersController {
 	//Id 중복체크
 	@ResponseBody
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
-	public boolean idCheck(String UsersId) throws Exception {
-		boolean result = usersService.UsersIdCheck(UsersId);
+	public boolean idCheck(String usersId) throws Exception {
+		System.out.println("id체크시직"+usersId);
+		boolean result = usersService.UsersIdCheck(usersId);
 		return result;
 	}
 	
 	//이메일 중복체크
 	@ResponseBody
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
-	public boolean emailCheck(String UsersEmail) throws Exception {
-		boolean result = usersService.UsersEmailCheck(UsersEmail);
+	public boolean emailCheck(String usersEmail) throws Exception {
+		boolean result = usersService.UsersEmailCheck(usersEmail);
 		return result;
 	}
 
@@ -64,7 +65,12 @@ public class UsersController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String registerPOST(Users users) throws Exception {
 		usersService.insertUser(users);
-		return "redirect:/login";
+		return "redirect:/loginForm";
+	}
+	
+	@RequestMapping("/signup")
+	public String moveForm() {
+		return "/system/signup";
 	}
 
 	
