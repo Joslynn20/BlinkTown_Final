@@ -18,19 +18,20 @@
             <div class="post box">
                 <div class="info moving-grad">
                     <div class="user">
-                        <div class="profile-pic"><img src="${pageContext.request.contextPath}/img/board/cover 9.png" alt=""></div>
+                        <div class="profile-pic"><img src="${pageContext.request.contextPath}/img/board/blackpinkprofile.jfif" alt=""></div>
                         <p class="username">JENNI ♥</p>
-                    </div>
+							<button class="board-delete">
+								<i class="fi fi-br-cross"></i>
+							</button>
+						</div>
                     <img src="img/option.PNG" class="options" alt="">
                 </div>
-                <img src="${pageContext.request.contextPath}/img/board/cover 1.png" class="post-image" alt="">
+                <img src="${pageContext.request.contextPath}/img/board/FIGURE_JENNIE.png" class="post-image" alt="">
                 <div class="post-content">
                     <div class="reaction-wrapper">
-                        <img src="${pageContext.request.contextPath}/img/board/like.PNG" class="icon" alt="">
-                        <img src="${pageContext.request.contextPath}/img/board/comment.PNG" class="icon" alt="">
-                        <img src="${pageContext.request.contextPath}/img/board/send.PNG" class="icon" alt="">
-                    </div>
+                        <div class="heart"></div>                  
                     <p class="likes">좋아요 <span>1,012</span>개</p>
+                    </div>
                     <p class="description"> 안녕하세요~~~~~제니에요!!!!!~</p>
                     <p class="post-time">2022-12-06</p>
                 </div>
@@ -42,22 +43,24 @@
         <div class="profile-card-wrap">
             <div class="profile-card"><!-- 댓글양식 -->
                 <div class="profile-pic">
-                    <img src="${pageContext.request.contextPath}/img/board/cover 10.png" alt="">
+                    <img src="${pageContext.request.contextPath}/img/board/userProfile.png" alt="">
                 </div>
                 <div>
                     <p class="username">닉네임입니다</p>
                     <p class="sub-text">댓글입니다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</p>
                 </div>
-                <button class="action-btn">x</button>
-            </div><!-- 댓글양식 -->
+						<button class="action-btn">
+							<i class="fi fi-br-cross"></i>
+						</button>
+					</div><!-- 댓글양식 -->
             
             
             
             
             </div>
             <div class="comment-wrapper">
-                    <img src="${pageContext.request.contextPath}/img/board/smile.PNG" class="icon" alt="">
-                    <input type="text" class="comment-box" placeholder="댓글을 입력해주세요">
+                    <img src="${pageContext.request.contextPath}/img/board/reply.png" class="icon" alt="">
+                    <i class="fi fi-rr-comment-alt"></i> <input type="text" class="comment-box" placeholder="댓글을 입력해주세요">
                     <button class="comment-btn" type="submit">post</button>
                 </div>           
         </div>
@@ -142,6 +145,14 @@
 
 	window.addEventListener('scroll', scrollHandler)
 	animate()
+</script>
+
+<script type="text/javascript">
+$(function() {
+	  $(".heart").on("click", function() {
+	    $(this).toggleClass("is-active");
+	  });
+	});
 </script>
 </body>
 </html>
