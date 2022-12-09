@@ -17,8 +17,8 @@
 			<table class="titleTable">
 				<!-- 고정 타이틀 -->
 				<tr>
-					<th style="width: 10%;">주문번호</th>
-					<th style="width: 30%;">주소지</th>
+					<th style="width: 15%;">주문번호</th>
+					<th style="width: 35%;">주소지</th>
 					<th style="width: 10%;">이름</th>
 					<th style="width: 15%;">전화번호</th>
 					<th style="width: 10%;">우편번호</th>
@@ -27,116 +27,56 @@
 			</table>
 			<!-- 고정 타이틀 -->
 			<!-- 반복 -->
+			<c:forEach items="${ordersList}" var="orders" varStatus="state">
+				
 			<div class="accordionItem close">
 				<div class="accordionItemHeading">
 					<table>
 						<tr>
-							<td style="width: 10%;">A01</td>
-							<td style="width: 30%;">경기도성남시중원구오리역</td>
-							<td style="width: 10%;">김이름</td>
-							<td style="width: 15%;">010-1234-1234</td>
-							<td style="width: 10%;">12345</td>
-							<td style="width: 15%;">2022-12-08</td>
+							<td style="width: 15%;">${orders.ordersNo}</td>
+							<td style="width: 35%;">${orders.ordersAddr}</td>
+							<td style="width: 10%;">${orders.ordersReceiverName}</td>
+							<td style="width: 15%;">${orders.ordersReceiverPhone}</td>
+							<td style="width: 10%;">${orders.ordersZipcode}</td>
+							<td style="width: 15%;">${orders.ordersDate}</td>
 						</tr>
 					</table>
 				</div>
 
 				<div class="accordionItemContent">
 					<br>
-					<div class="orderDetail-title">[주문번호: AQW01] [주문시간:
-						2022-12-08-12:00] [총금액: 1000,000원]</div>
+					<div class="orderDetail-title">[주문번호: ${orders.ordersNo}] [주문시간: ${orders.ordersDate}] [총금액: ${orders.amount}원]</div>
 					<br>
 					<br>
 					<table>
 						<tr style="color: #ffffff; margin-bottom: 5px;">
 							<th style="width: 15%;">주문상세번호</th>
-							<th style="width: 10%;">주문금액</th>
+							<th style="width: 15%;">주문금액</th>
 							<th style="width: 10%;">주문수량</th>
 							<th style="width: 10%;">상품코드</th>
-							<th style="width: 30%;">상품명</th>
+							<th style="width: 35%;">상품명</th>
 							<th style="width: 15%;">상품금액</th>
 						</tr>
+						<c:forEach items="${orders.orderdetailsList}" var="details" varStatus="state">
 						<tr>
-							<td style="width: 15%;">AQW01</td>
-							<td style="width: 10%;">100,000원</td>
-							<td style="width: 10%;">2개</td>
-							<td style="width: 10%;">a01</td>
-							<td style="width: 30%;">ksadjpoasjdpsajpdspasdjasm[상품명]</td>
-							<td style="width: 15%;">50,000원</td>
+							<td style="width: 15%;">${details.orderdetailsNo}</td>
+							<td style="width: 15%;">${details.orderdetailsPrice}원</td>
+							<td style="width: 10%;">${details.orderdetailsQty}개</td>
+							<td style="width: 10%;">${details.product.productCode}</td>
+							<!--쿠키값 따라 상품명 선택 영어일때 영어상품, 나머지는 한글이름--> 
+							<td style="width: 35%;">
+								<c:choose>
+									<c:when test="${cookie.lang.value eq 'en'}">${details.product.productEngName}</c:when>
+									<c:otherwise>${details.product.productName}</c:otherwise>
+								</c:choose>
+							</td>
+							<td style="width: 15%;">${details.product.productPrice}원</td>
 						</tr>
-						<tr>
-							<td style="width: 15%;">AQW01</td>
-							<td style="width: 10%;">100,000원</td>
-							<td style="width: 10%;">2개</td>
-							<td style="width: 10%;">a01</td>
-							<td style="width: 30%;">ksadjpoasjdpsajpdspasdjasm[상품명]</td>
-							<td style="width: 15%;">50,000원</td>
-						</tr>
-						<tr>
-							<td style="width: 15%;">AQW01</td>
-							<td style="width: 10%;">100,000원</td>
-							<td style="width: 10%;">2개</td>
-							<td style="width: 10%;">a01</td>
-							<td style="width: 30%;">ksadjpoasjdpsajpdspasdjasm[상품명]</td>
-							<td style="width: 15%;">50,000원</td>
-						</tr>
-						<tr>
-							<td style="width: 15%;">AQW01</td>
-							<td style="width: 10%;">100,000원</td>
-							<td style="width: 10%;">2개</td>
-							<td style="width: 10%;">a01</td>
-							<td style="width: 30%;">ksadjpoasjdpsajpdspasdjasm[상품명]</td>
-							<td style="width: 15%;">50,000원</td>
-						</tr>
+						</c:forEach>
 					</table>
 				</div>
 			</div>
-			<!-- 반복 -->
-			
-			<div class="accordionItem close">
-				<div class="accordionItemHeading">
-					<table>
-						<tr>
-							<td style="width: 10%;">A01</td>
-							<td style="width: 30%;">경기도성남시중원구오리역</td>
-							<td style="width: 10%;">김이름</td>
-							<td style="width: 15%;">010-1234-1234</td>
-							<td style="width: 10%;">12345</td>
-							<td style="width: 15%;">2022-12-08</td>
-						</tr>
-					</table>
-				</div>
-				<div class="accordionItemContent">
-					<br>
-					<div class="orderDetail-title">[주문번호: AQW01] [주문시간:
-						2022-12-08-12:00] [총금액: 1000,000원]</div>
-					<br>
-					<br>
-					<table>
-						<tr style="color: #ffffff; margin-bottom: 5px;">
-							<th style="width: 15%;">주문상세번호</th>
-							<th style="width: 10%;">주문금액</th>
-							<th style="width: 10%;">주문수량</th>
-							<th style="width: 10%;">상품코드</th>
-							<th style="width: 30%;">상품명</th>
-							<th style="width: 15%;">상품금액</th>
-						</tr>
-						<tr>
-							<td style="width: 15%;">AQW01</td>
-							<td style="width: 10%;">100,000원</td>
-							<td style="width: 10%;">2개</td>
-							<td style="width: 10%;">a01</td>
-							<td style="width: 30%;">ksadjpoasjdpsajpdspasdjasm[상품명]</td>
-							<td style="width: 15%;">50,000원</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			
-			
-			
-			
-			
+			</c:forEach>
 		</div>
 	</div>
 

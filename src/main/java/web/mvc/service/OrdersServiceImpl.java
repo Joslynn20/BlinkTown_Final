@@ -41,6 +41,12 @@ public class OrdersServiceImpl implements OrdersService {
 				.findAll(Sort.by(Sort.Direction.DESC,"ordersDate"));
 		return ordersList;
 	}
+
+	@Override
+	public List<Orders> selectByUsers(Users users) {
+		List<Orders> ordersList=ordersRep.findByUsersOrderByOrdersDateDesc(users);
+		return ordersList;
+	}
 	
 	@Override
 //	public List<Orders> selectAllOrders(int inCase, Users users, String startDate, String finalDate) {
@@ -195,6 +201,7 @@ public class OrdersServiceImpl implements OrdersService {
 		ordersRep.delete(orders); //cascade설정으로 주문상세도 삭제됨
 		System.out.println("삭제 끝");
 	}
+
 
 	
 }
