@@ -30,30 +30,19 @@
                         <img src="${pageContext.request.contextPath}/img/board/comment.PNG" class="icon" alt="">
                         <img src="${pageContext.request.contextPath}/img/board/send.PNG" class="icon" alt="">
                     </div>
-                    <p class="likes">좋아요 <span>${board.boardLikeNo}</span>개</p>
+                    <p class="likes" id="likeBtn">좋아요 <span>${board.boardLikeNo}</span>개</p>
                     <p class="description">${board.boardContent}</p>
                     <p class="post-time">${board.boardRegDate}</p>
-                </div>
-               
+                </div>            
             </div>
         </div>
 
         <div class="right-col box">
         <div class="profile-card-wrap">
-            <div class="profile-card"><!-- 댓글양식 -->
-                <div class="profile-pic">
-                    <img src="${pageContext.request.contextPath}/img/board/cover 10.png" alt="">
-                </div>
-                
-                <div id="result">
-                	<p class="username">${board.users.usersNickName}</p>
-                    <p class="sub-text"> </p>
-                    
-                    <p class="sub-text">댓글입니다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</p>
-                    
-                </div>
-                <button class="action-btn">x</button>
-            </div><!-- 댓글양식 -->
+         <!-- 댓글양식 -->
+        <div id="reply"></div>
+    
+         <!-- 댓글양식 -->
             
           
             </div>
@@ -62,32 +51,92 @@
                     <input type="text" class="comment-box" placeholder="댓글을 입력해주세요" name="replyContent" id="replyContent">
                     <button class="comment-btn" type="submit" id="submitReply">post</button>
             </div>  
-			<script type="text/javascript">
-						$('#submitReply').on("click", function(){
-							var replyContent = $('#replyContent').val();
-							var boardNo = ${board.boardNo}
-							
-							$.ajax({
-								url : "/reply/details/{boardNo}",
-								type : "post",
-								datatype : "text",
-								data : {
-									"boardNo" : ${board.boardNo},
-									"replyContent" : replyContent
-								},
-								
-								success : function(reply) {
-									$('#result').html(reply);
-									alert("등록 성공");
-								},
-								error : function() {
-									alert("등록 실패");
+		<script type="text/javascript">
+		$(function(){
 			
-								}
-				
-							})
-						})		
-			</script>        
+			$(document).ajaxSend(function(e, xhr, options) {
+			       xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+			  });
+			 
+			$('#submitReply').on("click", function(){
+				var replyContent = $('#replyContent').val();
+				var boardNo = ${board.boardNo};				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/reply/details/${board.boardNo}",
+					type : "post",
+					dataType : "json",
+					data : {
+						"replyContent" : replyContent
+					},						
+					success : function(reply) {							
+						initReply();							
+					},
+					error : function() {
+						alert("댓글 등록 실패");	
+					}		
+				});
+			});// 등록끝
+	
+			
+			///////////////////////////////
+			//댓글 로딩
+			function initReply() {								
+				$.ajax({
+					url : "${pageContext.request.contextPath}/reply/select",
+					type : "post",
+					dataType :"json",
+					data : {
+						"boardNo" : ${board.boardNo}
+					},					
+					success : function(result) {
+						let str="";
+						$.each(result.replyList , function(index, item){
+							//result.nicList[index]
+							str+='<div class="profile-card" >';
+							str+="<div class='profile-pic'>"
+							str+=" <img src='${pageContext.request.contextPath}/img/board/cover 10.png' alt=''> </div>";
+							str+='<div class="profile-text"><p class="username">'+result.nicList[index] +'</p>';
+							str+='<p class="sub-text">'+item.replyContent+'</p></div>';
+							str+='<button class="action-btn" name="'+item.replyNo +'">x</button>';
+							str+='</div>';
+						})														
+						$("#reply").html(str);							
+					},
+					error : function() {
+						alert("댓글가져오기를 실패했습니다.");	
+					}
+	
+				});
+			}			
+			////////////////////////////////////////////////////////////
+			//댓글
+			$(document).on("click","button[class=action-btn]", function(){
+				alert($(this).attr("name"))
+				$.ajax({
+					url : "${pageContext.request.contextPath}/reply/delete",
+					type : "post",
+					dataType :"text", // 서버에서 보내준 데이터타입
+					data : {
+						"replyNo" : $(this).attr("name"),
+						"boardNo" : ${board.boardNo}
+					},					
+					success : function(result) {
+						alert("댓글을 삭제했습니다.");
+						initReply();
+					},
+					error : function() {
+						alert("댓글 삭제에 실패했습니다.");
+					}
+
+				});
+			})
+			
+			////////////////////////////////////////
+			initReply();	
+		});//ready끝		
+	</script>
+
+
         </div>
 </div>
 </section>
