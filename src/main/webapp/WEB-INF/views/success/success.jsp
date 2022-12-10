@@ -156,14 +156,14 @@ margin: 30px auto 50px;
 				<h1>BLINK TOWN</h1>
 				<br>
 			</div>
-			<h2 class="lead neonm">{성공메세지}</h2>
+			<h2 class="lead neonm">${message}</h2>
 
 			<br />
 
 			<div class="btn-group ">
 				<a href="${pageContext.request.contextPath}/layout/index.jsp"
 					class="btn  box neonb ">HOME</a> 
-					<a href="javascript:history.back()" class="btn  box neonb">이동할페이지 이름</a>
+					<a href="${url}" class="btn  box neonb">${urlName}</a>
 					<!-- javascript:history.back() 부분에 이동할 페이지 위치 유동적으로 바꿔주기 -->
 			</div>
 

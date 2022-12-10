@@ -34,6 +34,7 @@ public class OrdersServiceImpl implements OrdersService {
 	private final UsersService usersService;
 	private final ProductService productService;
 	
+	//멤버쉽카드 상품코드 입력해야 함 ("멤버쉽카드의 상품코드")
 
 	@Override
 	public List<Orders> selectAllOrdersAdmin() {
@@ -188,7 +189,7 @@ public class OrdersServiceImpl implements OrdersService {
 		//insert할때 변경했던 내용들 다시 원복
 		for(Orderdetails orderdetails : orderdetailsList){
 			//1) 멤버쉽 카드라면 다시 회원 정보의 멤버쉽유무 0으로 수정
-			if(orderdetails.getProduct().getProductCode().equals("멤버쉽카드 상품번호")) {
+			if(orderdetails.getProduct().getProductCode().equals("멤버쉽카드의 상품코드")) {
 				Users users=orders.getUsers();
 				usersService.updateUsersMemberShip(users, false);
 			}

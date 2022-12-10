@@ -24,16 +24,17 @@ import web.mvc.service.OrdersService;
  * @author 강주형
  *
  */
-@Controller
+//@Controller
 public class MypageOrdersController {
 
 	@Autowired
 	private OrdersService ordersService;
 	
 	/**
-	 * 주문목록+상세내역 조회 페이지
+	 * 유저 마이페이지 : 주문목록+상세내역 조회 페이지
+	 * ->OrdersController에 넣음(따로 만들고 합치는게 손 여러번가는것같아서 원래대로 넣었습니다)
 	 */
-	@RequestMapping("/mypage/orderList")
+//	@RequestMapping("/mypage/orderList")
 	public void ordersList(Model model) {
 		//유저 테스트용-실제용 구분
 		Users users=Users.builder().usersId("user").build();//테스트용
