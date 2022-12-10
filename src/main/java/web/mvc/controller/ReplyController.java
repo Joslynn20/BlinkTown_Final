@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.tomcat.util.digester.ArrayStack;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Board;
 import web.mvc.domain.Reply;
 import web.mvc.domain.Users;
+import web.mvc.repository.ReplyRepository;
 import web.mvc.service.BoardService;
 import web.mvc.service.ReplyService;
 
@@ -33,18 +35,15 @@ public class ReplyController {
 	 * ->text형태로
 	 * */
 	@RequestMapping("/details/{boardNo}")
-	public Reply insertReply(String replyContent, @PathVariable Long boardNo) { 
-		//System.out.println("replyContent="+replyContent);
-		//System.out.println("boardNo"+boardNo);
-		
-		//Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public Reply insertReply(String replyContent, @PathVariable Long boardNo) { 		
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		Board board=boardService.selectByBoardNo(boardNo);
-		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(Users.builder().usersId("jisoo").build()).build();
-//		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(users).build(); //users등록할때 주석풀고 사용
+//		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(Users.builder().usersId("jisoo").build()).build();
+		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(users).build(); //users등록할때 주석풀고 사용
 		
-		Reply newReply=replyService.insertReply(beforeReply);
-//		Reply newReply=replyService.insertReply(beforeReply, users);
+//		Reply newReply=replyService.insertReply(beforeReply);
+		Reply newReply=replyService.insertReply(beforeReply, users);
 		return newReply;
 	}
 	
@@ -53,8 +52,8 @@ public class ReplyController {
 	 * */
 	@RequestMapping("/delete")
 	public String deleteReply( Long replyNo,  Long boardNo) {
-		System.out.println("replyNo= "+replyNo);
-		System.out.println("boardNo= "+boardNo);
+		//System.out.println("replyNo= "+replyNo);
+		//System.out.println("boardNo= "+boardNo);
 		replyService.deleteReply(replyNo);
 		
 		return "ok";

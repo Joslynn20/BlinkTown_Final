@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%-- <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> --%> <!-- 시큐리티 올라오면 주석풀기 -->
+
+<sec:authentication property="principal" var="prc"/>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +14,6 @@
 	href="${pageContext.request.contextPath}/css/board/boardDetails.css">
 </head>
 <body>
-
 	<section class="main">
 		<div class="wrapper">
 			<div class="left-col">
@@ -24,7 +26,7 @@
 									alt="">
 							</div>
 							<p class="username">${board.users.usersId}</p>
-							<button class="board-delete">
+							<button class="board-delete" id="boardDelete">
 								<i class="fi fi-br-cross"></i>
 							</button>
 						</div>
@@ -35,9 +37,17 @@
 						class="post-image" alt="">
 					<div class="post-content">
 						<div class="reaction-wrapper">
-							<div class="heart"></div>
+						  <c:choose>
+						    <c:when test="${not empty likes}">
+						        <div class="heart is-active"></div>
+						    </c:when>
+						    <c:otherwise>
+						        <div class="heart"></div>
+						    </c:otherwise>
+						  </c:choose>
+							
 							<p class="likes">
-								좋아요 <span>${board.boardLikeNo}</span>개
+								좋아요 <span id="likesCount">${board.boardLikeNo}</span>개
 							</p>
 						</div>
 						<p class="description">${board.boardContent}</p>
@@ -53,7 +63,6 @@
 
 					<!-- 댓글양식 -->
 
-
 				</div>
 				<div class="comment-wrapper">
 					<img src="${pageContext.request.contextPath}/img/board/reply.png"
@@ -61,7 +70,8 @@
 						type="text" class="comment-box" placeholder="댓글을 입력해주세요" id="replyContent">
 					<button class="comment-btn" type="submit" id="submitReply">post</button>
 				</div>
-				<script type="text/javascript">
+		
+		<script type="text/javascript">
 		$(function(){
 			
 			$(document).ajaxSend(function(e, xhr, options) {
@@ -101,7 +111,6 @@
 					success : function(result) {
 						let str="";
 						$.each(result.replyList , function(index, item){
-							//result.nicList[index]
 							str+='<div class="profile-card" >';
 							str+="<div class='profile-pic'>"
 							str+=" <img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
@@ -119,9 +128,9 @@
 				});
 			}			
 			////////////////////////////////////////////////////////////
-			//댓글
+			//댓글삭제
 			$(document).on("click","button[class=action-btn]", function(){
-				alert($(this).attr("name"))
+				//alert($(this).attr("name"))
 				$.ajax({
 					url : "${pageContext.request.contextPath}/reply/delete",
 					type : "post",
@@ -141,12 +150,23 @@
 				});
 			})
 			
-			////////////////////////////////////////
+			////////////////////////////////////////////////////////////
+			
+			//게시글 삭제하기
+			$("#boardDelete").click(function(){				
+				if("${prc.usersId}"== "${board.users.usersId}") {
+				location.href = 
+					'/board/delete?boardNo=${board.boardNo}';
+					alert("게시글을 삭제했습니다")
+				} else {
+					alert("게시물 작성자가 일치하지 않아 삭제할 수 없습니다!")
+				}
+			});
+							
+			////////////////////////////////////////////////////////////
 			initReply();	
 		});//ready끝		
 	</script>
-
-
 			</div>
 		</div>
 	</section>
@@ -234,7 +254,24 @@
 	<script type="text/javascript">
 $(function() {
 	  $(".heart").on("click", function() {
-	    $(this).toggleClass("is-active");
+	     $(this).toggleClass("is-active");
+	     
+	     $.ajax({
+				url : "${pageContext.request.contextPath}/board/likes",
+				type : "post",
+				dataType :"text", // 서버에서 보내준 데이터타입
+				data : {
+					"boardNo" : ${board.boardNo} ,
+					"userId" : "${prc.usersId}"
+				},					
+				success : function(likesCount) {
+					$("#likesCount").html(likesCount);
+				},
+				error : function() {
+					alert("실패했습니다.......");
+				}
+
+			});
 	  });
 	});
 </script>

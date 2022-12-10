@@ -67,9 +67,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void insertBoard(Board board) {
-//	public void insertBoard(Board board, Users users) {
-//		board.setUsers(users);
+//	public void insertBoard(Board board) {
+	public void insertBoard(Board board, Users users) {
+		board.setUsers(users);
 		Board resultBoard = boardRep.save(board);
 	}
 

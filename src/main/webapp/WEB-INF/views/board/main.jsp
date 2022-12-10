@@ -43,10 +43,8 @@
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
-								<ul class="auto-grid" role="list">
-								
-									<c:set var="doneLoop" value="false"/>   
-									 
+								<ul class="auto-grid" role="list">								
+									<c:set var="doneLoop" value="false"/>									 
 									<c:forEach items="${mainPageList}" var="mainImage" varStatus="state">
 										    <c:if test="${state.count > 6}">
 										       <c:set var="doneLoop" value="true"/>

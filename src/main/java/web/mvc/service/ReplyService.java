@@ -3,6 +3,7 @@ package web.mvc.service;
 import java.util.List;
 
 import web.mvc.domain.Reply;
+import web.mvc.domain.Users;
 
 public interface ReplyService {
 	
@@ -11,8 +12,8 @@ public interface ReplyService {
 	 * : 댓글(댓글번호, 댓글내용, 댓글등록일, 게시판번호, 아이디)
 	 * (댓글번호는 시퀀스로 생성된다)
 	 * */
-	Reply insertReply(Reply reply);
-//	Reply insertReply(Reply reply, Users users);
+//	Reply insertReply(Reply reply);
+	Reply insertReply(Reply reply, Users users);
 		
 	
 	/**
