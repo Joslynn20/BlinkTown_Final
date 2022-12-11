@@ -67,10 +67,14 @@ margin-bottom: 5px;
 h3{
 margin-bottom: 20px;
 }
+.select_field{
+margin-right: 30px;
+margin-bottom: 8px;
+}
 </style>
 </head>
 <body>
-
+<form action="">
 	<section class="main">
 		<div class="wrapper">
 			<div class="left-col">
@@ -92,6 +96,11 @@ margin-bottom: 20px;
 
 
 				<h3>Album Insert</h3>
+				<select class="select_field">
+					<option selected="selected" value="">Type</option>
+					<option value="Membership">Membership</option>
+					<option value="Normal">Normal</option>
+				</select>
 				<input type="text" value="카테고리코드" class="input_field" readonly="readonly"><br>
 				<input type="text" placeholder="상품명 [KOR]" class="input_field"><br>
 				<input type="text" placeholder="상품명 [ENG]" class="input_field"><br>
@@ -116,7 +125,7 @@ margin-bottom: 20px;
 			</div>
 		</div>
 	</section>
-
+</form>
 	<div class="background-img">
 		<div class="cover">
 			<p class="first-parallel"></p>

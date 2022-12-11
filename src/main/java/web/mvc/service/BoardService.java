@@ -38,7 +38,8 @@ public interface BoardService {
 	 * 게시글 등록(아티스트, 관리자가 작성)
 	 * : 아이디, 제목, 내용, 이미지(없어도 됨), 작성일, 좋아요 수(기본 0으로)
 	 * */
-	void insertBoard(Board board);
+//	void insertBoard(Board board);
+	void insertBoard(Board board, Users users);
 
     /**
      * 게시글 삭제하기
@@ -52,8 +53,7 @@ public interface BoardService {
      * like 테이블과 조인 or 서브 쿼리
      */
     List<Board> selectByUserId(String userId);
-    
-    
+       
     /**
      * 좋아요 기능
      * */

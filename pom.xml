@@ -18,14 +18,14 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
-		
-	<!-- 카카오페이 사용 위한 iamport 사용-검증위한 라이브러리 추가  -->
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
+
+	<!-- 카카오페이 사용 위한 iamport 사용-검증위한 라이브러리 추가 -->
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -77,14 +77,14 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>9.0.46</version><!--$NO-MVN-MAN-VER$-->
+			<version>9.0.46</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
 		<!-- jsp에서 jstl lib -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version><!--$NO-MVN-MAN-VER$-->
+			<version>1.2</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
 		<dependency>
@@ -99,25 +99,25 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-       
-	<!-- 카카오페이 사용 위한 iamport 사용-검증위한 라이브러리 추가  -->
-      <dependency>
-	    <groupId>com.github.iamport</groupId>
-	    <artifactId>iamport-rest-client-java</artifactId>
-	    <version>0.2.22</version>
-	  </dependency>
-	  
-	  <!-- Tiles 관련 설정문서 (3) -->
+
+		<!-- 카카오페이 사용 위한 iamport 사용-검증위한 라이브러리 추가 -->
+		<dependency>
+			<groupId>com.github.iamport</groupId>
+			<artifactId>iamport-rest-client-java</artifactId>
+			<version>0.2.22</version>
+		</dependency>
+
+		<!-- Tiles 관련 설정문서 (3) -->
 		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>

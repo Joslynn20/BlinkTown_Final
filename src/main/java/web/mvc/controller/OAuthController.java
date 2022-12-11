@@ -29,9 +29,9 @@ import web.mvc.service.UsersService;
 
 //@AllArgsConstructor
 @Controller
-//@RequestMapping("/user")
+@RequestMapping("/system")
 public class OAuthController {
-	@RequestMapping("/user/loginForm")
+	@RequestMapping("{url}")
 	public void url() {
 		System.out.println("url");
 	}
@@ -41,7 +41,8 @@ public class OAuthController {
 	private UsersService usersService;
 
 	@RequestMapping("/auth/kakao/callback")
-	public @ResponseBody String kokoaCallback(@RequestParam String code) throws Exception { ///데이터를 리턴해주는 controller가 됨
+	@ResponseBody
+	public String kokoaCallback(@RequestParam String code) throws Exception { 
 		System.out.println("111");
 		//POST방식으로 key=value 데이터 요엋(카카오 쪽으로)
 
@@ -82,13 +83,13 @@ public class OAuthController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("카카오 엑세스 토큰 : " +oauthToken.getAccess_token() );
+		System.out.println("카카오 엑세스 토큰 : " +oauthToken.getAccessToken() );
 		////////////////////////////////////////////////////////////////////////	
 
 		RestTemplate rt2 = new RestTemplate();
 
 		HttpHeaders headers2 = new HttpHeaders();
-		headers2.add("Authorization","Bearer"+oauthToken.getAccess_token());
+		headers2.add("Authorization","Bearer"+oauthToken.getAccessToken());
 		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
 		//HttpHeader HttpBody를 하나의 오브젝트로 담기

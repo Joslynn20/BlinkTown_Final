@@ -11,6 +11,7 @@
 	href="${pageContext.request.contextPath}/css/board/boardInsertForm.css">
 </head>
 <body>
+<form action="upload" method="post" enctype="multipart/form-data">
 
 	<section class="main">
 		<div class="wrapper">
@@ -20,7 +21,7 @@
 						<div class="col-sm-2 imgUp">
 							<div class="imagePreview"></div>
 							<label class="btn btn-primary">파일업로드하기<input type="file"
-								class="uploadFile img" value="Upload Photo"
+								class="uploadFile img" value="Upload Photo" name="file"
 								style="width: 0px; height: 0px; overflow: hidden;">
 							</label>
 						</div>
@@ -41,8 +42,9 @@
 					<option value="JENNIE">JENNIE</option>
 					<option value="ROSE">ROSE</option>
 					<option value="LISA">LISA</option>
-				</select> <input type="text" placeholder="제목을 입력해주세요" class="input_field"><br>
-				<textarea placeholder="내용을 입력해주세요." class="textarea_field"></textarea>
+				</select> 
+				<input type="text" placeholder="제목을 입력해주세요" class="input_field" name="boardTitle"><br>
+				<textarea placeholder="내용을 입력해주세요." class="textarea_field" name="boardContent"></textarea>
 				<br>
 
 				<div class='insert-submt'>
@@ -53,7 +55,9 @@
 			</div>
 		</div>
 	</section>
-
+	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
+</form>
 	<div class="background-img">
 		<div class="cover">
 			<p class="first-parallel"></p>
@@ -156,4 +160,5 @@ uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(
 });
 </script>
 </body>
+
 </html>

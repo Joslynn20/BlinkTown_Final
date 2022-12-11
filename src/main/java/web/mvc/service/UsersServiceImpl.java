@@ -6,12 +6,14 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
+import web.mvc.domain.Authority;
+import web.mvc.util.RoleConstants;
 import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Users;
+import web.mvc.repository.AuthoritiesRepository;
 import web.mvc.repository.UsersRepository;
 
 @Service
@@ -19,9 +21,14 @@ import web.mvc.repository.UsersRepository;
 @Transactional
 public class UsersServiceImpl implements UsersService {
 
+
+	
 	private final UsersRepository usersRep;
-	/*@Autowired
-	private BCryptPasswordEncoder encoder;*/
+	
+	private final AuthoritiesRepository authoritiesRep;
+
+	private final PasswordEncoder encoderPwd;
+	
 	
 	@Autowired
 	private JPAQueryFactory queryFactory;
@@ -29,10 +36,16 @@ public class UsersServiceImpl implements UsersService {
 	//회원가입 
 	@Override
 	public void insertUser(Users users) throws Exception {
+		//전달된 비밀번호(평문)을 암호화
 		String rawPwd = users.getUsersPwd();//원문
-		//String enPwd = encoder.encode(rawPwd);//해쉬
-		//users.setUsersPwd(enPwd);
-		usersRep.save(users);
+		String enPwd = encoderPwd.encode(rawPwd);//해쉬
+		users.setUsersPwd(enPwd);
+		
+		 usersRep.save(users);
+		 authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_USER));
+		//authoritiesRep.save(new Authority(users.getId(),RoleConstants.ROLE_MEMBER));
+		
+	   
 
 	}
 
@@ -136,6 +149,8 @@ public class UsersServiceImpl implements UsersService {
 		}else{ //null이 아닌 경우
 			//membership(0 또는 1에 해당하는 user조회
 			usersList=usersRep.findByUsersMemberShip(usersMemberShip);
+	
+			
 		}
 	
 		
@@ -148,6 +163,9 @@ public class UsersServiceImpl implements UsersService {
 	   public void updateUsersMemberShip(Users users, boolean willMember) {
 		  if(willMember==true) users.setUsersMemberShip(1);
 		  else users.setUsersMemberShip(0);
+		  
+		  authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_MEMBER));
+
 	   }
 
 

@@ -44,7 +44,9 @@ public class Orders {
 	@SequenceGenerator(name="Orders_gen", allocationSize=1, sequenceName="Orders_seq")
 	private Long ordersNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+//	@JsonIgnore
+//	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="users_id")
 	private Users users; //코드 합칠때 객체 주소 주의
 	

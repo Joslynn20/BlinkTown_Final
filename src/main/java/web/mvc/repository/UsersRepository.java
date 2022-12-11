@@ -33,8 +33,7 @@ public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPr
 	
 	//유무료 회원 조회할 때 
 	List<Users> findByUsersMemberShip(int usersmemebership);
-	
-	
+
 	
 
 

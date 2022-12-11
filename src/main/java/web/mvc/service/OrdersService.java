@@ -32,6 +32,11 @@ public interface OrdersService {
 	List<Orders> selectAllOrdersAdmin();
 	
 	/**
+	 * 유저용 마이페이지 주문목록 스크롤 사용
+	 */
+	List<Orders> selectByUsers(Users users);
+	
+	/**
 	 * 주문 상세 내역 조회
 	 * - 인수 : 주문정보, 페이징처리 정보->우선 안하는 방향으로
 	 * - 포함 정보 : 주문 테이블, 주문 상세 테이블, 해당 상품 정보

@@ -43,10 +43,8 @@
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
-								<ul class="auto-grid" role="list">
-								
-									<c:set var="doneLoop" value="false"/>   
-									 
+								<ul class="auto-grid" role="list">								
+									<c:set var="doneLoop" value="false"/>									 
 									<c:forEach items="${mainPageList}" var="mainImage" varStatus="state">
 										    <c:if test="${state.count > 6}">
 										       <c:set var="doneLoop" value="true"/>
@@ -101,56 +99,6 @@
 					    </c:forEach>
 						</c:otherwise>
 					    </c:choose>
-						
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -223,21 +171,6 @@
 							    </c:forEach>
 								</c:otherwise>
 							    </c:choose>
-							
-								<tr>
-									<td>01</td>
-									<td>여기는 JISOO 게시판이에요!</td>
-									<td>JISOO♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 지수에요~</td>
-									<td>JISOO♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -310,20 +243,6 @@
 						    </c:forEach>
 							</c:otherwise>
 						    </c:choose>
-		    					<tr>
-									<td>01</td>
-									<td>여기는 JENNIE 게시판이에요!</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 제니에요~</td>
-									<td>JENNIE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -396,20 +315,6 @@
 						    </c:forEach>
 							</c:otherwise>
 						    </c:choose>
-								<tr>
-									<td>01</td>
-									<td>여기는 ROSE 게시판이에요!</td>
-									<td>ROSE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 로제에요~</td>
-									<td>ROSE♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -482,21 +387,6 @@
 						    </c:forEach>
 							</c:otherwise>
 						    </c:choose>
-							
-								<tr>
-									<td>01</td>
-									<td>여기는 LISA 게시판이에요!</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
-								<tr>
-									<td>02</td>
-									<td>안녕하세요 리사에요~</td>
-									<td>LISA♥</td>
-									<td>2022-12-05</td>
-									<td>14</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
