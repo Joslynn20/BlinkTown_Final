@@ -14,7 +14,7 @@
 <body>
 <div class="tabs-wrap">
 	<ul class="tabs">
-	  <li class="active" rel="tab1">Users</li>
+	  <li class="active" rel="tab1" id="usersTab1">Users</li>
 	  <li rel="tab2">Shop</li>
 	  <li rel="tab3" id="ordersTab3">Order</li>
 	  <li rel="tab4" id="statsTab4">Chart</li>
@@ -41,9 +41,9 @@
 						<div class="user-tab">
 
 							<ul class="user-tabs ">
-								<li ><a href="#" >All Member</a></li>
-								<li><a href="#">Free Member</a></li>
-								<li><a href="#">Registered Member</a></li>
+								<li id="allUsersTab"><a href="#">All Member</a></li>
+								<li id="normalUsersTab"><a href="#">Free Member</a></li>
+								<li id="memberUsersTab"><a href="#">Registered Member</a></li>
 							</ul>
 							<!-- / tabs -->
 
@@ -66,23 +66,15 @@
 									</div>
 									<div class="tbl-content">
 										<table cellpadding="0" cellspacing="0" border="0">
-											<tbody>
-												<tr>
-													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td>
-													<td style="width: 13%;">010-0000-000</td>
-													<td style="width: 20%;">comzaxxer@naver.com</td>
-													<td style="width: 15%;">springboot</td>
-													<td style="width: 4%;">N</td>
-													<td style="width: 13%;">2022-01-05</td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td>
-													<td style="width: 13%;">010-0000-000</td>
-													<td style="width: 20%;">comzaxxer@naver.com</td>
-													<td style="width: 15%;">springboot</td>
-													<td style="width: 4%;">Y</td>
-													<td style="width: 13%;">2022-01-05</td>
-												</tr>
+											<tbody class="usersListTable">
+<!-- 												<tr> -->
+<!-- 													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td> -->
+<!-- 													<td style="width: 13%;">010-0000-000</td> -->
+<!-- 													<td style="width: 20%;">comzaxxer@naver.com</td> -->
+<!-- 													<td style="width: 15%;">springboot</td> -->
+<!-- 													<td style="width: 4%;">N</td> -->
+<!-- 													<td style="width: 13%;">2022-01-05</td> -->
+<!-- 												</tr> -->
 											</tbody>
 										</table>
 									</div>
@@ -106,7 +98,7 @@
 									</div>
 									<div class="tbl-content">
 										<table cellpadding="0" cellspacing="0" border="0">
-											<tbody>
+											<tbody class="usersListTable">
 												<tr>
 													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td>
 													<td style="width: 13%;">010-0000-000</td>
@@ -124,7 +116,7 @@
 								<div class="user-tabs_item">
 									<div class="tbl-header">
 										<table cellpadding="0" cellspacing="0" border="0">
-											<thead>
+											<thead >
 												<tr>
 													<th style="width: 30%;">ID</th>
 													<th style="width: 13%;">Phone</th>
@@ -138,7 +130,7 @@
 									</div>
 									<div class="tbl-content">
 										<table cellpadding="0" cellspacing="0" border="0">
-											<tbody>
+											<tbody class="usersListTable">
 												<tr>
 													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td>
 													<td style="width: 13%;">010-0000-000</td>
@@ -157,12 +149,8 @@
 							<!-- / tab_content -->
 						</div>
 						<!-- / tab -->
-
-
-
 					</div>
 				</div>
-		
 	  </div>
 
 	  <!-- #tab1 -->
@@ -400,61 +388,8 @@ Chart.elements.Arc.prototype.draw = function() {
   ctx.stroke();
   ctx.closePath();
 };
-
-var config = {
-    type: 'doughnut',
-    data: {
-        labels: ['Registered Member' , 'Free Member'],
-        datasets: [
-          {
-              data: [1221, 1212],
-              backgroundColor: [
-              	gradientRed,
-                gradientBlue,
-              ],
-          }
-        ]
-    },
-    options: {
-    		cutoutPercentage: 80,
-    		elements: {
-        	arc: {
-          	borderWidth: 12,
-          },
-        },
-        legend: {
-        	display: false,
-        },
-        animation: {
-        	onComplete: function(animation) {
-          	if (!window.segmentHovered) {
-              var value = this.config.data.datasets[0].data.reduce(function(a, b) { 
-                return a + b;
-              }, 0);
-              var label = 'T O T A L';
-
-              textInCenter(value, label);
-            }
-          },
-        },
-        tooltips: {
-        	enabled: false,
-        	custom: function(tooltip) {
-          	if (tooltip.body) {
-              var line = tooltip.body[0].lines[0],
-              	parts = line.split(': ');
-              textInCenter(parts[1], parts[0].split('').join(' ').toUpperCase());
-              window.segmentHovered = true;
-            } else {
-            	window.segmentHovered = false;
-            }
-          },
-        },
-    },
-};
-
-window.chart = new Chart(canvas, config);
-
+/////////////////////////////////////////////////////////
+//var config (회원수 카운트 동그란 챠트) 자리
 
 </script>
 
@@ -480,6 +415,124 @@ $(document).ready(function() {
 
 });
 </script>
+
+<!-- 회원목록(첫화면)+집계count -->
+<script type="text/javascript">
+
+var usersListUrl="${pageContext.request.contextPath}/admin/usersList/all";
+
+$(function(){
+	$(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+    });
+	//url구분용 변수 선언(기본값 전체 목록)
+	usersListCount();
+	
+	$("#usersTab1").click(function(){
+		usersListUrl="${pageContext.request.contextPath}/admin/usersList/all";
+		usersListCount();
+	})
+	$("#allUsersTab").click(function(){
+		usersListUrl="${pageContext.request.contextPath}/admin/usersList/all";
+		usersListCount();
+	})
+	$("#normalUsersTab").click(function(){
+		usersListUrl="${pageContext.request.contextPath}/admin/usersList/normal";
+		usersListCount();
+	})
+	$("#memberUsersTab").click(function(){
+		usersListUrl="${pageContext.request.contextPath}/admin/usersList/member";
+		usersListCount();
+	})
+})//$(function(){}) end
+////////////////////////////////////////////////
+//호출함수 : 주문목록+count ajax출력
+//url 가변적 조건줄수있게 변수로 사용
+function usersListCount() {
+// 	alert(usersListUrl);
+	$.ajax({ 
+		  url : usersListUrl, 
+		  type : "post", 
+		  dataType : "json",
+		  success : function(result){
+// 			  alert(result.usersList);
+			  //주문목록 출력
+			let str="";  
+		  	$.each(result.usersList, function(index, users){
+		  		str+='<tr>';
+		  		str+='<td style="width: 30%;">'+users.usersId+'</td>';
+		  		str+='<td style="width: 13%;">'+users.usersPhone+'</td>';
+		  		str+='<td style="width: 20%;">'+users.usersEmail+'</td>';
+		  		str+='<td style="width: 15%;">'+users.usersNickName+'</td>';
+		  		if(users.usersMemberShip==0) str+='<td style="width: 4%;">'+"N"+'</td>';
+		  		else if(users.usersMemberShip==1) str+='<td style="width: 4%;">'+"Y"+'</td>';
+		  		str+='<td style="width: 13%;">'+users.usersRegDate+'</td>';
+				str+='</tr>';
+		  	});
+		  	$(".usersListTable").html(str);
+		  	////////////////////////////////////////////////////////////////////////
+		  	//차트 자리
+		  	var config = {
+		  		    type: 'doughnut',
+		  		    data: {
+		  		        labels: ['Registered Member' , 'Free Member'],
+		  		        datasets: [
+		  		          {
+		  		              data: [result.normalCount, result.memberCount],
+		  		              backgroundColor: [
+		  		              	gradientRed,
+		  		                gradientBlue,
+		  		              ],
+		  		          }
+		  		        ]
+		  		    },
+		  		    options: {
+		  		    		cutoutPercentage: 80,
+		  		    		elements: {
+		  		        	arc: {
+		  		          	borderWidth: 12,
+		  		          },
+		  		        },
+		  		        legend: {
+		  		        	display: false,
+		  		        },
+		  		        animation: {
+		  		        	onComplete: function(animation) {
+		  		          	if (!window.segmentHovered) {
+		  		              var value = this.config.data.datasets[0].data.reduce(function(a, b) { 
+		  		                return a + b;
+		  		              }, 0);
+		  		              var label = 'T O T A L';
+
+		  		              textInCenter(value, label);
+		  		            }
+		  		          },
+		  		        },
+		  		        tooltips: {
+		  		        	enabled: false,
+		  		        	custom: function(tooltip) {
+		  		          	if (tooltip.body) {
+		  		              var line = tooltip.body[0].lines[0],
+		  		              	parts = line.split(': ');
+		  		              textInCenter(parts[1], parts[0].split('').join(' ').toUpperCase());
+		  		              window.segmentHovered = true;
+		  		            } else {
+		  		            	window.segmentHovered = false;
+		  		            }
+		  		          },
+		  		        },
+		  		    },
+		  		};//var config(회원수 카운트 챠트) end
+
+		  		window.chart = new Chart(canvas, config);
+		  }, 
+		  error : function(request,status,err){//에러 : 보통 콜백함수
+//			  alert("code="+request.status+"\n"+"message"+request.responseText+"\n"+"error:"+err);	  
+		  } 
+	  })//ajax끝
+}//usersListCount(){} end
+</script>
+
 <!-- 주문목록 리스트 -->
 <script>
 $(function(){

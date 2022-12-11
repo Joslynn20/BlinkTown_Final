@@ -9,13 +9,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.mvc.domain.Orders;
+import web.mvc.domain.Users;
 import web.mvc.dto.Stats;
 import web.mvc.service.OrdersService;
 import web.mvc.service.StatsService;
+import web.mvc.service.UsersService;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,19 +28,54 @@ public class AdminController {
 	private OrdersService ordersService;
 	@Autowired
 	private StatsService statsService;
+	@Autowired
+	private UsersService usersService;
 	
 	/**상수관리*/
 	private static final String BORN_PINK="A01"; //앨범에 해당하는 상품코드
 	private static final String THE_ALBUM="A02";
 	private static final String KILL_THIS_LOVE="A03";
 	private static final String SQUARE_UP="A04";
-	
-	
+
+	/////////////////////////////////////////////////
 	/**
 	 * 경로 : admin/main.jsp
+	 * 이거 하나로만 사용
 	 */
 	@RequestMapping("/main")
 	public void main() {}//main end
+	/////////////////////////////////////////////////
+	/**
+	 * 관리자-회원목록+회원숫자count
+	 * 위치 : #tab1 / 출력 : #usersListTable / 이벤트 클릭: #usersTab1
+	 */
+	@ResponseBody
+	@RequestMapping("/usersList/{isMember}") //all / normal / member 셋 중 하나로 전달
+	public Map<String, Object> usersList(@PathVariable String isMember){
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<Users> usersList=new ArrayList<Users>();
+		Integer isMem=null;
+		if(isMember.equals("all")) isMem=null;
+		else if(isMember.equals("normal")) isMem=0;
+		else if(isMember.equals("member")) isMem=1;
+		
+		//회원 리스트 출력
+		usersList=usersService.selectByUsersMemberShip(isMem);
+		map.put("usersList", usersList);
+		
+		//회원수 집계현황
+		Long normalCount=usersService.countUsers(0);
+		map.put("normalCount", normalCount);//일반회원
+		Long memberCount=usersService.countUsers(1);
+		map.put("memberCount", memberCount);
+		
+		return map; 	
+	}//usersList end
+	/////////////////////////////////////////////////
+	/**
+	 * 상품?
+	 */
+	
 	/////////////////////////////////////////////////
 	/**
 	 * 관리자페이지-주문목록 출력 ajax

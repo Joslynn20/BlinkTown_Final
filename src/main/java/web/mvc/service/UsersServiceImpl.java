@@ -6,10 +6,12 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import web.mvc.domain.Authority;
+import web.mvc.domain.Orders;
 import web.mvc.util.RoleConstants;
 import lombok.RequiredArgsConstructor;
 import web.mvc.domain.Users;
@@ -126,7 +128,7 @@ public class UsersServiceImpl implements UsersService {
 	//관리자 회원 전체조회
 	@Override
 	public List<Users> selectAll() {
-		return usersRep.findAll();
+		return usersRep.findAll(Sort.by(Sort.Direction.DESC, "usersRegDate"));
 	}
 	
 	//관리자 회원정보 상세보기
@@ -137,23 +139,20 @@ public class UsersServiceImpl implements UsersService {
 		return dbUsers;
 	}
 	
-	//맴쉽  유/무료회원 조회
+	//맴버쉽  유/무료회원 조회
 	//0이면 무료, 1이면 유료, null 이면 전체 회원 검색
-	
+	@Override
 	public List<Users> selectByUsersMemberShip(Integer usersMemberShip) {
-		
 		List<Users> usersList=null;
+		
 		//usersMemberShip이 null이면 전체조회
 		if(usersMemberShip==null) {
-			usersList=usersRep.findAll();
-		}else{ //null이 아닌 경우
-			//membership(0 또는 1에 해당하는 user조회
-			usersList=usersRep.findByUsersMemberShip(usersMemberShip);
-	
-			
+			usersList=usersRep.findAll(Sort.by(Sort.Direction.DESC, "usersRegDate"));
 		}
-	
-		
+		else{ //null이 아닌 경우
+			//membership(0 또는 1에 해당하는 user조회
+			usersList=usersRep.findByUsersMemberShipOrderByUsersRegDateDesc(usersMemberShip);
+		}
 		return usersList;
 	}
 	
@@ -167,6 +166,11 @@ public class UsersServiceImpl implements UsersService {
 		  authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_MEMBER));
 
 	   }
+
+	@Override//회원카운트
+	public Long countUsers(int usersMemberShip) {
+		return usersRep.countByUsersMemberShip(usersMemberShip);
+	}
 
 
 }

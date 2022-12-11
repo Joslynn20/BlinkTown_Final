@@ -86,7 +86,8 @@ $(function(){
 			                imp_uid: rsp.imp_uid
 			                },
 						success: function(done){
-							alert("주문 및 결제가 완료되었습니다");
+// 							alert("주문 및 결제가 완료되었습니다");
+							//성공페이지에서 메세지 있어서 팝업 주석처리 함
 						    //검증이후 페이지 이동:주문내역 페이지나 주문성공 페이지로 이동~~(1-1 : Orders컨트롤러의 마이페이지-주문내역출력 mapping url 또는 주문 성공 페이지)
 							location.href="${pageContext.request.contextPath}/orders/orderSuccess";//&${_csrf.parameterName}=${_csrf.token}";
 						}, //success end
