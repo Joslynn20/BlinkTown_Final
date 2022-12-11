@@ -17,7 +17,7 @@
 	  <li class="active" rel="tab1">Users</li>
 	  <li rel="tab2">Shop</li>
 	  <li rel="tab3" id="ordersTab3">Order</li>
-	  <li rel="tab4">Chart</li>
+	  <li rel="tab4" id="statsTab4">Chart</li>
 	</ul>
 	<div class="tab_container">
 	  <h3 class="d_active tab_drawer_heading" rel="tab1">Tab 1</h3>
@@ -245,7 +245,7 @@
 	  <!-- 전체매출조회 -->
 	  <div class="Sales-check">
 	  	<div>
-	  		<h1 style="margin-bottom: 20px;">전체매출 : <span>000,000</span> 원</h1>
+	  		<h1 style="margin-bottom: 20px;">전체매출 : <span id="allStats"></span> 원</h1>
 	  	</div>
 	  </div>
 	  <!-- 월별매출조회 -->
@@ -261,67 +261,12 @@
 				  <canvas id="canvas-monthlySales"></canvas>
 				  
 				  <!-- Custom Axis -->
-				  <div class="axis-monthlySales">
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">1</span>
-				      <span class="day-name-monthlySales">Jan</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">2</span>
-				      <span class="day-name-monthlySales">Feb</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">3</span>
-				      <span class="day-name-monthlySales">Mar</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">4</span>
-				      <span class="day-name-monthlySales">Apr</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">5</span>
-				      <span class="day-name-monthlySales">May</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">6</span>
-				      <span class="day-name-monthlySales">Jun</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">7</span>
-				      <span class="day-name-monthlySales">Jul</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">8</span>
-				      <span class="day-name-monthlySales">Aug</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">9</span>
-				      <span class="day-name-monthlySales">Sep</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">10</span>
-				      <span class="day-name-monthlySales">Oct</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">11</span>
-				      <span class="day-name-monthlySales">Nov</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
-				    <div class="tick-monthlySales">
-				      <span class="day-number-monthlySales">12</span>
-				      <span class="day-name-monthlySales">Dec</span>
-				      <span class="value-monthlySales value--this-monthlySales">00장</span>
-				    </div>
+				  <div class="axis-monthlySales" id="monthStats">
+<!-- 				    <div class="tick-monthlySales"> -->
+<!-- 				      <span class="day-number-monthlySales">1</span> -->
+<!-- 				      <span class="day-name-monthlySales">Jan</span> -->
+<!-- 				      <span class="value-monthlySales value--this-monthlySales">00장</span> -->
+<!-- 				    </div> -->
 				  </div>
 				</div>	  	
 	  	<!-- 월별매출끝 -->
@@ -535,124 +480,6 @@ $(document).ready(function() {
 
 });
 </script>
-
-<!-- 월별매출 -->
-<script type="text/javascript">
-var canvas = document.getElementById("canvas-monthlySales");
-
-//Apply multiply blend when drawing datasets
-var multiply = {
-beforeDatasetsDraw: function(chart, options, el) {
- chart.ctx.globalCompositeOperation = 'multiply';
-},
-afterDatasetsDraw: function(chart, options) {
- chart.ctx.globalCompositeOperation = 'source-over';
-},
-};
-
-//Gradient color - this week
-var gradientThisWeek = canvas.getContext('2d').createLinearGradient(0, 0, 0, 150);
-gradientThisWeek.addColorStop(0, '#5555FF');
-gradientThisWeek.addColorStop(1, '#9787FF');
-
-//Gradient color - previous week
-var gradientPrevWeek = canvas.getContext('2d').createLinearGradient(0, 0, 0, 150);
-gradientPrevWeek.addColorStop(0, '#FF55B8');
-gradientPrevWeek.addColorStop(1, '#FF8787');
-
-var config = {
- type: 'line',
- data: {
-     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct","Nov","Dec"],
-     datasets: [
-       {
-           label: 'Temperature',
-           data: [13213, 13213, 13213, 13213, 13213, 13213, 13213, 13213, 15213, 13213, 12213 ,14213],
-           fill: false,
-           borderColor: 'rgba(255, 255, 255, 0.2)',
-           borderWidth: 2,
-           pointBackgroundColor: 'transparent',
-           pointBorderColor: '#FFFFFF',
-           pointBorderWidth: 3,
-           pointHoverBorderColor: 'rgba(255, 255, 255, 0.2)',
-           pointHoverBorderWidth: 10,
-           lineTension: 0,
-       }
-     ]
- },
- options: {
- 	responsive: false,
-   elements: { 
-     point: {
-       radius: 6,
-       hitRadius: 6, 
-       hoverRadius: 6 
-     } 
-   },
-   legend: {
-     display: false,
-   },
-   tooltips: {
-   	backgroundColor: 'transparent',
-     displayColors: false,
-     bodyFontSize: 14,
-     callbacks: {
-       label: function(tooltipItems, data) { 
-         return tooltipItems.yLabel + '장';
-       }
-     }
-   },
-   scales: {
-     xAxes: [{
-       display: false,
-     }],
-     yAxes: [{
-       display: false,
-       ticks: {
-         beginAtZero: true,
-       },
-     }]
-   }
- },
- plugins: [multiply],
-};
-
-window.chart = new Chart(canvas, config);
-</script>
-
-<!-- 앨범별매출 -->
-<script type="text/javascript">
-//bar chart
-var bar = document.getElementById('canvas-AlbumSales');
-bar.height = 400
-var barConfig = new Chart(bar, {
-    type: 'horizontalBar',
-    data: {
-        labels: ['BornPink', 'THEALBUM', 'KillThisLove', 'SquareUp'],
-        datasets: [{
-            label: '# of data',
-            data: [30, 25, 20, 15],
-            backgroundColor: ['#ffffff80','#ffffff80','#ffffff80','#ffffff80','#ffffff80'],
-            borderWidth: 1
-        }]
-    },
-    options: {
-    	
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: false
-                }
-            }]
-        },
-        legend: {
-            display: false,
-          },
-        responsive: true, // Instruct chart js to respond nicely.
-        maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-    }
-})
-        </script>
 <!-- 주문목록 리스트 -->
 <script>
 $(function(){
@@ -687,5 +514,182 @@ $(function(){
 	})//#ordersTab3 click end
 })//첫function end
 </script>
+
+<!-- 매출 데이터 ajax로 불러오기(변수에 담아 아래 챠트에 넣을 예정) -->
+<script>
+
+var squareUp1;
+var squareUp2;
+var killThisLove1;
+var killThisLove2;
+var theAlbum1;
+var theAlbum2;
+var bornPink1;
+var bornPink2;
+
+$(function(){
+	$(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+    });
+	$("#statsTab4").click(function(){
+// 		alert("#statsTab4 click");
+		$.ajax({ 
+			  url : "${pageContext.request.contextPath}/admin/statsChart", 
+			  type : "post", 
+			  dataType : "json",
+			  success : function(result){
+// 				  alert("클릭성공");
+// 				alert(result.monthStats[0].month);//출력확인 list
+// 				alert(result.bornPink.albumTotalQty);//출력확인 앨범별로 다 있음
+				
+				var allStats=result.allStats.totalPrice;
+				$("#allStats").html(allStats);
+				let str="";  
+			  	$.each(result.monthStats, function(index, results){
+			  		str+='<div class="tick-monthlySales">';
+			  		str+='<span class="day-number-monthlySales">'+results.month+'</span>';
+			  		str+='<span class="day-name-monthlySales">'+(index+1)+'</span>';
+			  		str+='<span class="value-monthlySales value--this-monthlySales">'+results.totalPrice+"원"+'</span>';
+					str+='</div>';
+			  	});
+			  	$("#monthStats").html(str);
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+				//월별매출 설정
+				var canvas = document.getElementById("canvas-monthlySales");
+
+				
+				//Apply multiply blend when drawing datasets
+				var multiply = {
+				beforeDatasetsDraw: function(chart, options, el) {
+				 chart.ctx.globalCompositeOperation = 'multiply';
+				},
+				afterDatasetsDraw: function(chart, options) {
+				 chart.ctx.globalCompositeOperation = 'source-over';
+				},
+				};
+
+				//Gradient color - this week
+				var gradientThisWeek = canvas.getContext('2d').createLinearGradient(0, 0, 0, 150);
+				gradientThisWeek.addColorStop(0, '#5555FF');
+				gradientThisWeek.addColorStop(1, '#9787FF');
+
+				//Gradient color - previous week
+				var gradientPrevWeek = canvas.getContext('2d').createLinearGradient(0, 0, 0, 150);
+				gradientPrevWeek.addColorStop(0, '#FF55B8');
+				gradientPrevWeek.addColorStop(1, '#FF8787');
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+				//월별 매출 조회
+				
+				var config = {
+				type: 'line',
+				data: {
+					labels:
+						result.months,
+				     datasets: [
+				       {
+				           label: 'Temperature',
+				           data: result.prices,
+				           fill: false,
+				           borderColor: 'rgba(255, 255, 255, 0.2)',
+				           borderWidth: 2,
+				           pointBackgroundColor: 'transparent',
+				           pointBorderColor: '#FFFFFF',
+				           pointBorderWidth: 3,
+				           pointHoverBorderColor: 'rgba(255, 255, 255, 0.2)',
+				           pointHoverBorderWidth: 10,
+				           lineTension: 0,
+				       }
+				     ]
+				 },
+				 options: {
+				 	responsive: false,
+				   elements: { 
+				     point: {
+				       radius: 6,
+				       hitRadius: 6, 
+				       hoverRadius: 6 
+				     } 
+				   },
+				   legend: {
+				     display: false,
+				   },
+				   tooltips: {
+				   	backgroundColor: 'transparent',
+				     displayColors: false,
+				     bodyFontSize: 14,
+				     callbacks: {
+				       label: function(tooltipItems, data) { 
+				         return tooltipItems.yLabel + '원';
+				       }
+				     }
+				   },
+				   scales: {
+				     xAxes: [{
+				       display: false,
+				     }],
+				     yAxes: [{
+				       display: false,
+				       ticks: {
+				         beginAtZero: true,
+				       },
+				     }]
+				   }
+				 },
+				 plugins: [multiply],
+				};
+				
+				window.chart = new Chart(canvas, config);
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+							
+				//앨범 매출 조회
+				var bar = document.getElementById('canvas-AlbumSales');
+				bar.height = 400
+				var barConfig = new Chart(bar, {
+				    type: 'horizontalBar',
+				    data: {
+				        labels: ['BornPink', 'THEALBUM', 'KillThisLove', 'SquareUp'],
+				        datasets: [{
+				        	label : '앨범 판매 수량',
+							data :
+							[	result.bornPink.albumTotalQty,
+								result.theAlbum.albumTotalQty,
+								result.killThisLove.albumTotalQty,
+								result.squareUp.albumTotalQty ],
+					            backgroundColor: ['#ffffff80','#ffffff80','#ffffff80','#ffffff80','#ffffff80'],
+					            borderWidth: 1
+					        }]
+				    },
+				    options: {
+				    	
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero: false
+				                }
+				            }]
+				        },
+				        legend: {
+				            display: false,
+				          },
+				        responsive: true, // Instruct chart js to respond nicely.
+				        maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+				    }
+				})//앨범매출(var barConfig) 챠트 끝
+			  }, 
+			  error : function(request,status,err){//에러 : 보통 콜백함수
+// 				  alert("code="+request.status+"\n"+"message"+request.responseText+"\n"+"error:"+err);	  
+			  } 
+		  })//ajax끝
+	})//#statsTab4 click end
+
+})//첫function end
+</script>
+
+<!-- 월별매출 -ajax 칸으로 이동(var config) -->
+<script type="text/javascript">
+
+</script>
+
 </body>
 </html>

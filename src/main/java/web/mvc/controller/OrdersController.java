@@ -67,7 +67,9 @@ public class OrdersController {
 	private final static String STATUS_AFTER="주문완료";
 	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	//관리자 페이지-주문조회 : admin/ordersList
+	
+	//관리자 페이지-메인 : admin/main
+	//관리자 페이지-주문조회 : admin/ordersList  (main에서 ajax호출용 url)
 	//유저 마이페이지 : /mypage/orderList
 	//카트구매용 주문 폼 연결 : /orders/ordersForm -> shop/order 로 연결
 	//바로구매용 주문 폼 연결 : /orders/directOrder -> shop/order 로 연결(directOrder값 전달)
