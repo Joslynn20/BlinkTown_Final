@@ -175,8 +175,8 @@
 				<button class="insert-btn" type="submit">상품등록</button>				
 				<select  class="insert-select">
 					<option selected="selected" value="">Category</option>
-					<option value="">Album</option>
-					<option value="">Goods</option>
+					<option value="A">Album</option>
+					<option value="G">Goods</option>
 				</select>
 			</form>
 			

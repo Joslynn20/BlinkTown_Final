@@ -1,8 +1,6 @@
 package web.mvc.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 
@@ -16,19 +14,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Album extends Product {
 
-	
-	
-
 	public Album(String productCode, String productName, String productEngName, int productPrice, int productStock,
 			String productSize, LocalDateTime productRegDate, String productMainImg, String productDetailImg,
 			int productReadNo, Category category, Integer productMembershipOnly, String albumComponent,
-			Date albumReleaseDate) {
+			String albumReleaseDate) {
 		super(productCode, productName, productEngName, productPrice, productStock, productSize, productRegDate,
 				productMainImg, productDetailImg, productReadNo, category, productMembershipOnly);
 		this.albumComponent = albumComponent;
 		this.albumReleaseDate = albumReleaseDate;
 	}
 	private String albumComponent;
-	private Date albumReleaseDate;
+	private String albumReleaseDate;
 
 }
