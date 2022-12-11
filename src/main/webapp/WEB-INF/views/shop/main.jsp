@@ -12,81 +12,80 @@
 </head>
 
 <script type="text/javascript">
-$(function() {
-	selectMembershipOnlyProduct();
-	selectAllGoods();
+	$(function() {
+		selectMembershipOnlyProduct();
+		selectAllGoods();
+		
+	});
 	
-});
+	function selectMembershipOnlyProduct () {
+		$.ajax({
+			type:"POST",
+			url:"${pageContext.request.contextPath}/shop/select",
+			data:{"GoodsMembershipOnly":"1", "orderCondition":$('select[class=sort-option]').val()},
+			dataType:"json",
+			success:function(result){
+				let str = "<ul class='auto-grid' role='list'>";
+				$.each(result, function(index, item) {
+					str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
 
-function selectMembershipOnlyProduct () {
-	$.ajax({
-		type:"POST",
-		url:"${pageContext.request.contextPath}/shop/select",
-		data:{"GoodsMembershipOnly":"1", "orderCondition":$('select[class=sort-option]').val()},
-		dataType:"json",
-		success:function(result){
-			let str = "<ul class='auto-grid' role='list'>";
-			$.each(result, function(index, item) {
-				str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
+					// 한글 & 영문 선택
+					if($("#selectbox").val() == 'ko'){
+						str +="<h3 class='profile__name'>["+item.productName+"]</h3>";
+					} else{
+						str +="<h3 class='profile__name'>["+item.productEngName+"]</h3>";	
+					}		
+						str +="<div class='price-text'>";
+						str +="<p>"+item.productPrice+"</p>";		
+						str +="<p>원</p></div>";
+						str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/img/FIGURE_JENNIE.png' />";				
+						str +="</a></li>";				
+				});
+				str += "</ul>";
 
-				// 한글 & 영문 선택
-				if($("#selectbox").val() == 'ko'){
-					str +="<h3 class='profile__name'>["+item.productName+"]</h3>";
-				} else{
-					str +="<h3 class='profile__name'>["+item.productEngName+"]</h3>";	
-				}		
-					str +="<div class='price-text'>";
-					str +="<p>"+item.productPrice+"</p>";		
-					str +="<p>원</p></div>";
-					str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/save/shopImg/title/"+item.productMainImg+"' />";			
-					str +="</a></li>";				
-			});
-			str += "</ul>";
+				$("#membershipOnly").html(str);
+			},
+			error:function(error){
+				alert(error);
+			}
+		});
+	}
+	
+	function selectAllGoods() {
+		$.ajax({
+			type:"POST",
+			url:"${pageContext.request.contextPath}/shop/select",
+			data:{"GoodsMembershipOnly":"0", "orderCondition":$('select[class=sort-option]').val()},
+			dataType:"json",
+			success:function(result){
+				let str = "<ul class='auto-grid' role='list'>";
+				$.each(result, function(index, item) {
+					
+					str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
 
-			$("#membershipOnly").html(str);
-		},
-		error:function(error){
-			alert(error);
-		}
-	});
-}
+					// 한글 & 영문 선택
+					if($("#selectbox").val() == 'ko'){
+						str +="<h3 class='profile__name'>["+item.productName+"]</h3>";
+					} else{
+						str +="<h3 class='profile__name'>["+item.productEngName+"]</h3>";	
+					}		
+						str +="<div class='price-text'>";
+						str +="<p>"+item.productPrice+"</p>";		
+						str +="<p>원</p></div>";
+						str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/img/FIGURE_JENNIE.png' />";				
+						str +="</a></li>";				
+				});
+				str += "</ul>";
 
-function selectAllGoods() {
-	$.ajax({
-		type:"POST",
-		url:"${pageContext.request.contextPath}/shop/select",
-		data:{"GoodsMembershipOnly":"0", "orderCondition":$('select[class=sort-option]').val()},
-		dataType:"json",
-		success:function(result){
-			let str = "<ul class='auto-grid' role='list'>";
-			$.each(result, function(index, item) {
-				console.log(result);
-				console.log(item);
-				str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
-
-				// 한글 & 영문 선택
-				if($("#selectbox").val() == 'ko'){
-					str +="<h3 class='profile__name'>["+item.productName+"]</h3>";
-				} else{
-					str +="<h3 class='profile__name'>["+item.productEngName+"]</h3>";	
-				}		
-					str +="<div class='price-text'>";
-					str +="<p>"+item.productPrice+"</p>";		
-					str +="<p>원</p></div>";
-					str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/save/shopImg/title/"+item.productMainImg+"' />";
-					str +="</a></li>";				
-			});
-			str += "</ul>";
-
-			$("#goods").html(str);
-		},
-		error:function(error){
-			alert(error);
-		}
-	});
-}
-
-
+				$("#goods").html(str);
+			},
+			error:function(error){
+				alert(error);
+			}
+		});
+	}
+	
+	
 </script>
 <body>
 	<div class="shop-wrap">

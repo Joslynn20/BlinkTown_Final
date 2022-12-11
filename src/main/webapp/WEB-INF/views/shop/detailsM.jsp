@@ -35,13 +35,13 @@
 	<div id='contents' class="contents-wrap">
 		<div class="container">
 			<div class="product-img">
-				<img id="productImg" src="${pageContext.request.contextPath}/save/shopImg/detail/${product.productDetailImg}">
+				<img id="productImg" src="${pageContext.request.contextPath}/img/FIGURE_JENNIE2.png">
 			</div>
 		</div>
 		<div class="product-cont">
 			<div class="column-col">
 				<div class="product-col-img">
-					<img src="${pageContext.request.contextPath}/save/shopImg/title/${product.productMainImg}">
+					<img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png">
 					
 				</div>
 				<div class="product-text-wrap">

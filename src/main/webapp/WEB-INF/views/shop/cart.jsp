@@ -113,7 +113,7 @@
 									  </label>
 									</div>
 								</td>
-		                        <td><img src="${pageContext.request.contextPath}/save/shopImg/title/${cart.product.productMainImg}" alt="magic keyboard"></td>
+		                        <td><img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" alt="magic keyboard"></td>
 		                        <td id="productCode"><a href="#">${cart.product.productCode}</a>
 		                            <p>${cart.product.productEngName}<br>${cart.product.productName}</p>
 		         
@@ -147,14 +147,13 @@
             
         </table>
         <div class="cart__mainbtns">
-            <button class="cart__bigorderbtn left" id="continue" onclick="location.href = '${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
+            <button class="cart__bigorderbtn left" onsubmit="location.href='${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
             <button class="cart__bigorderbtn right" type="submit">주문하기</button>
         </div>
         </form>
     </section>
     
     <script type="text/javascript">
-    
     function selectAll(selectAll)  {
     	  const checkboxes 
     	       = document.getElementsByName('cart-select');

@@ -1,11 +1,13 @@
 package web.mvc.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import web.mvc.domain.Album;
 import web.mvc.domain.Goods;
 import web.mvc.domain.Product;
+import web.mvc.domain.QGoods;
 import web.mvc.domain.QProduct;
 import web.mvc.repository.ProductRepository;
 
@@ -81,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 		Album dbAlbum = (Album) dbProduct;
 
 		String albumComponent = album.getAlbumComponent();
-		String albumReleaseDate = album.getAlbumReleaseDate();
+		Date albumReleaseDate = album.getAlbumReleaseDate();
 
 		if (albumComponent != null)
 			dbAlbum.setAlbumComponent(albumComponent);

@@ -1,22 +1,18 @@
 package web.mvc.controller;
 
-import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
-import web.mvc.domain.Album;
-import web.mvc.domain.Category;
-import web.mvc.domain.Goods;
 import web.mvc.domain.Product;
 import web.mvc.service.ProductService;
 
@@ -26,41 +22,13 @@ import web.mvc.service.ProductService;
 public class ProductController {
 
 	private final ProductService service;
-	private static final String MAIN_DIR = "/save/shopImg/title";
-	private static final String DETAIL_DIR = "/save/shopImg/detail";
 
-	@RequestMapping("/insertAlbum")
-	public String insertProduct(Album album, Category category, MultipartFile mainImg, MultipartFile detailImg, HttpSession session) {
-		album.setCategory(category);
-		
-		String mainDir = session.getServletContext().getRealPath(MAIN_DIR);
-		String mainFileName = mainImg.getOriginalFilename();
-		
-		String detailDir = session.getServletContext().getRealPath(DETAIL_DIR);
-		String detailFileName = detailImg.getOriginalFilename();
-		
-		try {
-			mainImg.transferTo(new File(mainDir+"/"+mainFileName));
-			detailImg.transferTo(new File(detailDir+"/"+detailFileName));
-			
-			album.setProductMainImg(mainFileName);
-			album.setProductDetailImg(detailFileName);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-				
-		service.insertProduct(album);
+	@RequestMapping("/insert")
+	public String insertProduct(Product product) {
 
-		return "admin/main";
-	}
-	
-	@RequestMapping("/insertGoods")
-	public String insertProduct(Goods goods, Category category) {
-		goods.setCategory(category);
-		service.insertProduct(goods);
+		service.insertProduct(product);
 
-		return "admin/main";
+		return "";
 	}
 
 	@RequestMapping("/update")

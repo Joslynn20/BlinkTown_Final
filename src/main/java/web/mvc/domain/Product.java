@@ -51,8 +51,7 @@ public class Product {
 	private String productMainImg;
 	@Column(nullable = false)
 	private String productDetailImg;
-	
-	@Column(nullable = false, columnDefinition = "number default 0")
+	@Column(nullable = false)
 	private int productReadNo;
 
 	@JsonIgnore
@@ -60,7 +59,7 @@ public class Product {
 	@JoinColumn(name = "categoryCode")
 	private Category category;
 
-	@Column(nullable = false, columnDefinition = "number(1) default 0")
+	@Column(columnDefinition = "number(1) default 0")
 	private Integer productMembershipOnly;
 
 }
