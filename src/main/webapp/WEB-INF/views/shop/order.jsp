@@ -205,7 +205,7 @@ function execDaumPostcode() {//주소지 API
                 <c:choose>
                 	<c:when test="${not empty directOrder}">
                 		 <tr class="cart__list__detail">
-		                        <td><img src="${pageContext.request.contextPath}/save/${directOrder.product.productMainImg}" alt="magic keyboard"></td>
+		                        <td><img src="${pageContext.request.contextPath}/save/shopImg/title/${directOrder.product.productMainImg}" alt="magic keyboard"></td>
 		                        <td id="productCode"><a href="#">${directOrder.product.productCode}</a>
 		                        <p><c:choose>
 									<c:when test="${cookie.lang.value eq 'en'}">${directOrder.product.productEngName}</c:when>
@@ -224,7 +224,7 @@ function execDaumPostcode() {//주소지 API
                 	<c:otherwise>
 		                <c:forEach items="${sessionScope.cartList}" var="cart" varStatus="state">
 		                	 <tr class="cart__list__detail">
-		                        <td><img src="${pageContext.request.contextPath}/save/${cart.product.productMainImg}" alt="magic keyboard"></td>
+		                        <td><img src="${pageContext.request.contextPath}/save/shopImg/title/${cart.product.productMainImg}" alt="magic keyboard"></td>
 		                        <td id="productCode"><a href="#">${cart.product.productCode}</a>
 		                        <p><c:choose>
 									<c:when test="${cookie.lang.value eq 'en'}">${cart.product.productEngName}</c:when>
@@ -260,9 +260,9 @@ function execDaumPostcode() {//주소지 API
 			
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	        <c:if test="${not empty directOrder}">
-	        <input type="hidden" name="product.productCode" value="${directOrder.product.productCode}">
-	        <input type="hidden" name="orderdetailsQty" value="${directOrder.orderdetailsQty}">
-	        <input type="hidden" name="orderdetailsPrice" value="${directOrder.orderdetailsPrice}">
+		        <input type="hidden" name="product.productCode" value="${directOrder.product.productCode}">
+		        <input type="hidden" name="orderdetailsQty" value="${directOrder.orderdetailsQty}">
+		        <input type="hidden" name="orderdetailsPrice" value="${directOrder.orderdetailsPrice}">
 	        </c:if>
 	        </div>
         </div>

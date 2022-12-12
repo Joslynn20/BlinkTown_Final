@@ -163,12 +163,15 @@ public class OrdersController {
 	/**
 	 * 바로구매(주문폼 연결)
 	 */
-	@RequestMapping("/orders/directOrder")
-	public String directOrder(/* String productCode, */ Product product, @RequestParam(defaultValue="1") int qty, Model model) {
+	@RequestMapping("/orders/directOrder/{productCode}/{qty}")
+	public String directOrder(/*Product product, */@PathVariable String productCode, @PathVariable int qty, Model model) {
 
 //		product.setProductCode("A01"); //테스트용 
+//		product=productService.selectByProductCode(product.getProductCode(), false); //product사용용도
+		System.out.println("qty="+qty);
 		
-		product=productService.selectByProductCode(product.getProductCode(), false); //실사용
+		Product product=new Product();
+		product=productService.selectByProductCode(productCode, false); //실사용
 		Orderdetails directOrder=Orderdetails.builder().product(product).orderdetailsQty(qty).orderdetailsPrice(product.getProductPrice()*qty).build();
 		model.addAttribute("directOrder", directOrder);
 		return "/shop/order";
