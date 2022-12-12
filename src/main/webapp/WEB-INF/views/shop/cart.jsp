@@ -113,7 +113,7 @@
 									  </label>
 									</div>
 								</td>
-		                        <td><img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" alt="magic keyboard"></td>
+		                        <td><img src="${pageContext.request.contextPath}/save/shopImg/title/${cart.product.productMainImg}" alt="magic keyboard"></td>
 		                        <td id="productCode"><a href="#">${cart.product.productCode}</a>
 		                            <p>${cart.product.productEngName}<br>${cart.product.productName}</p>
 		         
