@@ -190,7 +190,7 @@ public class OrdersController {
 	@RequestMapping("/orders/orderFail")
 	public String orderFail(Model model) {
 		model.addAttribute("message", "주문에 실패하였습니다");
-		return "error/error";
+		return "/error/error";
 	}
 	
 ///////////////////////////////////////////////////////////////	

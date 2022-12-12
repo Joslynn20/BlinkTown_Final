@@ -240,7 +240,7 @@
 	  	<div class="sales-wrap">
 	  		<div class="card-monthlySales">
 				  <!-- Custom information -->
-				  <div class="about-monthlySales">
+				  <div class="about-monthlySales" style="height: 100px;">
 				    <h3>월별매출조회</h3>
 				    <p class="lead-monthlySales">Monthly Sales Trend</p>
 				  </div>
@@ -250,7 +250,7 @@
 				  
 				  <!-- Custom Axis -->
 				  <div class="axis-monthlySales" id="monthStats">
-<!-- 				    <div class="tick-monthlySales"> -->
+<!-- 				    <div class="tick-monthlySales" id="monthStatsSub"> -->
 <!-- 				      <span class="day-number-monthlySales">1</span> -->
 <!-- 				      <span class="day-name-monthlySales">Jan</span> -->
 <!-- 				      <span class="value-monthlySales value--this-monthlySales">00장</span> -->
@@ -414,6 +414,11 @@ $(document).ready(function() {
 	})(jQuery);
 
 });
+</script>
+
+<!-- 설정 자리 -->
+<script>
+
 </script>
 
 <!-- 회원목록(첫화면)+집계count -->
@@ -598,8 +603,9 @@ $(function(){
 				var allStats=result.allStats.totalPrice;
 				$("#allStats").html(allStats);
 				let str="";  
+				$('#monthStatsSub').remove();
 			  	$.each(result.monthStats, function(index, results){
-			  		str+='<div class="tick-monthlySales">';
+			  		str+='<div class="tick-monthlySales" id="monthStatsSub">';
 			  		str+='<span class="day-number-monthlySales">'+results.month+'</span>';
 			  		str+='<span class="day-name-monthlySales">'+(index+1)+'</span>';
 			  		str+='<span class="value-monthlySales value--this-monthlySales">'+results.totalPrice+"원"+'</span>';
@@ -702,13 +708,15 @@ $(function(){
 				    type: 'horizontalBar',
 				    data: {
 				        labels: ['BornPink', 'THEALBUM', 'KillThisLove', 'SquareUp'],
+// 				        	, 'sample'],
 				        datasets: [{
 				        	label : '앨범 판매 수량',
 							data :
 							[	result.bornPink.albumTotalQty,
 								result.theAlbum.albumTotalQty,
 								result.killThisLove.albumTotalQty,
-								result.squareUp.albumTotalQty ],
+								result.squareUp.albumTotalQty],
+// 								, 3],
 					            backgroundColor: ['#ffffff80','#ffffff80','#ffffff80','#ffffff80','#ffffff80'],
 					            borderWidth: 1
 					        }]
@@ -718,7 +726,7 @@ $(function(){
 				        scales: {
 				            yAxes: [{
 				                ticks: {
-				                    beginAtZero: false
+				                    beginAtZero: true,
 				                }
 				            }]
 				        },
@@ -741,8 +749,13 @@ $(function(){
 
 <!-- 월별매출 -ajax 칸으로 이동(var config) -->
 <script type="text/javascript">
-
+//설정들
+//var config
 </script>
 
+<!-- 앨범매출 var barConfig 자리-->
+<script type="text/javascript">
+
+</script>
 </body>
 </html>
