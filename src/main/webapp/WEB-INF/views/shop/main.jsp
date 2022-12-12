@@ -9,6 +9,84 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/shop/shopMain.css">
+	
+<script type="text/javascript">
+	$(function() {
+		selectMembershipOnlyProduct();
+		selectAllGoods();
+		
+	});
+	
+	function selectMembershipOnlyProduct () {
+		$.ajax({
+			type:"POST",
+			url:"${pageContext.request.contextPath}/shop/select",
+			data:{"GoodsMembershipOnly":"1", "orderCondition":$('select[class=sort-option]').val()},
+			dataType:"json",
+			success:function(result){
+				let str = "<ul class='auto-grid' role='list'>";
+				$.each(result, function(index, item) {
+					str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
+
+					// 한글 & 영문 선택
+					if($("#selectbox").val() == 'ko'){
+						str +="<h3 class='profile__name'>["+item.productName+"]</h3>";
+					} else{
+						str +="<h3 class='profile__name'>["+item.productEngName+"]</h3>";	
+					}		
+						str +="<div class='price-text'>";
+						str +="<p>"+item.productPrice+"</p>";		
+						str +="<p>원</p></div>";
+						str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/save/shopImg/title/"+item.productMainImg+"' />";			
+						str +="</a></li>";				
+				});
+				str += "</ul>";
+
+				$("#membershipOnly").html(str);
+			},
+			error:function(error){
+				alert(error);
+			}
+		});
+	}
+	
+	function selectAllGoods() {
+		$.ajax({
+			type:"POST",
+			url:"${pageContext.request.contextPath}/shop/select",
+			data:{"GoodsMembershipOnly":"0", "orderCondition":$('select[class=sort-option]').val()},
+			dataType:"json",
+			success:function(result){
+				let str = "<ul class='auto-grid' role='list'>";
+				$.each(result, function(index, item) {
+					console.log(result);
+					console.log(item);
+					str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
+
+					// 한글 & 영문 선택
+					if($("#selectbox").val() == 'ko'){
+						str +="<h3 class='profile__name'>["+item.productName+"]</h3>";
+					} else{
+						str +="<h3 class='profile__name'>["+item.productEngName+"]</h3>";	
+					}		
+						str +="<div class='price-text'>";
+						str +="<p>"+item.productPrice+"</p>";		
+						str +="<p>원</p></div>";
+						str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/save/shopImg/title/"+item.productMainImg+"' />";
+						str +="</a></li>";				
+				});
+				str += "</ul>";
+
+				$("#goods").html(str);
+			},
+			error:function(error){
+				alert(error);
+			}
+		});
+	}
+	
+	
+</script>
 </head>
 <body>
 <div class="shop-wrap">
@@ -32,49 +110,7 @@
 			</div>
 			<div class="wrapper">
 				<article class="flow">
-					<div class="team">
-						<ul class="auto-grid" role="list">
-							<li><a href="/shop/details" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-						</ul>
-					</div>
+					<div class="team" id="membershipOnly"></div>
 				</article>
 				<div class="goods-shop">
 				<div class="title">
@@ -84,52 +120,15 @@
 				<div class="select-sort">
 					<select class="sort-option">
 						<option class="sort-option"><spring:message code="Sort"/></option>
-						<option class="sort-option" value="<spring:message code='Newproduct'/>"><spring:message code='Newproduct'/></option>
-						<option class="sort-option" value="<spring:message code='Popularity'/>"><spring:message code='Popularity'/></option>
-						<option class="sort-option" value="<spring:message code='Highprice'/>"><spring:message code='Highprice'/></option>
-						<option class="sort-option" value="<spring:message code='Lowprice'/>"><spring:message code='Lowprice'/></option>
-					</select>
+						<option class="sort-option" value="productRegDate"><spring:message code='Newproduct' /></option>
+						<option class="sort-option" value="productReadNo"><spring:message code='Popularity' /></option>
+						<option class="sort-option" value="productPriceHigh"><spring:message code='Highprice' /></option>
+						<option class="sort-option" value="productPriceLow"><spring:message code='Lowprice' /></option>				
+						</select>
 				</div>
 				<article class="flow">
-					<div class="team">
-						<ul class="auto-grid" role="list">
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-							<li><a href="#" target="_blank " class="profile">
-									<h3 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-										FIGURE_ JISOO</h3>
-									<div class="price-text">
-										<p>000000</p>
-										<p>원</p>
-									</div> <img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-							</a></li>
-						</ul>
+					<div class="team" id="goods">
+						
 					</div>
 				</article>
 				</div><!-- goods-shop -->

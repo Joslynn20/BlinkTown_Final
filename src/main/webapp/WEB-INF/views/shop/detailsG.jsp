@@ -16,7 +16,7 @@
 				$.ajax({
 					type:"POST",
 					url:"${pageContext.request.contextPath}/cart/insert",
-					data:{"productCode":"${product.productCode}", "productName":"${product.productName}", "productMainImg":$("#productImg").attr("src"),
+					data:{"productCode":"${product.productCode}", "productName":"${product.productName}", "productMainImg":"${product.productMainImg}",
 						"productEngName":"${product.productEngName}","productPrice":"${product.productPrice}", "qty":$("input[type=number]").val()},	
 					dataType:"text",
 					success:function(result){
@@ -36,14 +36,14 @@
 <body>
 	<div id='contents' class="contents-wrap">
 		<div class="container">
-			<div class="product-img">
-				<img id="productImg" src="${pageContext.request.contextPath}/img/FIGURE_JENNIE2.png">
+			<div class="product-img">			
+				<img id="productImg" src="${pageContext.request.contextPath}/save/shopImg/detail/${product.productDetailImg}">
 			</div>
 		</div>
 		<div class="product-cont">
 			<div class="column-col">
 				<div class="product-col-img">
-					<img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png">
+					<img src="${pageContext.request.contextPath}/save/shopImg/title/${product.productMainImg}">
 					<button class="accordion"><spring:message code="GoodsProductDeails"/> </button>
 					<div class="panel">
 						<br>
