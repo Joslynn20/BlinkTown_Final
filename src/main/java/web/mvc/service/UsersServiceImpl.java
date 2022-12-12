@@ -44,7 +44,8 @@ public class UsersServiceImpl implements UsersService {
 		users.setUsersPwd(enPwd);
 		
 		 usersRep.save(users);
-		 authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_USER));
+		 authoritiesRep.save(Authority.builder().users(users).AuhtorityRole(RoleConstants.ROLE_MEMBER).build());
+		 //authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_USER));
 		//authoritiesRep.save(new Authority(users.getId(),RoleConstants.ROLE_MEMBER));
 		
 	   
@@ -160,11 +161,14 @@ public class UsersServiceImpl implements UsersService {
 	 //주문-멤버쉽업데이트
 	   @Override
 	   public void updateUsersMemberShip(Users users, boolean willMember) {
-		  if(willMember==true) users.setUsersMemberShip(1);
-		  else users.setUsersMemberShip(0);
-		  
-		  authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_MEMBER));
-
+		  if(willMember==true) { //멤버쉽카드 구매시 회원정보 업데이트, 권한 생성
+			  users.setUsersMemberShip(1);
+			  authoritiesRep.save(Authority.builder().users(users).AuhtorityRole(RoleConstants.ROLE_MEMBER).build());
+		  }
+		  else { //멤버쉽카드 구매 오류로 원복할시 회원정보 원복, 권한 다시 삭제
+			  users.setUsersMemberShip(0);
+			  authoritiesRep.deleteByUsersAndAuhtorityRole(users, RoleConstants.ROLE_MEMBER);
+		  }
 	   }
 
 	@Override//회원카운트

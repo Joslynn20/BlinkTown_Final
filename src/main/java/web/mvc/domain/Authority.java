@@ -31,9 +31,9 @@ public class Authority {
 	@SequenceGenerator(name = "roleKey_seq", allocationSize = 1, sequenceName = "roleKey_seq")
 	private Long RoleKey ;
 	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "users_id")
-	private String usersId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id")
+	private Users users;
 	
 	private String AuhtorityRole;
 

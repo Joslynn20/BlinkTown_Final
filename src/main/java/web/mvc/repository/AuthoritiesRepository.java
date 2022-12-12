@@ -16,7 +16,10 @@ public interface AuthoritiesRepository extends JpaRepository<Authority, Long>{
 	/**
 	 *userId에 해당하는 권한 검색.
 	 * */
-	 List<Authority> findByUsersId(String usersId);
+	 List<Authority> findByUsers(Users users);
 
-
+	 /**
+	  * 업데이트 원복할때 필요한 멤버 권한 삭제
+	  */
+	 void deleteByUsersAndAuhtorityRole(Users users, String AuhtorityRole);
 }
