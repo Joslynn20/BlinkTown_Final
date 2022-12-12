@@ -44,7 +44,7 @@ public class UsersServiceImpl implements UsersService {
 		users.setUsersPwd(enPwd);
 		
 		 usersRep.save(users);
-		 authoritiesRep.save(Authority.builder().users(users).AuhtorityRole(RoleConstants.ROLE_MEMBER).build());
+		 authoritiesRep.save(Authority.builder().users(users).AuhtorityRole(RoleConstants.ROLE_USER).build());
 		 //authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_USER));
 		//authoritiesRep.save(new Authority(users.getId(),RoleConstants.ROLE_MEMBER));
 		
