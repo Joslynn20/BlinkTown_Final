@@ -42,17 +42,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<Board> selectAll() {
 		return boardRep.findAll(Sort.by(Sort.Direction.DESC, "boardNo"));
-		//return boardRep.findAll();
 	}     
-
-	/*@Override
-	public Page<Board> selectAll(Pageable pageable) {
-		return boardRep.findAll(pageable);
-	}*/
 
 	@Override
 	public Board selectByBoardNo(Long boardNo) {
-		// 조회수 기능을 추가한다면 erd변경하고 여기에 조회수 기능 추가!
 		Board board = boardRep.findById(boardNo).orElse(null);
 		if (board == null)
 			throw new RuntimeException("상세보기 오류입니다.");
@@ -67,7 +60,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-//	public void insertBoard(Board board) {
 	public void insertBoard(Board board, Users users) {
 		board.setUsers(users);
 		Board resultBoard = boardRep.save(board);

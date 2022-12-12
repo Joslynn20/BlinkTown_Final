@@ -35,14 +35,12 @@ public class ReplyController {
 	 * ->text형태로
 	 * */
 	@RequestMapping("/details/{boardNo}")
-	public Reply insertReply(String replyContent, @PathVariable Long boardNo) { 		
+	public Reply insertReply(String replyContent, @PathVariable Long boardNo) { 
 		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		Board board=boardService.selectByBoardNo(boardNo);
-//		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(Users.builder().usersId("jisoo").build()).build();
-		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(users).build(); //users등록할때 주석풀고 사용
+		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(users).build();
 		
-//		Reply newReply=replyService.insertReply(beforeReply);
 		Reply newReply=replyService.insertReply(beforeReply, users);
 		return newReply;
 	}
@@ -51,11 +49,10 @@ public class ReplyController {
 	 * 댓글 삭제하기
 	 * */
 	@RequestMapping("/delete")
-	public String deleteReply( Long replyNo,  Long boardNo) {
-		//System.out.println("replyNo= "+replyNo);
-		//System.out.println("boardNo= "+boardNo);
-		replyService.deleteReply(replyNo);
+	public String deleteReply(Long replyNo,  Long boardNo) {
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
+		replyService.deleteReply(replyNo, users);
 		return "ok";
 	}
 	
@@ -64,21 +61,25 @@ public class ReplyController {
 	 * */
 	@RequestMapping("/select")
 	public Map<String, Object> selectReply(Long boardNo) {
-		System.out.println("boardNo = " + boardNo);
 		List<Reply> replyList = replyService.findByBoardOrderByReplyNoDesc(boardNo);
-		System.out.println("replyList = " + replyList);
 		Map<String, Object> map = new HashMap<>();
 		
 		List<String> nicList = new ArrayList<String>();
 		for(Reply r : replyList) {
 			nicList.add(r.getUsers().getUsersNickName());
 		}
+		
+		List<String> usersList = new ArrayList<String>();
+		for(Reply l : replyList) {
+			usersList.add(l.getUsers().getUsersId());
+		}
+		
 		map.put("nicList", nicList);
+		map.put("usersList", usersList);
 		map.put("replyList", replyList);
 		
 		return map;
 	}
-		
 	
 }
 

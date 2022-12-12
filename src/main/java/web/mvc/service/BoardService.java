@@ -18,11 +18,6 @@ public interface BoardService {
 	List<Board> selectAll();
 	
 	/**
-	 * 전체검색 - Page처리
-	 * */
-	/*Page<Board> selectAll(Pageable pageable);*/
-	
-	/**
 	 * 게시글 상세보기
 	 * : Long boardNo(pk) 게시물번호를 인수로 받음
 	 */
@@ -38,7 +33,6 @@ public interface BoardService {
 	 * 게시글 등록(아티스트, 관리자가 작성)
 	 * : 아이디, 제목, 내용, 이미지(없어도 됨), 작성일, 좋아요 수(기본 0으로)
 	 * */
-//	void insertBoard(Board board);
 	void insertBoard(Board board, Users users);
 
     /**

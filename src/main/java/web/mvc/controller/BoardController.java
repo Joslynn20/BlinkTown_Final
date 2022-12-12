@@ -29,9 +29,11 @@ import org.springframework.web.servlet.ModelAndView;
 import web.mvc.domain.Board;
 import web.mvc.domain.Likes;
 import web.mvc.domain.LikesID;
+import web.mvc.domain.Reply;
 import web.mvc.domain.Users;
 import web.mvc.service.BoardService;
 import web.mvc.service.LikesService;
+import web.mvc.service.ReplyService;
 
 
 @Controller
@@ -39,11 +41,13 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private ReplyService replyService;
+	
 	@Autowired
 	private LikesService likesService;
 	
-	private final static int PAGE_COUNT=10;
-	private final static int BLOCK_COUNT=5;
 	
 	/**
 	 * 전체 검색 페이지
@@ -86,14 +90,14 @@ public class BoardController {
 		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		Board board = boardService.selectByBoardNo(boardNo);
-		
+
 		//글번호를 현재 로그인한 사용자가 like 한 상태인지를 가져오기
 		Likes likes =likesService.selectLike(new LikesID(boardNo, users.getUsersId()));
 		ModelAndView mv = new ModelAndView("board/details");
 		mv.addObject("board", board);
 		
 		if(likes!=null)mv.addObject("likes","ok");
-		
+
 		return  mv;
 	}
 	
@@ -104,6 +108,7 @@ public class BoardController {
 	@RequestMapping("/board/insertForm")
 	public void write() {}
 
+	
 	/**
 	 * 파일등록을 포함한 게시물등록하기
 	 * */
@@ -123,11 +128,10 @@ public class BoardController {
 
 		board.setBoardImg("boardImg/"+originalFileName);
 		
-//		boardService.insertBoard(board);
 		boardService.insertBoard(board, users);
 		
 		ModelAndView mv = new ModelAndView();	
-		mv.setViewName("/success/success");
+		mv.setViewName("redirect:/board/main");
 		return mv;
 	}
 		
@@ -144,6 +148,7 @@ public class BoardController {
 	@RequestMapping("{url}")
 	public void url() {}
 	
+	
 	/**
 	 * 좋아요 기능 눌렀을 때 좋아요가 변경되는 기능
 	 * */
@@ -154,6 +159,7 @@ public class BoardController {
 		return likesedCount;		
 	}
 	
+	
 	/**
 	 * 좋아요 표시한 글 모아보기
 	 * */
@@ -162,4 +168,5 @@ public class BoardController {
 		List<Board> likesBoardList = boardService.selectByUserId(userId);
 		model.addAttribute("likesList",likesBoardList);
 	}
+	
 }

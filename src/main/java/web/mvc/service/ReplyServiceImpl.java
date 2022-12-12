@@ -25,15 +25,15 @@ public class ReplyServiceImpl implements ReplyService {
 	private BoardRepository boardRep;
 	
 	@Override
-//	public Reply insertReply(Reply reply) {
 	public Reply insertReply(Reply reply, Users users) {	
 		Reply afterReply=replyRep.save(reply);
 		return afterReply;
 	}
 	
 	@Override
-	public void deleteReply(Long replyNo) {
+	public void deleteReply(Long replyNo, Users users) {
 		replyRep.deleteById(replyNo);
+		
 	}
 
 	@Override
@@ -42,6 +42,5 @@ public class ReplyServiceImpl implements ReplyService {
 		List<Reply> replyList = replyRep.findByBoardOrderByReplyNoDesc(board);
 		return replyList;
 	}
-
 
 }
