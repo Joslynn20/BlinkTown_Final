@@ -148,7 +148,8 @@
         </table>
         <div class="cart__mainbtns">
             <button class="cart__bigorderbtn left" onsubmit="location.href='${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
-            <button class="cart__bigorderbtn right" type="submit">주문하기</button>
+<!--             <button class="cart__bigorderbtn right" type="submit">주문하기</button> -->
+            <button class="cart__bigorderbtn right" onclick="location.href='${pageContext.request.contextPath}/orders/ordersForm'; return false;">주문하기</button>
         </div>
         </form>
     </section>

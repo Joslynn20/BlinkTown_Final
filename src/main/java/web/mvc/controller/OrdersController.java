@@ -97,6 +97,7 @@ public class OrdersController {
 		//유저 테스트용-실제용 구분
 //		Users users=Users.builder().usersId("user").build();//테스트용
 		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
 		List<Orders> ordersList=ordersService.selectByUsers(users);
 		
 		//DTO에 담기

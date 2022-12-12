@@ -67,7 +67,7 @@
 									<div class="tbl-content">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tbody class="usersListTable">
-<!-- 												<tr> -->
+<!-- 												<tr class="usersListTableSub"> -->
 <!-- 													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td> -->
 <!-- 													<td style="width: 13%;">010-0000-000</td> -->
 <!-- 													<td style="width: 20%;">comzaxxer@naver.com</td> -->
@@ -99,14 +99,14 @@
 									<div class="tbl-content">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tbody class="usersListTable">
-												<tr>
-													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td>
-													<td style="width: 13%;">010-0000-000</td>
-													<td style="width: 20%;">comzaxxer@naver.com</td>
-													<td style="width: 15%;">springboot</td>
-													<td style="width: 4%;">N</td>
-													<td style="width: 13%;">2022-01-05</td>
-												</tr>
+<!-- 												<tr> -->
+<!-- 													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td> -->
+<!-- 													<td style="width: 13%;">010-0000-000</td> -->
+<!-- 													<td style="width: 20%;">comzaxxer@naver.com</td> -->
+<!-- 													<td style="width: 15%;">springboot</td> -->
+<!-- 													<td style="width: 4%;">N</td> -->
+<!-- 													<td style="width: 13%;">2022-01-05</td> -->
+<!-- 												</tr> -->
 											</tbody>
 										</table>
 									</div>
@@ -131,14 +131,14 @@
 									<div class="tbl-content">
 										<table cellpadding="0" cellspacing="0" border="0">
 											<tbody class="usersListTable">
-												<tr>
-													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td>
-													<td style="width: 13%;">010-0000-000</td>
-													<td style="width: 20%;">comzaxxer@naver.com</td>
-													<td style="width: 15%;">springboot</td>
-													<td style="width: 4%;">N</td>
-													<td style="width: 13%;">2022-01-05</td>
-												</tr>
+<!-- 												<tr> -->
+<!-- 													<td style="width: 30%;">sydy8995@gmail.com_abcdefghgfgfdsfsd</td> -->
+<!-- 													<td style="width: 13%;">010-0000-000</td> -->
+<!-- 													<td style="width: 20%;">comzaxxer@naver.com</td> -->
+<!-- 													<td style="width: 15%;">springboot</td> -->
+<!-- 													<td style="width: 4%;">N</td> -->
+<!-- 													<td style="width: 13%;">2022-01-05</td> -->
+<!-- 												</tr> -->
 											</tbody>
 										</table>
 									</div>
@@ -463,8 +463,9 @@ function usersListCount() {
 // 			  alert(result.usersList);
 			  //주문목록 출력
 			let str="";  
+			  $(".usersListTableSub").remove();
 		  	$.each(result.usersList, function(index, users){
-		  		str+='<tr>';
+		  		str+='<tr class=usersListTableSub>';
 		  		str+='<td style="width: 30%;">'+users.usersId+'</td>';
 		  		str+='<td style="width: 13%;">'+users.usersPhone+'</td>';
 		  		str+='<td style="width: 20%;">'+users.usersEmail+'</td>';
@@ -553,8 +554,9 @@ $(function(){
 			  success : function(result){
 // 				  alert("클릭성공");
 				let str="";  
+				$(".ordersListSub").remove();
 			  	$.each(result, function(index, orders){
-			  		str+='<tr>';
+			  		str+='<tr class=ordersListSub>';
 			  		str+='<td style="width: 12%;">'+orders.ordersNo+'</td>';
 			  		str+='<td style="width: 13.5%;">'+orders.ordersDate+'</td>';
 			  		str+='<td style="width: 13%;">'+orders.users.usersId+'</td>';
