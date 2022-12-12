@@ -44,12 +44,7 @@ public class UsersServiceImpl implements UsersService {
 		users.setUsersPwd(enPwd);
 		
 		 usersRep.save(users);
-		 authoritiesRep.save(Authority.builder().users(users).AuhtorityRole(RoleConstants.ROLE_USER).build());
-		 //authoritiesRep.save(new Authority(null, users.getUsersId(),RoleConstants.ROLE_USER));
-		//authoritiesRep.save(new Authority(users.getId(),RoleConstants.ROLE_MEMBER));
-		
-	   
-
+		 authoritiesRep.save(Authority.builder().users(users).authorityRole(RoleConstants.ROLE_USER).build());
 	}
 
 	// true면 중복
@@ -163,11 +158,12 @@ public class UsersServiceImpl implements UsersService {
 	   public void updateUsersMemberShip(Users users, boolean willMember) {
 		  if(willMember==true) { //멤버쉽카드 구매시 회원정보 업데이트, 권한 생성
 			  users.setUsersMemberShip(1);
-			  authoritiesRep.save(Authority.builder().users(users).AuhtorityRole(RoleConstants.ROLE_MEMBER).build());
+			  authoritiesRep.save(Authority.builder().users(users).authorityRole(RoleConstants.ROLE_MEMBER).build());
 		  }
 		  else { //멤버쉽카드 구매 오류로 원복할시 회원정보 원복, 권한 다시 삭제
 			  users.setUsersMemberShip(0);
-			  authoritiesRep.deleteByUsersAndAuhtorityRole(users, RoleConstants.ROLE_MEMBER);
+			  Authority deleteAuthority=authoritiesRep.findByUsersAndAuthorityRole(users, RoleConstants.ROLE_MEMBER);
+			  authoritiesRep.delete(deleteAuthority);
 		  }
 	   }
 

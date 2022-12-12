@@ -19,7 +19,7 @@ public interface AuthoritiesRepository extends JpaRepository<Authority, Long>{
 	 List<Authority> findByUsers(Users users);
 
 	 /**
-	  * 업데이트 원복할때 필요한 멤버 권한 삭제
+	  * 업데이트 원복할때 필요한 멤버 권한 조회-이후 삭제
 	  */
-	 void deleteByUsersAndAuhtorityRole(Users users, String AuhtorityRole);
+	 Authority findByUsersAndAuthorityRole(Users users, String AuthorityRole);
 }
