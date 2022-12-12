@@ -11,4 +11,5 @@ import web.mvc.domain.Reply;
 public interface ReplyRepository extends JpaRepository<Reply, Long>, QuerydslPredicateExecutor<Reply>  {
 	
 	List<Reply> findByBoardOrderByReplyNoDesc(Board board);
+	
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%-- <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> --%> <!-- 시큐리티 올라오면 주석풀기 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <sec:authentication property="principal" var="prc"/>
 
@@ -80,7 +80,8 @@
 			 
 			$('#submitReply').on("click", function(){
 				var replyContent = $('#replyContent').val();
-				var boardNo = ${board.boardNo};				
+				var boardNo = ${board.boardNo};
+				
 				$.ajax({
 					url : "${pageContext.request.contextPath}/reply/details/${board.boardNo}",
 					type : "post",
@@ -113,13 +114,13 @@
 						$.each(result.replyList , function(index, item){
 							str+='<div class="profile-card" >';
 							str+="<div class='profile-pic'>"
-							str+=" <img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
-							str+='<div class="profile-text"><p class="username">'+result.nicList[index] +'</p>';
+							str+="<img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
+							str+='<div class="profile-text"><p class="username">'+result.nicList[index]+'</p>';	
 							str+='<p class="sub-text">'+item.replyContent+'</p></div>';
-							str+="<button class='action-btn' name='"+item.replyNo +"'><i class='fi fi-br-cross'></i></button>";
+							str+="<button class='action-btn' name='"+item.replyNo +"' value='"+result.usersList[index]+"'><i class='fi fi-br-cross'></i></button>";
 							str+='</div>';
 						})														
-						$("#reply").html(str);							
+						$("#reply").html(str);
 					},
 					error : function() {
 						alert("댓글가져오기를 실패했습니다.");	
@@ -128,26 +129,30 @@
 				});
 			}			
 			////////////////////////////////////////////////////////////
+			
 			//댓글삭제
 			$(document).on("click","button[class=action-btn]", function(){
-				//alert($(this).attr("name"))
-				$.ajax({
-					url : "${pageContext.request.contextPath}/reply/delete",
-					type : "post",
-					dataType :"text", // 서버에서 보내준 데이터타입
-					data : {
-						"replyNo" : $(this).attr("name"),
-						"boardNo" : ${board.boardNo}
-					},					
-					success : function(result) {
-						alert("댓글을 삭제했습니다.");
-						initReply();
-					},
-					error : function() {
-						alert("댓글 삭제에 실패했습니다.");
-					}
-
-				});
+				if("${prc.usersId}" == $(this).val()){
+					$.ajax({
+						url : "${pageContext.request.contextPath}/reply/delete",
+						type : "post",
+						dataType :"text", // 서버에서 보내준 데이터타입
+						data : {
+							"replyNo" : $(this).attr("name"),
+							"boardNo" : ${board.boardNo}
+						},					
+						success : function(result) {
+							alert("댓글을 삭제했습니다.");
+							initReply();
+						},
+						error : function() {
+							alert("댓글 삭제에 실패했습니다(오류!)");
+						}
+	
+					});
+				}else{
+					alert("댓글 작성자만 삭제할수 있습니다!");
+				}
 			})
 			
 			////////////////////////////////////////////////////////////
