@@ -69,6 +69,12 @@
 	<definition name="success/**" extends="layout">
 		<put-attribute name="content" value="/WEB-INF/views/success/{1}.jsp"/>
 	</definition>
+	<definition name="system/loginForm" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/system/loginForm.jsp"/>
+	</definition>
+	<definition name="system/signup" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/system/signup.jsp"/>
+	</definition>
 	
 	<!-- info -->
 	<definition name="info/main" extends="layout_backgrond">
@@ -78,7 +84,6 @@
 	<definition name="info/**" extends="layout">
 		<put-attribute name="content" value="/WEB-INF/views/info/{1}.jsp"/>
 	</definition> 
-	
 	<definition name="/main/**" extends="layout">
 		<put-attribute name="content" value="/WEB-INF/views/main/main.jsp"/>
 	</definition> 
