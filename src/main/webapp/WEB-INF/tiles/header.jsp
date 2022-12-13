@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,13 +114,38 @@ border: none;
 				<option selected="selected" value="ko" class="select-option" <c:if test="${param.lang.toString()== 'ko'}"> selected</c:if>>KOR</option>
 				<option value="en"  class="select-option" <c:if test="${param.lang.toString()==  'en'}"> selected</c:if>>ENG</option>
 			</select>
-			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/system/loginForm" style="color: #ffffff; text-decoration: none;">LOGIN</a></div>
-			<div class="header-login header-menu"><a href="#" style="color: #ffffff; text-decoration: none;">LOGOUT</a></div>
-			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/admin/main" style="color: #ffffff; text-decoration: none;">ADMIN</a></div>
-			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a> <i class="fa-solid fa-crown"></i></div>
-			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a></div>
-			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/shop/cart" style="color: #ffffff; text-decoration: none;">CART</a></div>
+			<sec:authorize access="isAnonymous()">
+			<div class="header-cart header-menu">
+				<a href="${pageContext.request.contextPath}/system/loginForm"
+					style="color: #ffffff; text-decoration: none;">LOGIN</a>
+			</div>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<div class="header-login header-menu">
+					<a href="#" style="color: #ffffff; text-decoration: none;">LOGOUT</a>
+				</div>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<div class="header-cart header-menu">
+					<a href="${pageContext.request.contextPath}/admin/main"
+						style="color: #ffffff; text-decoration: none;">ADMIN</a>
+				</div>
+			</sec:authorize>
+			<sec:authorize  access="hasRole('ROLE_USER')">
+				<div class="header-mypage header-menu">
+					<a href="${pageContext.request.contextPath}/mypage/userInfo"
+						style="color: #ffffff; text-decoration: none;">MYPAGE</a> <sec:authorize access="hasRole('ROLE_MEMBER')"><i
+						class="fa-solid fa-crown"></i></sec:authorize>
+				</div>
+			</sec:authorize>
 			
+			<sec:authorize access="isAuthenticated()">
+				<div class="header-cart header-menu">
+					<a href="${pageContext.request.contextPath}/shop/cart"
+						style="color: #ffffff; text-decoration: none;">CART</a>
+				</div>
+			</sec:authorize>
+
 		</div>
 	
 	<div class="header-bottom">
