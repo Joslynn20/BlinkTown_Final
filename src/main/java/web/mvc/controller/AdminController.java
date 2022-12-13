@@ -45,6 +45,22 @@ public class AdminController {
 	@RequestMapping("/{url}")
 	public void main() {}//main end
 	/////////////////////////////////////////////////
+	
+	
+	/**
+	 * 등록 폼 이동
+	 */
+	@RequestMapping("/insertForm")
+	public String insertProduct(String category) {
+		if (category.equals("A"))
+			return "admin/albumInsertForm";
+		else if (category.equals(category))
+			return "admin/goodsInsertForm";
+		else
+			return "admin/main";
+	}
+
+	
 	/**
 	 * 관리자-회원목록+회원숫자count
 	 * 위치 : #tab1 / 출력 : #usersListTable / 이벤트 클릭: #usersTab1
