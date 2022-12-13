@@ -184,8 +184,8 @@
 				</div>
 				<div class="tbl-content">
 					<table cellpadding="0" cellspacing="0" border="0">
-						<tbody id="ordersList">
-						</tbody>
+					<tbody id="productList">
+					</tbody>
 					</table>
 				</div>
 			</div>

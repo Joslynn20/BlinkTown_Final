@@ -48,11 +48,6 @@ public class AdminController {
 	}// main end
 	/////////////////////////////////////////////////
 
-	@RequestMapping("/{url}")
-	public void url() {
-
-	}
-
 	@RequestMapping("/insertForm")
 	public String insertProduct(String category) {
 		if (category.equals("A"))
