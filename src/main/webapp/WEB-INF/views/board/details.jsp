@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<sec:authentication property="principal" var="prc"/>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +14,6 @@
 	href="${pageContext.request.contextPath}/css/board/boardDetails.css">
 </head>
 <body>
-
 	<section class="main">
 		<div class="wrapper">
 			<div class="left-col">
@@ -24,17 +26,28 @@
 									alt="">
 							</div>
 							<p class="username">${board.users.usersId}</p>
+							<button class="board-delete" id="boardDelete">
+								<i class="fi fi-br-cross"></i>
+							</button>
 						</div>
-						<img src="img/option.PNG" class="options" alt="">
+			
 					</div>
 					<img
 						src="${pageContext.request.contextPath}/save/${board.boardImg}"
 						class="post-image" alt="">
 					<div class="post-content">
 						<div class="reaction-wrapper">
-							<div class="heart"></div>
+						  <c:choose>
+						    <c:when test="${not empty likes}">
+						        <div class="heart is-active"></div>
+						    </c:when>
+						    <c:otherwise>
+						        <div class="heart"></div>
+						    </c:otherwise>
+						  </c:choose>
+							
 							<p class="likes">
-								좋아요 <span>${board.boardLikeNo}</span>개
+								좋아요 <span id="likesCount">${board.boardLikeNo}</span>개
 							</p>
 						</div>
 						<p class="description">${board.boardContent}</p>
@@ -50,15 +63,15 @@
 
 					<!-- 댓글양식 -->
 
-
 				</div>
 				<div class="comment-wrapper">
 					<img src="${pageContext.request.contextPath}/img/board/reply.png"
 						class="icon" alt=""> <i class="fi fi-rr-comment-alt"></i> <input
-						type="text" class="comment-box" placeholder="댓글을 입력해주세요">
-					<button class="comment-btn" type="submit">post</button>
+						type="text" class="comment-box" placeholder="댓글을 입력해주세요" id="replyContent" name="replyContent">
+					<button class="comment-btn" type="submit" id="submitReply">post</button>
 				</div>
-				<script type="text/javascript">
+		
+		<script type="text/javascript">
 		$(function(){
 			
 			$(document).ajaxSend(function(e, xhr, options) {
@@ -67,7 +80,8 @@
 			 
 			$('#submitReply').on("click", function(){
 				var replyContent = $('#replyContent').val();
-				var boardNo = ${board.boardNo};				
+				var boardNo = ${board.boardNo};
+				
 				$.ajax({
 					url : "${pageContext.request.contextPath}/reply/details/${board.boardNo}",
 					type : "post",
@@ -76,7 +90,8 @@
 						"replyContent" : replyContent
 					},						
 					success : function(reply) {							
-						initReply();							
+						initReply();
+						document.getElementById('replyContent').value=null; 					
 					},
 					error : function() {
 						alert("댓글 등록 실패");	
@@ -98,16 +113,15 @@
 					success : function(result) {
 						let str="";
 						$.each(result.replyList , function(index, item){
-							//result.nicList[index]
 							str+='<div class="profile-card" >';
 							str+="<div class='profile-pic'>"
-							str+=" <img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
-							str+='<div class="profile-text"><p class="username">'+result.nicList[index] +'</p>';
+							str+="<img src='${pageContext.request.contextPath}/img/board/userProfile.png' alt=''> </div>";
+							str+='<div class="profile-text"><p class="username">'+result.nicList[index]+'</p>';	
 							str+='<p class="sub-text">'+item.replyContent+'</p></div>';
-							str+="<button class='action-btn' name='"+item.replyNo +"'><i class='fi fi-br-cross'></i></button>";
+							str+="<button class='action-btn' name='"+item.replyNo +"' value='"+result.usersList[index]+"'><i class='fi fi-br-cross'></i></button>";
 							str+='</div>';
 						})														
-						$("#reply").html(str);							
+						$("#reply").html(str);
 					},
 					error : function() {
 						alert("댓글가져오기를 실패했습니다.");	
@@ -116,34 +130,49 @@
 				});
 			}			
 			////////////////////////////////////////////////////////////
-			//댓글
+			
+			//댓글삭제
 			$(document).on("click","button[class=action-btn]", function(){
-				alert($(this).attr("name"))
-				$.ajax({
-					url : "${pageContext.request.contextPath}/reply/delete",
-					type : "post",
-					dataType :"text", // 서버에서 보내준 데이터타입
-					data : {
-						"replyNo" : $(this).attr("name"),
-						"boardNo" : ${board.boardNo}
-					},					
-					success : function(result) {
-						alert("댓글을 삭제했습니다.");
-						initReply();
-					},
-					error : function() {
-						alert("댓글 삭제에 실패했습니다.");
-					}
-
-				});
+				if("${prc.usersId}" == $(this).val()){
+					$.ajax({
+						url : "${pageContext.request.contextPath}/reply/delete",
+						type : "post",
+						dataType :"text", // 서버에서 보내준 데이터타입
+						data : {
+							"replyNo" : $(this).attr("name"),
+							"boardNo" : ${board.boardNo}
+						},					
+						success : function(result) {
+							alert("댓글을 삭제했습니다.");
+							initReply();
+						},
+						error : function() {
+							alert("댓글 삭제에 실패했습니다(오류!)");
+						}
+	
+					});
+				}else{
+					alert("댓글 작성자만 삭제할수 있습니다!");
+				}
 			})
 			
-			////////////////////////////////////////
+			////////////////////////////////////////////////////////////
+			
+			//게시글 삭제하기
+			$("#boardDelete").click(function(){				
+				if("${prc.usersId}"== "${board.users.usersId}") {
+				location.href = 
+					'/board/delete?boardNo=${board.boardNo}';
+					alert("게시글을 삭제했습니다")
+				} else {
+					alert("게시물 작성자가 일치하지 않아 삭제할 수 없습니다!")
+				}
+			});
+							
+			////////////////////////////////////////////////////////////
 			initReply();	
 		});//ready끝		
 	</script>
-
-
 			</div>
 		</div>
 	</section>
@@ -231,7 +260,24 @@
 	<script type="text/javascript">
 $(function() {
 	  $(".heart").on("click", function() {
-	    $(this).toggleClass("is-active");
+	     $(this).toggleClass("is-active");
+	     
+	     $.ajax({
+				url : "${pageContext.request.contextPath}/board/likes",
+				type : "post",
+				dataType :"text", // 서버에서 보내준 데이터타입
+				data : {
+					"boardNo" : ${board.boardNo} ,
+					"userId" : "${prc.usersId}"
+				},					
+				success : function(likesCount) {
+					$("#likesCount").html(likesCount);
+				},
+				error : function() {
+					alert("실패했습니다.......");
+				}
+
+			});
 	  });
 	});
 </script>

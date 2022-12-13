@@ -34,14 +34,14 @@ height: 68px;
 }
 
 
-.wrapper {
+.footer-wrapper {
   display: inline-flex;
   list-style: none;
   position: relative;
   top: 10px;
 }
 
-.wrapper .icon {
+.footer-wrapper .icon {
   color:#f4a7bb;
   position: relative;
   border: 1px solid #f4a7bb50;
@@ -60,7 +60,7 @@ height: 68px;
   transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.wrapper .tooltip {
+.footer-wrapper .tooltip {
   position: absolute;
   top: 0;
   font-size: 14px;
@@ -74,7 +74,7 @@ height: 68px;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.wrapper .tooltip::before {
+.footer-wrapper .tooltip::before {
   position: absolute;
   content: "";
   height: 8px;
@@ -86,45 +86,45 @@ height: 68px;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.wrapper .icon:hover .tooltip {
+.footer-wrapper .icon:hover .tooltip {
   top: -45px;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
 
-.wrapper .icon:hover span,
-.wrapper .icon:hover .tooltip {
+.footer-wrapper .icon:hover span,
+.footer-wrapper .icon:hover .tooltip {
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
 }
 
-.wrapper .facebook:hover,
-.wrapper .facebook:hover .tooltip,
-.wrapper .facebook:hover .tooltip::before {
+.footer-wrapper .facebook:hover,
+.footer-wrapper .facebook:hover .tooltip,
+.footer-wrapper .facebook:hover .tooltip::before {
   border:none;
   background: #1877F2;
   color: #ffffff;
 }
 
-.wrapper .twitter:hover,
-.wrapper .twitter:hover .tooltip,
-.wrapper .twitter:hover .tooltip::before {
+.footer-wrapper .twitter:hover,
+.footer-wrapper .twitter:hover .tooltip,
+.footer-wrapper .twitter:hover .tooltip::before {
   border:none;
   background: #1DA1F2;
   color: #ffffff;
 }
 
-.wrapper .instagram:hover,
-.wrapper .instagram:hover .tooltip,
-.wrapper .instagram:hover .tooltip::before {
+.footer-wrapper .instagram:hover,
+.footer-wrapper .instagram:hover .tooltip,
+.footer-wrapper .instagram:hover .tooltip::before {
   border:none;
   background: #E4405F;
   color: #ffffff;
 }
 
-.wrapper .youtube:hover,
-.wrapper .youtube:hover .tooltip,
-.wrapper .youtube:hover .tooltip::before {
+.footer-wrapper .youtube:hover,
+.footer-wrapper .youtube:hover .tooltip,
+.footer-wrapper .youtube:hover .tooltip::before {
   border:none;
   background: #CD201F;
   color: #ffffff;
@@ -140,7 +140,7 @@ height: 68px;
 </head>
 <body>
 <div class="footer-wrap">
-<ul class="wrapper">
+<ul class="footer-wrapper">
   <a href="https://www.facebook.com/BLACKPINKOFFICIAL/" class="SNS-official">
 	  <li class="icon facebook">
 	    <span class="tooltip">Facebook</span>

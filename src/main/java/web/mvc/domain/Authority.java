@@ -29,12 +29,12 @@ public class Authority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roleKey_seq")
 	@SequenceGenerator(name = "roleKey_seq", allocationSize = 1, sequenceName = "roleKey_seq")
-	private Long RoleKey ;
+	private Long roleKey ;
 	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "users_id")
-	private String usersId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id")
+	private Users users;
 	
-	private String AuhtorityRole;
+	private String authorityRole;
 
 }

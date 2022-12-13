@@ -62,4 +62,8 @@ public interface UsersService  {
 	     */
 	 void updateUsersMemberShip(Users users, boolean willMember);
 	 
+	 /**
+	  * 회원 수 조회 (일반/멤버쉽)
+	  */
+	 Long countUsers(int usersMemberShip);
 }

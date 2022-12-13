@@ -113,10 +113,12 @@ border: none;
 				<option selected="selected" value="ko" class="select-option" <c:if test="${param.lang.toString()== 'ko'}"> selected</c:if>>KOR</option>
 				<option value="en"  class="select-option" <c:if test="${param.lang.toString()==  'en'}"> selected</c:if>>ENG</option>
 			</select>
-
+			<div class="header-cart header-menu">LOGIN</div>
 			<div class="header-login header-menu">LOGOUT</div>
-			<div class="header-mypage header-menu">MYPAGE</div>
+			<div class="header-cart header-menu">ADMIN</div>
+			<div class="header-mypage header-menu">MYPAGE<i class="fa-solid fa-crown"></i></div>
 			<div class="header-cart header-menu">CART</div>
+			
 		</div>
 	
 	<div class="header-bottom">

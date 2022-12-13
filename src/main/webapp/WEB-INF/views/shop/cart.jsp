@@ -2,6 +2,7 @@
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,7 +114,7 @@
 									  </label>
 									</div>
 								</td>
-		                        <td><img src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" alt="magic keyboard"></td>
+		                        <td><img src="${pageContext.request.contextPath}/save/shopImg/title/${cart.product.productMainImg}" alt="magic keyboard"></td>
 		                        <td id="productCode"><a href="#">${cart.product.productCode}</a>
 		                            <p>${cart.product.productEngName}<br>${cart.product.productName}</p>
 		         
@@ -148,7 +149,11 @@
         </table>
         <div class="cart__mainbtns">
             <button class="cart__bigorderbtn left" onsubmit="location.href='${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
-            <button class="cart__bigorderbtn right" type="submit">주문하기</button>
+<!--             <button class="cart__bigorderbtn right" type="submit">주문하기</button> -->
+			<!-- 로그인하면 구매버튼 보이게 설정 -->
+			<sec:authorize access="isAuthenticated()">
+            <button class="cart__bigorderbtn right" onclick="location.href='${pageContext.request.contextPath}/orders/ordersForm'; return false;">주문하기</button>
+            </sec:authorize>
         </div>
         </form>
     </section>

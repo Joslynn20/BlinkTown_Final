@@ -347,3 +347,12 @@ th:nth-child(5), td:nth-child(5){
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+.viewmore{
+	border: 1px solid #F8D8E350;
+	color: #F8D8E3;
+	font-size:12px;
+	padding:  5px 10px;
+	position: relative;
+	right: -650px;
+	top: -10px;
+}

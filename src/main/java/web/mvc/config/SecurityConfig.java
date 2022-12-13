@@ -38,13 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
       http.authorizeRequests()  //  security-context  <security:intercept-url
      //로그인 없이 접근 가능한url
-      .antMatchers( "/error/**",
-    		  		"/info/**",
-    		  		"/main/**",
-    		  		"/system/**", 
-    		  		"/success/**"
+      .antMatchers( "/**"
     		  		).permitAll() 
-      //
+      /*
       .antMatchers("/mypage/**")
       .access("hasRole('MEMBER') or hasRole('USER')")
       .antMatchers("/shop/**") 
@@ -69,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       .logoutUrl("/logout")
       .logoutSuccessUrl("/")
       .invalidateHttpSession(true)
-      .deleteCookies("JSESSIONID")
+      .deleteCookies("JSESSIONID")*/
       .and();
    }
 

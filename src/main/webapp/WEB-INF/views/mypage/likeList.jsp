@@ -17,42 +17,21 @@
 			<article class="flow">
 				<div class="team">
 					<ul class="auto-grid" role="list">
-						<li><a href="/board/details" target="_blank " class="profile">
-								<h4 class="profile__name">안녕하세요~~~~~제니에요</h4> <img
-								alt="Anita Simmons"
-								src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-						</a></li>
-
-						<li><a href="#" target="_blank " class="profile">
-								<h4 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-									FIGURE_ JISOO</h4> <img alt="Anita Simmons"
-								src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-						</a></li>
-
-						<li><a href="#" target="_blank " class="profile">
-								<h4 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-									FIGURE_ JISOO</h4> <img alt="Anita Simmons"
-								src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-						</a></li>
-
-						<li><a href="#" target="_blank " class="profile">
-								<h4 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-									FIGURE_ JISOO</h4> <img alt="Anita Simmons"
-								src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-						</a></li>
-
-						<li><a href="#" target="_blank " class="profile">
-								<h4 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-									FIGURE_ JISOO</h4> <img alt="Anita Simmons"
-								src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-						</a></li>
-
-						<li><a href="#" target="_blank " class="profile">
-								<h4 class="profile__name">[EUP23] BLACKPINK COLLECTIBLE
-									FIGURE_ JISOO</h4> <img alt="Anita Simmons"
-								src="${pageContext.request.contextPath}/img/FIGURE_JENNIE.png" />
-						</a></li>
-
+						<c:set var="doneLoop" value="false"/>									 
+						<c:forEach items="${likesList}" var="likesImage" varStatus="state">
+							    <c:if test="${state.count > 20}"> <!-- 좋아요 보여지는 갯수 여기서 변경 -->
+							       <c:set var="doneLoop" value="true"/>
+							    </c:if> 
+							    <c:if test="${not doneLoop}" >
+							    <li>
+							    <a href="${pageContext.request.contextPath}/board/details/${likesImage.boardNo}"
+							    target="_blank " class="profile">
+							 		 <h3 class="profile__name">${likesImage.boardTitle}</h3>
+						           <img src="${pageContext.request.contextPath}/save/${likesImage.boardImg}">
+						        </a>  
+						        </c:if>		
+					           </li>
+						</c:forEach> 
 					</ul>
 				</div>
 			</article>

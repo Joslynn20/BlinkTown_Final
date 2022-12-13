@@ -13,8 +13,9 @@
 	href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css'>
 <link rel='stylesheet'
 	href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-
+<script src="https://kit.fontawesome.com/a224d3b399.js" crossorigin="anonymous"></script>
 <style type="text/css">
+
 #center-text {
 	display: flex;
 	flex: 1;
@@ -35,6 +36,7 @@
 	color: white;
 	padding: 28px;
 	cursor: pointer;
+	z-index: 99;
 	box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px
 		rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
@@ -70,6 +72,7 @@
 	max-width: 85vw;
 	max-height: 100vh;
 	border-radius: 5px;
+	z-index: 99;
 }
 
 .chat-box-toggle {
@@ -631,7 +634,7 @@ function onMessage(msg) {
 
 		<div id="chat-circle" class="btn btn-raised">
 			<div id="chat-overlay"></div>
-			<i class="fi fi-rr-heart icon" style="color: #ffffff;"></i>
+			<i class="fa-solid fa-heart" style="font-size: 30px; position: relative; top: -13px; right: 15px; "></i>
 		</div>
 
 		<div class="chat-box">
@@ -647,7 +650,7 @@ function onMessage(msg) {
 
 						<div class="cm-msg-text"
 							style="margin-left: 1px; height: 44px; overflow: hidden;">
-							<input type="button" id="create-Room" value="방생성하기"
+							<input type="button" id="create-Room" class="chatBtn" value="방생성하기"
 								style="background-color: inherit; padding: 0px; border: none;">
 							<input type="submit" value="JISOO" style="display: none;"
 								id="create-JisooRoom-Btn"> <input type="submit"

@@ -21,6 +21,11 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> , Querydsl
 	Page<Orders> findByUsers(Users users, Pageable pageable);
 	
 	/**
+	 * 마이페이지 List로 출력
+	 */
+	List<Orders> findByUsersOrderByOrdersDateDesc(Users users);
+	
+	/**
 	 * 마이페이지-주문상세조회 / 페이징 처리
 	 * : 기간 조건별 최근순 주문내역 조회
 	 * -> ~부터 ~까지 (입력시 +1로 넣기)

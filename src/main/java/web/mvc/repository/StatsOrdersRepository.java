@@ -11,17 +11,23 @@ import web.mvc.domain.Orderdetails;
 import web.mvc.domain.Orders;
 
 import web.mvc.domain.Users;
+import web.mvc.dto.Stats;
 
 public interface StatsOrdersRepository extends JpaRepository<Orders, Long> {
 
 	/**
 	 * 전체 매출 조회 & 월별 매출조회
 	 */
-	@Query(value = "select to_char(o.orders_date, 'yyyy-mm') as month, sum(orderdetails_price * orderdetails_qty) totalprice\r\n"
+	@Query(value = "select rownum, month, totalprice from (select to_char(o.orders_date, 'yyyy-mm') as month, sum(orderdetails_price * orderdetails_qty) totalprice\r\n"
 			+ "from orders o\r\n" + "join orderdetails od\r\n" + "on o.orders_no = od.orders_no\r\n"
-			+ "group by to_char(o.orders_date, 'yyyy-mm')", nativeQuery = true)
+			+ "group by to_char(o.orders_date, 'yyyy-mm') order by month desc) where rownum <=12 order by rownum desc", nativeQuery = true)
 	StatsInterface findByGetMonth(String Month);
-
+	
+	@Query(value = "select rownum, month, totalprice from (select to_char(o.orders_date, 'yyyy-mm') as month, sum(orderdetails_price * orderdetails_qty) totalprice\r\n"
+			+ "from orders o\r\n" + "join orderdetails od\r\n" + "on o.orders_no = od.orders_no\r\n"
+			+ "group by to_char(o.orders_date, 'yyyy-mm') order by month desc) where rownum <=12 order by rownum desc", nativeQuery = true)
+	List<StatsInterface> findAllStats();
+	
 	@Query(value = "select sum(orderdetails_price * orderdetails_qty)totalprice from orders o\r\n"
 			+ "join orderdetails od on o.orders_no = od.orders_no", nativeQuery = true)
 	StatsInterface findTotalPrice();

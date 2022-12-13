@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import web.mvc.domain.Likes;
 import web.mvc.domain.LikesID;
 import web.mvc.domain.QLikes;
+import web.mvc.domain.Users;
 import web.mvc.repository.LikesRepository;
 
 @Service
@@ -48,7 +50,12 @@ public class LikesServiceImpl implements LikesService {
 	
 	@Override
 	public List<Likes> selectLikesListByUserId(String userId) {
-		List<Likes> likesList = factory.selectFrom(likes).where(likes.userId.eq(userId)).fetch();
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		List<Likes> likesList = factory.selectFrom(likes)
+				.where(likes.userId.eq(users.getUsersId()))
+				.orderBy(likes.boardNo.desc())
+				.fetch();
 		return likesList;
 	}
 

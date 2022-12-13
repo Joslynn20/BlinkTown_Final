@@ -96,19 +96,20 @@ margin-bottom: 8px;
 
 
 				<h3>Goods Insert</h3>
-				<select class="select_field">
-					<option selected="selected" value="">Type</option>
-					<option value="Membership">Membership</option>
-					<option value="Normal">Normal</option>
+				<select class="select_field" id="productMembershipOnly" name="productMembershipOnly">
+					<option selected="selected" value="" >Type</option>
+					<option value="1">Membership</option>
+					<option value="0">Normal</option>
 				</select>
-				<input type="text" value="카테고리코드" class="input_field" readonly="readonly"><br>
-				<input type="text" placeholder="상품명 [KOR]" class="input_field"><br>
-				<input type="text" placeholder="상품명 [ENG]" class="input_field"><br>
-				<input type="text" placeholder="가격" class="input_field"><br>
-				<input type="number" placeholder="재고" class="input_field"><br>
-				<input type="text" placeholder="사이즈" class="input_field"><br>
-				<input type="text" placeholder="재질" class="input_field"><br>
-				<input type="text" placeholder="제조국" class="input_field"><br>
+				<input type="text" name="categoryCode" value="G" class="input_field" readonly="readonly"><br>
+				<input type="text" name="productCode" placeholder="상품코드" class="input_field"><br>
+				<input type="text" name="productName" placeholder="상품명 [KOR]" class="input_field"><br>
+				<input type="text" name="productEngName" placeholder="상품명 [ENG]" class="input_field"><br>
+				<input type="text" name="productPrice" placeholder="가격" class="input_field"><br>
+				<input type="number" name="productStock" placeholder="재고" class="input_field"><br>
+				<input type="text" name="productSize" placeholder="사이즈" class="input_field"><br>
+				<input type="text" name="goodsMaterial" placeholder="재질" class="input_field"><br>
+				<input type="text" name="goodsCountry" placeholder="제조국" class="input_field"><br>
 				<div class="filebox">
 				  <input class="upload-name" value="상세페이지이미지" disabled="disabled">
 				

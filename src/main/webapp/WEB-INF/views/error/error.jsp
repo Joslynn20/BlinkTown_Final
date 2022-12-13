@@ -156,7 +156,7 @@ margin: 30px auto 50px;
 				<h1>BLINK TOWN</h1>
 				<br>
 			</div>
-			<h2 class="lead neonm">{에러메세지}</h2>
+			<h2 class="lead neonm">${message}</h2>
 
 			<br />
 

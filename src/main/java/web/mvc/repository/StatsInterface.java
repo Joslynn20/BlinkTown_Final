@@ -2,9 +2,12 @@ package web.mvc.repository;
 
 public interface StatsInterface {
 	String getMonth();
-	int getTotalprice();
+	Long getTotalprice();
 	
-	int getAlbumTotalPrice();
-	int getAlbumTotalQty();
+	Long getAlbumTotalPrice();
+	Long getAlbumTotalQty();
 
+	Long getAllusers();//count
+	Long getNormalusers(); //count
+	Long getMemberusers(); //count
 }

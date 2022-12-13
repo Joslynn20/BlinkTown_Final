@@ -1,4 +1,4 @@
-body{
+#body{
 	background-color: #000000;
 	color: #ffffff;
 }
@@ -176,7 +176,6 @@ ul.tabs li.active {
 .user-tabs {
   display: table;
   position: relative;
-  right:40px;
   overflow: hidden;
   width: 100%;
 }
