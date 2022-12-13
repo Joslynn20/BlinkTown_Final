@@ -12,6 +12,11 @@
 	href="${pageContext.request.contextPath}/css/shop/details.css">
 <script type="text/javascript">
 		$(function() {
+			
+			$(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+		    });
+			
 			$("#addCart").on("click", function() {
 				$.ajax({
 					type:"POST",

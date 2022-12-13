@@ -148,7 +148,7 @@
             
         </table>
         <div class="cart__mainbtns">
-            <button class="cart__bigorderbtn left" onsubmit="location.href='${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
+         <button class="cart__bigorderbtn left" id="continue" onclick="location.href = '${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
 <!--             <button class="cart__bigorderbtn right" type="submit">주문하기</button> -->
 			<!-- 로그인하면 구매버튼 보이게 설정 -->
 			<sec:authorize access="isAuthenticated()">

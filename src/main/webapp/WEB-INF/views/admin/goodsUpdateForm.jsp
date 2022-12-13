@@ -95,9 +95,8 @@ margin-bottom: 20px;
 			</div>
 
 			<div class="right-col">
-
-
-				<h3>Goods Update</h3>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
+			<h3>Goods Update</h3>
 				<input type="text" name="categoryCode" value="${product.category.categoryCode}" class="input_field" readonly="readonly"><br>
 				<input type="text" name="productCode" value="${product.productCode}" placeholder="상품코드" class="input_field" readonly="readonly"><br>
 				<input type="text" name="productName" value="${product.productName}" placeholder="상품명 [KOR]" class="input_field" readonly="readonly"><br>

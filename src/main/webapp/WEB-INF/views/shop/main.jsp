@@ -12,12 +12,18 @@
 	
 <script type="text/javascript">
 $(function() {
+	
+	$(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+    });
+	
 	selectMembershipOnlyProduct();
 	selectAllGoods();
 	
 });
 
 function selectMembershipOnlyProduct () {
+	
 	$.ajax({
 		type:"POST",
 		url:"${pageContext.request.contextPath}/shop/select",
