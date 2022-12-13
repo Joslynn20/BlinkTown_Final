@@ -159,12 +159,12 @@
 
 			<h3 class="tab_drawer_heading" rel="tab2">Tab 2</h3>
 			<div id="tab2" class="tab_content">
-			<form action="/admin/albumInsertForm">
+			<form action="/admin/insertForm">
 				<button class="insert-btn" type="submit">상품등록</button>				
-				<select  class="insert-select">
-					<option selected="selected" value="">Category</option>
-					<option value="">Album</option>
-					<option value="">Goods</option>
+				<select  class="insert-select"  name="category">
+					<option selected="selected" value="Category">Category</option>
+					<option value="A">Album</option>
+					<option value="G">Goods</option>
 				</select>
 			</form>
 			
@@ -534,9 +534,9 @@ function usersListCount() {
 <!-- 주문목록 리스트 -->
 <script>
 $(function(){
-	$(document).ajaxSend(function(e, xhr, options) {
+	/*$(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-    });
+    });*/
 	$("#ordersTab3").click(function(){
 // 		alert("#ordersTab3 click");
 		$.ajax({ 
