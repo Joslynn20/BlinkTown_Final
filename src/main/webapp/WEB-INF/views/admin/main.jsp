@@ -15,7 +15,7 @@
 <div class="tabs-wrap">
 	<ul class="tabs">
 	  <li class="active" rel="tab1" id="usersTab1">Users</li>
-	  <li rel="tab2">Shop</li>
+	  <li rel="tab2" id="shopTab">Shop</li>
 	  <li rel="tab3" id="ordersTab3">Order</li>
 	  <li rel="tab4" id="statsTab4">Chart</li>
 	</ul>

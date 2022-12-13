@@ -61,13 +61,13 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		//인증된 사용자의 권한 조회 
-		List<Authority> authorityList =  authoritiesRep.findByUsersId(usersId);
+		List<Authority> authorityList =  authoritiesRep.findByUsers(users);
 		System.out.println("authorityList = " + authorityList);
 		
 		 //나온 authorityListfmf security의 권한타입(grantedAuthority)에 맞게 형변환
 		List<SimpleGrantedAuthority> simpleAuthList = new ArrayList<SimpleGrantedAuthority>();
 		for(Authority authority:authorityList) {
-			simpleAuthList.add(new SimpleGrantedAuthority(authority.getAuhtorityRole()));
+			simpleAuthList.add(new SimpleGrantedAuthority(authority.getAuthorityRole()));
 			
 		}
 		
