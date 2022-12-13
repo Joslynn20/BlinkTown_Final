@@ -79,14 +79,14 @@ margin-bottom: 20px;
 </style>
 </head>
 <body>
-<form action="">
+<form action="${pageContext.request.contextPath}/shop/updateAlbum" method="post">
 	<section class="main">
 		<div class="wrapper">
 			<div class="left-col">
 				<div class="post">
 					<div class="row">
 						<div class="col-sm-2 imgUp">
-							<div class="image" style="background-image: url('${pageContext.request.contextPath}/img/FIGURE_JENNIE.png')"></div>
+							<div class="image" style="background-image: url('${pageContext.request.contextPath}/save/shopImg/title/${product.productMainImg}')"></div>
 						</div>
 						<!-- col-2 -->
 					</div>
@@ -98,15 +98,19 @@ margin-bottom: 20px;
 
 
 				<h3>Album Update</h3>
-				<input type="text" value="카테고리코드" class="input_field" readonly="readonly"><br>
-				<input type="text" placeholder="상품명 [KOR]" class="input_field"><br>
-				<input type="text" placeholder="상품명 [ENG]" class="input_field"><br>
-				<input type="text" placeholder="가격" class="input_field"><br>
-				<input type="number" placeholder="재고" class="input_field"><br>
-				<input type="text" placeholder="사이즈" class="input_field"><br>
-				<input type="text" placeholder="구성" class="input_field"><br>
-				<input type="text" placeholder="발매일" class="input_field"><br>
-
+				<script type="text/javascript">
+					console.log("${product.productName}");
+				</script>
+				<input type="text" name="categoryCode" value="${product.category.categoryCode}"  class="input_field" readonly="readonly"><br>
+				<input type="text" name="productCode" value="${product.productCode}" placeholder="상품코드" class="input_field" readonly="readonly"><br>
+				<input type="text" name="productName" value="${product.productName}" placeholder="상품명 [KOR]" class="input_field" readonly="readonly"><br>
+				<input type="text" name="productEngName" value="${product.productEngName}" placeholder="상품명 [ENG]" class="input_field" readonly="readonly"><br>
+				<input type="text" name="productPrice"  placeholder="가격" class="input_field"><br>
+				<input type="number" name="productStock"  placeholder="재고" class="input_field"><br>
+				<input type="text" name="productSize" value="${product.productSize}" placeholder="사이즈" class="input_field" readonly="readonly"><br>
+				<input type="text" name="albumComponent"  placeholder="구성" class="input_field"><br>
+				<input type="text" name="albumReleaseDate"  placeholder="발매일" class="input_field"><br>
+				
 				<div class='insert-submt'>
 					<button class='closeBtn'>취소</button>
 					<button type="submit" class='submitBtn'>수정</button>

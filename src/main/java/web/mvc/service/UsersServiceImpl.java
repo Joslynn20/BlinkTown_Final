@@ -44,7 +44,7 @@ public class UsersServiceImpl implements UsersService {
 		String rawPwd = users.getUsersPwd();//원문
 		String enPwd = encoderPwd.encode(rawPwd);//해쉬
 		users.setUsersPwd(enPwd);
-	
+		
 		 Users dbUser=usersRep.save(users);
 		 authoritiesRep.save(
 				 Authority.builder().users(dbUser)
@@ -190,7 +190,6 @@ public class UsersServiceImpl implements UsersService {
 	 //주문-멤버쉽업데이트
 	   @Override
 	   public void updateUsersMemberShip(Users users, boolean willMember) {
-
 		  if(willMember==true) { //멤버쉽카드 구매시 회원 정보 업데이트, 권한 설정
 			 users.setUsersMemberShip(1);
 			 authoritiesRep.save(

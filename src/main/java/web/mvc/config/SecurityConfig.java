@@ -48,8 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     		  		"/info/**",
     		  		"/main/**",
     		  		"/system/**", 
-    		  		"/success/**",
-    		  		"/index"
+    		  		"/success/**"
     		  		).permitAll() 
       //
       .antMatchers("/mypage/**")

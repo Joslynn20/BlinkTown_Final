@@ -32,7 +32,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<dependency>
+	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -109,7 +109,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-
+		<!-- 프론트단에서 사용하는 sockjs 라이브러리 -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>sockjs-client</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<!-- stomp -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>stomp-websocket</artifactId>
+		    <version>2.3.4</version>
+		</dependency>
 		<!-- 카카오페이 사용 위한 iamport 사용-검증위한 라이브러리 추가 -->
 		<dependency>
 			<groupId>com.github.iamport</groupId>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -8,476 +8,476 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/board/boardMain.css">
+   href="${pageContext.request.contextPath}/css/board/boardMain.css">
 </head>
 <body>
-	<div class="board-wrap">
-		<!-- Hero -->
-		<section class="et-hero-tabs">
-		<div class="blackpink-board-wrap">
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-		</div>
-			<div class="et-hero-tabs-container">
-				<a class="et-hero-tab" href="#tab-es6" >BlackPink</a>
-				<a class="et-hero-tab" href="#tab-flexbox">Jisoo</a> 
-				<a class="et-hero-tab" href="#tab-react">Jennie</a> 
-				<a class="et-hero-tab" href="#tab-angular">Rose</a> 
-				<a class="et-hero-tab" href="#tab-other">Lisa</a> 
-				<span class="et-hero-tab-slider"></span>
-			</div>
-		</section>
+   <div class="board-wrap">
+      <!-- Hero -->
+      <section class="et-hero-tabs">
+      <div class="blackpink-board-wrap">
+         <div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+         <div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
+         <div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+         <div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
+         <div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+      </div>
+         <div class="et-hero-tabs-container">
+            <a class="et-hero-tab" href="#tab-es6" >BlackPink</a>
+            <a class="et-hero-tab" href="#tab-flexbox">Jisoo</a> 
+            <a class="et-hero-tab" href="#tab-react">Jennie</a> 
+            <a class="et-hero-tab" href="#tab-angular">Rose</a> 
+            <a class="et-hero-tab" href="#tab-other">Lisa</a> 
+            <span class="et-hero-tab-slider"></span>
+         </div>
+      </section>
 
-		<!-- Main -->
-		<main class="et-main">
-			<section class="et-slide" id="tab-es6">
-				<div class="cover">
-					<p class="first-parallel"></p>
-				</div>
-				<div class="et-slide-wrap">
-	
-					<h3>BLACKPINK</h3>
-					<div class="wrapper">
-						<article class="flow">
-							<div class="team">
-								<ul class="auto-grid" role="list">								
-									<c:set var="doneLoop" value="false"/>									 
-									<c:forEach items="${mainPageList}" var="mainImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if> 
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${mainImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${mainImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${mainImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
-								</ul>
-							</div>
-						</article>
-					</div>
-					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
-					<div class="tbl-header">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="tbl-content">
-	<table cellpadding="0" cellspacing="0" border="0">
-		<tbody>
-			<c:choose>
-		    <c:when test="${empty mainPageList}">
-			<tr>
-		        <td colspan="5">
-		            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-		        </td>
-				    </tr>
-				    </c:when>	    
-					    <c:otherwise>
-						<c:forEach items="${mainPageList}" var="mainBoard">
-							    <tr>
-									<td>${mainBoard.boardNo}</td>
-									<td><a href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${mainBoard.boardTitle}</a></td>
-									<td>${mainBoard.users.usersId}</td>
-									<td>${mainBoard.boardRegDate}</td>
-									<td>${mainBoard.replyList.size()}</td>
-								</tr>
-					    </c:forEach>
-						</c:otherwise>
-					    </c:choose>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</section>
-			<section class="et-slide" id="tab-flexbox">
-				<div class="cover">
-					<p class="second-parallel"></p>
-				</div>
-				<div class="et-slide-wrap">
+      <!-- Main -->
+      <main class="et-main">
+         <section class="et-slide" id="tab-es6">
+            <div class="cover">
+               <p class="first-parallel"></p>
+            </div>
+            <div class="et-slide-wrap">
+   
+               <h3>BLACKPINK</h3>
+               <div class="wrapper">
+                  <article class="flow">
+                     <div class="team">
+                        <ul class="auto-grid" role="list">                        
+                           <c:set var="doneLoop" value="false"/>                            
+                           <c:forEach items="${mainPageList}" var="mainImage" varStatus="state">
+                                  <c:if test="${state.count > 6}">
+                                     <c:set var="doneLoop" value="true"/>
+                                  </c:if> 
+                                  <c:if test="${not doneLoop}" >
+                                  <li>
+                                  <a href="${pageContext.request.contextPath}/board/details/${mainImage.boardNo}"
+                                  target="_blank " class="profile">
+                                      <h3 class="profile__name">${mainImage.boardTitle}</h3>
+                                      <img src="${pageContext.request.contextPath}/save/${mainImage.boardImg}">
+                                   </a>  
+                                   </c:if>      
+                                   </li>
+                           </c:forEach> 
+                        </ul>
+                     </div>
+                  </article>
+               </div>
+                <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
+               <div class="tbl-header">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <thead>
+                        <tr>
+                           <th>번호</th>
+                           <th>제목</th>
+                           <th>작성자</th>
+                           <th>작성일</th>
+                           <th>댓글수</th>
+                        </tr>
+                     </thead>
+                  </table>
+               </div>
+               <div class="tbl-content">
+   <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+         <c:choose>
+          <c:when test="${empty mainPageList}">
+         <tr>
+              <td colspan="5">
+                  <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+              </td>
+                </tr>
+                </c:when>       
+                   <c:otherwise>
+                  <c:forEach items="${mainPageList}" var="mainBoard">
+                         <tr>
+                           <td>${mainBoard.boardNo}</td>
+                           <td><a href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${mainBoard.boardTitle}</a></td>
+                           <td>${mainBoard.users.usersId}</td>
+                           <td>${mainBoard.boardRegDate}</td>
+                           <td>${mainBoard.replyList.size()}</td>
+                        </tr>
+                   </c:forEach>
+                  </c:otherwise>
+                   </c:choose>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </section>
+         <section class="et-slide" id="tab-flexbox">
+            <div class="cover">
+               <p class="second-parallel"></p>
+            </div>
+            <div class="et-slide-wrap">
 
-					<h3>JISOO</h3>
-					<div class="wrapper">
-						<article class="flow">
-							<div class="team">
-								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${jisooList}" var="jisooImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>     
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${jisooImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${jisooImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${jisooImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
-								</ul>
-							</div>
-						</article>
-					</div>
-					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
-					<div class="tbl-header">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="tbl-content">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>			
-								<c:choose>
-							    <c:when test="${empty jisooList}">
-								<tr>
-							        <td colspan="5">
-							            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-							        </td>
-							    </tr>
-							    
-							    </c:when>	    
-							    <c:otherwise>
-								<c:forEach items="${jisooList}" var="jisooBoard">
-									    <tr>
-											<td>${jisooBoard.boardNo}</td>
-											<td><a href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jisooBoard.boardTitle}</a></td>
-											<td>${jisooBoard.users.usersId}</td>
-											<td>${jisooBoard.boardRegDate}</td>
-											<td>${jisooBoard.replyList.size()}</td>
-										</tr>
-							    </c:forEach>
-								</c:otherwise>
-							    </c:choose>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</section>
-			<section class="et-slide" id="tab-react">
-				<div class="cover">
-					<p class="third-parallel"></p>
-				</div>
-				<div class="et-slide-wrap">
+               <h3>JISOO</h3>
+               <div class="wrapper">
+                  <article class="flow">
+                     <div class="team">
+                        <ul class="auto-grid" role="list">
+                           <c:set var="doneLoop" value="false"/>                               
+                           <c:forEach items="${jisooList}" var="jisooImage" varStatus="state">
+                                  <c:if test="${state.count > 6}">
+                                     <c:set var="doneLoop" value="true"/>
+                                  </c:if>     
+                                  <c:if test="${not doneLoop}" >
+                                  <li>
+                                  <a href="${pageContext.request.contextPath}/board/details/${jisooImage.boardNo}"
+                                  target="_blank " class="profile">
+                                      <h3 class="profile__name">${jisooImage.boardTitle}</h3>
+                                      <img src="${pageContext.request.contextPath}/save/${jisooImage.boardImg}">
+                                   </a>  
+                                   </c:if>      
+                                   </li>
+                           </c:forEach> 
+                        </ul>
+                     </div>
+                  </article>
+               </div>
+                <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
+               <div class="tbl-header">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <thead>
+                        <tr>
+                           <th>번호</th>
+                           <th>제목</th>
+                           <th>작성자</th>
+                           <th>작성일</th>
+                           <th>댓글수</th>
+                        </tr>
+                     </thead>
+                  </table>
+               </div>
+               <div class="tbl-content">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <tbody>         
+                        <c:choose>
+                         <c:when test="${empty jisooList}">
+                        <tr>
+                             <td colspan="5">
+                                 <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+                             </td>
+                         </tr>
+                         
+                         </c:when>       
+                         <c:otherwise>
+                        <c:forEach items="${jisooList}" var="jisooBoard">
+                               <tr>
+                                 <td>${jisooBoard.boardNo}</td>
+                                 <td><a href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jisooBoard.boardTitle}</a></td>
+                                 <td>${jisooBoard.users.usersId}</td>
+                                 <td>${jisooBoard.boardRegDate}</td>
+                                 <td>${jisooBoard.replyList.size()}</td>
+                              </tr>
+                         </c:forEach>
+                        </c:otherwise>
+                         </c:choose>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </section>
+         <section class="et-slide" id="tab-react">
+            <div class="cover">
+               <p class="third-parallel"></p>
+            </div>
+            <div class="et-slide-wrap">
 
-					<h3>JENNIE</h3>
-					<div class="wrapper">
-						<article class="flow">
-							<div class="team">
-								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${jennieList}" var="jennieImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>  
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${jennieImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${jennieImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${jennieImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
-								</ul>
-							</div>
-						</article>
-					</div>
-					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
-					<div class="tbl-header">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="tbl-content">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>
-							<c:choose>
-						    <c:when test="${empty jennieList}">
-							<tr>
-						        <td colspan="5">
-						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-						        </td>
-						    </tr>
-						    
-						    </c:when>	    
-						    <c:otherwise>
-							<c:forEach items="${jennieList}" var="jennieBoard">
-								    <tr>
-										<td>${jennieBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jennieBoard.boardTitle}</a></td>
-										<td>${jennieBoard.users.usersId}</td>
-										<td>${jennieBoard.boardRegDate}</td>
-										<td>${jennieBoard.replyList.size()}</td>
-									</tr>
-						    </c:forEach>
-							</c:otherwise>
-						    </c:choose>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</section>
-			<section class="et-slide" id="tab-angular">
-				<div class="cover">
-					<p class="forth-parallel"></p>
-				</div>
-				<div class="et-slide-wrap">
+               <h3>JENNIE</h3>
+               <div class="wrapper">
+                  <article class="flow">
+                     <div class="team">
+                        <ul class="auto-grid" role="list">
+                           <c:set var="doneLoop" value="false"/>                               
+                           <c:forEach items="${jennieList}" var="jennieImage" varStatus="state">
+                                  <c:if test="${state.count > 6}">
+                                     <c:set var="doneLoop" value="true"/>
+                                  </c:if>  
+                                  <c:if test="${not doneLoop}" >
+                                  <li>
+                                  <a href="${pageContext.request.contextPath}/board/details/${jennieImage.boardNo}"
+                                  target="_blank " class="profile">
+                                      <h3 class="profile__name">${jennieImage.boardTitle}</h3>
+                                      <img src="${pageContext.request.contextPath}/save/${jennieImage.boardImg}">
+                                   </a>  
+                                   </c:if>      
+                                   </li>
+                           </c:forEach> 
+                        </ul>
+                     </div>
+                  </article>
+               </div>
+                <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
+               <div class="tbl-header">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <thead>
+                        <tr>
+                           <th>번호</th>
+                           <th>제목</th>
+                           <th>작성자</th>
+                           <th>작성일</th>
+                           <th>댓글수</th>
+                        </tr>
+                     </thead>
+                  </table>
+               </div>
+               <div class="tbl-content">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <tbody>
+                     <c:choose>
+                      <c:when test="${empty jennieList}">
+                     <tr>
+                          <td colspan="5">
+                              <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+                          </td>
+                      </tr>
+                      
+                      </c:when>       
+                      <c:otherwise>
+                     <c:forEach items="${jennieList}" var="jennieBoard">
+                            <tr>
+                              <td>${jennieBoard.boardNo}</td>
+                              <td><a href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jennieBoard.boardTitle}</a></td>
+                              <td>${jennieBoard.users.usersId}</td>
+                              <td>${jennieBoard.boardRegDate}</td>
+                              <td>${jennieBoard.replyList.size()}</td>
+                           </tr>
+                      </c:forEach>
+                     </c:otherwise>
+                      </c:choose>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </section>
+         <section class="et-slide" id="tab-angular">
+            <div class="cover">
+               <p class="forth-parallel"></p>
+            </div>
+            <div class="et-slide-wrap">
 
-					<h3>ROSE</h3>
-					<div class="wrapper">
-						<article class="flow">
-							<div class="team">
-								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${roseList}" var="roseImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>  
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${roseImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${roseImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${roseImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
-								</ul>
-							</div>
-						</article>
-					</div>
-					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
-					<div class="tbl-header">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="tbl-content">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>
-							<c:choose>
-						    <c:when test="${empty roseList}">
-							<tr>
-						        <td colspan="5">
-						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-						        </td>
-						    </tr>
-						    
-						    </c:when>	    
-						    <c:otherwise>
-							<c:forEach items="${roseList}" var="roseBoard">
-								    <tr>
-										<td>${roseBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${roseBoard.boardTitle}</a></td>
-										<td>${roseBoard.users.usersId}</td>
-										<td>${roseBoard.boardRegDate}</td>
-										<td>${roseBoard.replyList.size()}</td>
-									</tr>
-						    </c:forEach>
-							</c:otherwise>
-						    </c:choose>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</section>
-			<section class="et-slide" id="tab-other">
-				<div class="cover">
-					<p class="hifth-parallel"></p>
-				</div>
-				<div class="et-slide-wrap">
+               <h3>ROSE</h3>
+               <div class="wrapper">
+                  <article class="flow">
+                     <div class="team">
+                        <ul class="auto-grid" role="list">
+                           <c:set var="doneLoop" value="false"/>                               
+                           <c:forEach items="${roseList}" var="roseImage" varStatus="state">
+                                  <c:if test="${state.count > 6}">
+                                     <c:set var="doneLoop" value="true"/>
+                                  </c:if>  
+                                  <c:if test="${not doneLoop}" >
+                                  <li>
+                                  <a href="${pageContext.request.contextPath}/board/details/${roseImage.boardNo}"
+                                  target="_blank " class="profile">
+                                      <h3 class="profile__name">${roseImage.boardTitle}</h3>
+                                      <img src="${pageContext.request.contextPath}/save/${roseImage.boardImg}">
+                                   </a>  
+                                   </c:if>      
+                                   </li>
+                           </c:forEach> 
+                        </ul>
+                     </div>
+                  </article>
+               </div>
+                <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
+               <div class="tbl-header">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <thead>
+                        <tr>
+                           <th>번호</th>
+                           <th>제목</th>
+                           <th>작성자</th>
+                           <th>작성일</th>
+                           <th>댓글수</th>
+                        </tr>
+                     </thead>
+                  </table>
+               </div>
+               <div class="tbl-content">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <tbody>
+                     <c:choose>
+                      <c:when test="${empty roseList}">
+                     <tr>
+                          <td colspan="5">
+                              <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+                          </td>
+                      </tr>
+                      
+                      </c:when>       
+                      <c:otherwise>
+                     <c:forEach items="${roseList}" var="roseBoard">
+                            <tr>
+                              <td>${roseBoard.boardNo}</td>
+                              <td><a href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${roseBoard.boardTitle}</a></td>
+                              <td>${roseBoard.users.usersId}</td>
+                              <td>${roseBoard.boardRegDate}</td>
+                              <td>${roseBoard.replyList.size()}</td>
+                           </tr>
+                      </c:forEach>
+                     </c:otherwise>
+                      </c:choose>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </section>
+         <section class="et-slide" id="tab-other">
+            <div class="cover">
+               <p class="hifth-parallel"></p>
+            </div>
+            <div class="et-slide-wrap">
 
-					<h3>LISA</h3>
-					<div class="wrapper">
-						<article class="flow">
-							<div class="team">
-								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${lisaList}" var="lisaImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>  
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${lisaImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${lisaImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${lisaImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
-								</ul>
-							</div>
-						</article>
-					</div>
-					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
-					<div class="tbl-header">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="tbl-content">
-						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>
-							<c:choose>
-						    <c:when test="${empty lisaList}">
-							<tr>
-						        <td colspan="5">
-						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-						        </td>
-						    </tr>
-						    
-						    </c:when>	    
-						    <c:otherwise>
-							<c:forEach items="${lisaList}" var="lisaBoard">
-								    <tr>
-										<td>${lisaBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${lisaBoard.boardTitle}</a></td>
-										<td>${lisaBoard.users.usersId}</td>
-										<td>${lisaBoard.boardRegDate}</td>
-										<td>${lisaBoard.replyList.size()}</td>
-									</tr>
-						    </c:forEach>
-							</c:otherwise>
-						    </c:choose>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</section>
-		</main>
-	</div>
-	<script type="text/javascript">
+               <h3>LISA</h3>
+               <div class="wrapper">
+                  <article class="flow">
+                     <div class="team">
+                        <ul class="auto-grid" role="list">
+                           <c:set var="doneLoop" value="false"/>                               
+                           <c:forEach items="${lisaList}" var="lisaImage" varStatus="state">
+                                  <c:if test="${state.count > 6}">
+                                     <c:set var="doneLoop" value="true"/>
+                                  </c:if>  
+                                  <c:if test="${not doneLoop}" >
+                                  <li>
+                                  <a href="${pageContext.request.contextPath}/board/details/${lisaImage.boardNo}"
+                                  target="_blank " class="profile">
+                                      <h3 class="profile__name">${lisaImage.boardTitle}</h3>
+                                      <img src="${pageContext.request.contextPath}/save/${lisaImage.boardImg}">
+                                   </a>  
+                                   </c:if>      
+                                   </li>
+                           </c:forEach> 
+                        </ul>
+                     </div>
+                  </article>
+               </div>
+                <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
+               <div class="tbl-header">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <thead>
+                        <tr>
+                           <th>번호</th>
+                           <th>제목</th>
+                           <th>작성자</th>
+                           <th>작성일</th>
+                           <th>댓글수</th>
+                        </tr>
+                     </thead>
+                  </table>
+               </div>
+               <div class="tbl-content">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                     <tbody>
+                     <c:choose>
+                      <c:when test="${empty lisaList}">
+                     <tr>
+                          <td colspan="5">
+                              <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
+                          </td>
+                      </tr>
+                      
+                      </c:when>       
+                      <c:otherwise>
+                     <c:forEach items="${lisaList}" var="lisaBoard">
+                            <tr>
+                              <td>${lisaBoard.boardNo}</td>
+                              <td><a href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${lisaBoard.boardTitle}</a></td>
+                              <td>${lisaBoard.users.usersId}</td>
+                              <td>${lisaBoard.boardRegDate}</td>
+                              <td>${lisaBoard.replyList.size()}</td>
+                           </tr>
+                      </c:forEach>
+                     </c:otherwise>
+                      </c:choose>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </section>
+      </main>
+   </div>
+   <script type="text/javascript">
 class StickyNavigation {
-	
-	constructor() {
-		this.currentId = null;
-		this.currentTab = null;
-		this.tabContainerHeight = 70;
-		let self = this;
-		$('.et-hero-tab').click(function() { 
-			self.onTabClick(event, $(this)); 
-		});
-		$(window).scroll(() => { this.onScroll(); });
-		$(window).resize(() => { this.onResize(); });
-	}
-	
-	onTabClick(event, element) {
-		event.preventDefault();
-		let scrollTop = $(element.attr('href')).offset().top - this.tabContainerHeight + 1;
-		$('html, body').animate({ scrollTop: scrollTop }, 600);
-	}
-	
-	onScroll() {
-		this.checkTabContainerPosition();
+   
+   constructor() {
+      this.currentId = null;
+      this.currentTab = null;
+      this.tabContainerHeight = 70;
+      let self = this;
+      $('.et-hero-tab').click(function() { 
+         self.onTabClick(event, $(this)); 
+      });
+      $(window).scroll(() => { this.onScroll(); });
+      $(window).resize(() => { this.onResize(); });
+   }
+   
+   onTabClick(event, element) {
+      event.preventDefault();
+      let scrollTop = $(element.attr('href')).offset().top - this.tabContainerHeight + 1;
+      $('html, body').animate({ scrollTop: scrollTop }, 600);
+   }
+   
+   onScroll() {
+      this.checkTabContainerPosition();
     this.findCurrentTabSelector();
-	}
-	
-	onResize() {
-		if(this.currentId) {
-			this.setSliderCss();
-		}
-	}
-	
-	checkTabContainerPosition() {
-		let offset = $('.et-hero-tabs').offset().top + $('.et-hero-tabs').height() - this.tabContainerHeight;
-		if($(window).scrollTop() > offset) {
-			$('.et-hero-tabs-container').addClass('et-hero-tabs-container--top');
-		} 
-		else {
-			$('.et-hero-tabs-container').removeClass('et-hero-tabs-container--top');
-		}
-	}
-	
-	findCurrentTabSelector(element) {
-		let newCurrentId;
-		let newCurrentTab;
-		let self = this;
-		$('.et-hero-tab').each(function() {
-			let id = $(this).attr('href');
-			let offsetTop = $(id).offset().top - self.tabContainerHeight;
-			let offsetBottom = $(id).offset().top + $(id).height() - self.tabContainerHeight;
-			if($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
-				newCurrentId = id;
-				newCurrentTab = $(this);
-			}
-		});
-		if(this.currentId != newCurrentId || this.currentId === null) {
-			this.currentId = newCurrentId;
-			this.currentTab = newCurrentTab;
-			this.setSliderCss();
-		}
-	}
-	
-	setSliderCss() {
-		let width = 0;
-		let left = 0;
-		if(this.currentTab) {
-			width = this.currentTab.css('width');
-			left = this.currentTab.offset().left;
-		}
-		$('.et-hero-tab-slider').css('width', width);
-		$('.et-hero-tab-slider').css('left', left);
-	}
-	
+   }
+   
+   onResize() {
+      if(this.currentId) {
+         this.setSliderCss();
+      }
+   }
+   
+   checkTabContainerPosition() {
+      let offset = $('.et-hero-tabs').offset().top + $('.et-hero-tabs').height() - this.tabContainerHeight;
+      if($(window).scrollTop() > offset) {
+         $('.et-hero-tabs-container').addClass('et-hero-tabs-container--top');
+      } 
+      else {
+         $('.et-hero-tabs-container').removeClass('et-hero-tabs-container--top');
+      }
+   }
+   
+   findCurrentTabSelector(element) {
+      let newCurrentId;
+      let newCurrentTab;
+      let self = this;
+      $('.et-hero-tab').each(function() {
+         let id = $(this).attr('href');
+         let offsetTop = $(id).offset().top - self.tabContainerHeight;
+         let offsetBottom = $(id).offset().top + $(id).height() - self.tabContainerHeight;
+         if($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
+            newCurrentId = id;
+            newCurrentTab = $(this);
+         }
+      });
+      if(this.currentId != newCurrentId || this.currentId === null) {
+         this.currentId = newCurrentId;
+         this.currentTab = newCurrentTab;
+         this.setSliderCss();
+      }
+   }
+   
+   setSliderCss() {
+      let width = 0;
+      let left = 0;
+      if(this.currentTab) {
+         width = this.currentTab.css('width');
+         left = this.currentTab.offset().left;
+      }
+      $('.et-hero-tab-slider').css('width', width);
+      $('.et-hero-tab-slider').css('left', left);
+   }
+   
 }
 
 new StickyNavigation();
 </script>
 
-	<script type="text/javascript">
+   <script type="text/javascript">
 const pTag1 = document.querySelector('.first-parallel')
 const pTag2 = document.querySelector('.second-parallel')
 const pTag3 = document.querySelector('.third-parallel')

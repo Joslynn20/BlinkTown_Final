@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://kit.fontawesome.com/a224d3b399.js" crossorigin="anonymous"></script>
 <style type="text/css">
 *
 =====
@@ -226,11 +227,11 @@ DEMO
 <div id="popup-article" class="popup">
   <div class="popup__container">
     <a href="#" class="popup__close" onclick="closePopup('popup-button')">
-     asd
+     <i class="fa-solid fa-xmark" style="color: #ffffff; font-size: 20px;"></i>
     </a>  
     <div class="popup__content">
-    	<button onclick="#" class="memu-btn">HOME</button> 
-    	<button onclick="#" class="memu-btn">INFO</button>
+    	<button onclick="location.href='${pageContext.request.contextPath}/'" class="memu-btn">HOME</button> 
+    	<button onclick="location.href='${pageContext.request.contextPath}/info/main'" class="memu-btn">INFO</button>
     	<button onclick=" location.href='${pageContext.request.contextPath}/shop/main'" class="memu-btn">SHOP</button>
     	<button onclick="location.href='${pageContext.request.contextPath}/board/main'"class="memu-btn">COMMUNITY</button> 
     </div>
