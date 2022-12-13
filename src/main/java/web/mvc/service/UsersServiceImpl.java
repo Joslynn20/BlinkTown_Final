@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -155,7 +156,7 @@ public class UsersServiceImpl implements UsersService {
 	//관리자 회원 전체조회
 	@Override
 	public List<Users> selectAll() {
-		return usersRep.findAll();
+		 return usersRep.findAll(Sort.by(Sort.Direction.DESC, "usersRegDate"));
 	}
 	
 	//관리자 회원정보 상세보기
@@ -174,15 +175,11 @@ public class UsersServiceImpl implements UsersService {
 		List<Users> usersList=null;
 		//usersMemberShip이 null이면 전체조회
 		if(usersMemberShip==null) {
-			usersList=usersRep.findAll();
+			usersList=usersRep.findAll(Sort.by(Sort.Direction.DESC, "usersRegDate"));
 		}else{ //null이 아닌 경우
 			//membership(0 또는 1에 해당하는 user조회
-			usersList=usersRep.findByUsersMemberShip(usersMemberShip);
-	
-			
+			usersList=usersRep.findByUsersMemberShipOrderByUsersRegDateDesc(usersMemberShip);
 		}
-	
-		
 		return usersList;
 	}
 	

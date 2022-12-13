@@ -71,15 +71,16 @@ public class OrdersController {
 	//관리자 페이지-메인 : admin/main
 	//관리자 페이지-주문조회 : admin/ordersList  (main에서 ajax호출용 url)
 	//유저 마이페이지-주문조회 : /mypage/orderList
-	//카트구매용 주문 폼 연결 : /orders/ordersForm -> shop/order 로 연결
-	//바로구매용 주문 폼 연결 : /orders/directOrder -> shop/order 로 연결(directOrder값 전달)
-	//주문하기 : /orders/checkout
+	//카트구매용 주문 폼 연결(유저/멤버) : /orders/ordersForm -> shop/order 로 연결
+	//바로구매용 주문 폼 연결(유저/멤버) : /orders/directOrder -> shop/order 로 연결(directOrder값 전달)
+	//주문하기(유저/멤버) : /orders/checkout
 	//카카오페이 검증메소드 : /orders/verifyIamport
 	//주문 삭제 : /orders/delete
 	
 	//테스트 및 테스트후 //테스트용  검색하여 주석 변경할 것
 	
 	//샘플 입력시 ordersService에서 멤버쉽카드 상품코드 입력해야 함 ("멤버쉽카드의 상품코드")
+	//샘플 입력시 AdminController에 앨범 상품코드 입력필요
 	
 	///////////////////////////////////////////////////////
 	/**

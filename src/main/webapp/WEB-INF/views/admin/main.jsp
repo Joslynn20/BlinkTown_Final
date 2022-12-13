@@ -15,7 +15,7 @@
 <div class="tabs-wrap">
 	<ul class="tabs">
 	  <li class="active" rel="tab1" id="usersTab1">Users</li>
-	  <li rel="tab2">Shop</li>
+	  <li rel="tab2" id="shopTab">Shop</li>
 	  <li rel="tab3" id="ordersTab3">Order</li>
 	  <li rel="tab4" id="statsTab4">Chart</li>
 	</ul>
@@ -184,16 +184,8 @@
 				</div>
 				<div class="tbl-content">
 					<table cellpadding="0" cellspacing="0" border="0">
-						<tbody>
-							<tr>
-								<td style="width: 10%;">A01</td>
-								<td style="width: 25%;"><a href="/admin/albumUpdateForm">web.mvc.BlinkTownFinalApplication</a></td>
-								<td style="width: 15%;">10000원</td>
-								<td style="width: 10%;">12개</td>
-								<td style="width: 15%;">2022-01-05</td>
-								<td style="width: 15%;"><button>삭제</button></td>
-							</tr>
-						</tbody>
+					<tbody id="productList">
+					</tbody>
 					</table>
 				</div>
 			</div>
