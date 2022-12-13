@@ -2,8 +2,6 @@ package web.mvc.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import web.mvc.domain.Users;
 
 public interface UsersService  {
@@ -14,7 +12,7 @@ public interface UsersService  {
 	 * usersId,usersPwd,usersPwdCheck,usersPhone,usersEmail,
 	 * usersNickName,usersMemberShip,usersRegDate
 	 * */
-	Users insertUser(Users users) throws Exception;
+	void insertUser(Users users) throws Exception;
 	
 	/**join 중복체크*/
  
@@ -30,16 +28,13 @@ public interface UsersService  {
 	 * (domain)Users
 	 * usersPwd,usersEmail,usersNickName 수정가능
 	 * */
-	Users updateUsers(Users users , String passwordchk);
-	//Users updateUsers(HttpServletRequest request, Users users);
-
+	Users updateUsers(Users users);
 	
 	/**
 	 * 회원삭제
-	 * usersPwd를 인수로 받아서  db랑 비교하고 맞으면 삭제한ㄷ.
-	 *  usersId는 Authentiation에서 가져온다.
+	 * usersId를 인수로 받아 삭제함.
 	 * */
-	void deleteByUsersId(String usersPwd);
+	void deleteByUsersId(String usersId);
 	
 	/**
 	 * 회원 전체조회
@@ -66,9 +61,9 @@ public interface UsersService  {
 	     * 주문-멤버쉽카드 구매시 유저의 멤버쉽 업데이트
 	     */
 	 void updateUsersMemberShip(Users users, boolean willMember);
-
-	/**
-	 * 회원 수 조회 (일반/멤버쉽)
-	 */
+	 
+	 /**
+	  * 회원 수 조회 (일반/멤버쉽)
+	  */
 	 Long countUsers(int usersMemberShip);
 }

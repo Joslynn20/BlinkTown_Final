@@ -6,36 +6,36 @@ import lombok.Data;
 public class KakaoProfile {
 
 	private Long id;
-	private String connected_at;
+	private String connecteAt;
 	private Properties properties;
-	private KakaoAccount kakao_account;
+	private KakaoAccount kakaoAccount;
 	
 	@Data
 	public class Properties {
 
 		private String nickname;
-		public String profile_image;
-		public String thumbnail_image;
+		public String profilImage;
+		public String thumbnaiImage;
 
 }
 	
 	@Data
 	public class KakaoAccount {
 
-		private Boolean profile_needs_agreement;
+		private Boolean profileNicknameNeedAgreement;
 		private Profile profile;
-		private Boolean has_email;
-		private Boolean email_needs_agreement;
-		public Boolean is_email_valid;
-		public Boolean is_email_verified;
+		private Boolean hasEmail;
+		private Boolean emailNeedAgreement;
+		public Boolean isEmaiValid;
+		public Boolean isEmailVerified;
 		public String email;
 		
 		@Data
 		public class Profile {
 
 			private String nickname;
-			public String thumbnail_image_url;
-			public String profile_image_url;
+			public String thumbnailImageUrl;
+			public String profileImageUrl;
 			
 		}
 	}

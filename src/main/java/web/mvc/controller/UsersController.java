@@ -2,11 +2,7 @@ package web.mvc.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-
 
 import web.mvc.domain.Users;
 import web.mvc.service.UsersService;
@@ -27,10 +21,6 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
-	
-	//회원정보수정시 비밀번호 암호화처리를 위한 객체를 주입받는다
-		@Autowired
-		private PasswordEncoder passwordEncoder;
 
 
 	/** 등록하기 */
@@ -93,7 +83,7 @@ public class UsersController {
 	 **/
 	@ExceptionHandler(Exception.class)
 	public ModelAndView error(Exception e) {
-		return new ModelAndView("error/error","errorMsg",e.getMessage());
+		return new ModelAndView("error/errorMessage","errorMsg",e.getMessage());
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,29 +91,13 @@ public class UsersController {
  * 수정하기
  * */
 	/**상세 회원정보 조회*/
-	@RequestMapping("/findUser")
-	public String selectByUsersId() {
-		
-		return "mypage/userInfo";
+	@RequestMapping("/read/{usersId}")
+	public String selectByUsersId(@PathVariable String usersId) {
+		usersService.selectByUsersId(usersId);
+		return "users/myPage";
 	}
-	
-	
-	/**
-	 * 회원정보 수정하기 
-	 * */
-	@RequestMapping("/updateUserAction")
-	public ModelAndView updateMemberAction(Users users, String passwordchk) {
-		System.out.println(" Users  :: "+users);
-		System.out.println("getUsersPwd"+users.getUsersPwd());
-		System.out.println("getUsersEmail"+users.getUsersEmail());
-		System.out.println("getUsersId"+users.getUsersId());
-		System.out.println("getUsersNickName"+users.getUsersNickName());
-		System.out.println("getUsersPhone"+users.getUsersPhone());
-		usersService.updateUsers(users , passwordchk);
-		
-		return new ModelAndView("mypage/userInfo");
-	}
-	
+
+
 
 	/** 수정폼 */
 	/*@RequestMapping("/updateForm")
@@ -134,19 +108,17 @@ public class UsersController {
 	}*/
 	
 	/** 수정 완료하기 */
-	/*@RequestMapping("/update")
-	public String updateUsers(Users users  , String passwordchk) {
-		
-		Users dbUser = usersService.updateUsers(users , passwordchk);
-		
-		
-		return "mypage/userInfo";
-	}*/
+	@RequestMapping("/update")
+	public String updateUsers(Users users) {
+		Users dbUser = usersService.updateUsers(users);
+
+		return "redirect:/mypage";
+	}
 
 	/** 탈퇴하기 */
 	@RequestMapping("/delete")
-	private String deleteByUsersId( String usersPwd) {
-		usersService.deleteByUsersId(usersPwd);
+	private String deleteByUsersId(String usersId) {
+		usersService.deleteByUsersId(usersId);
 		return "main";
 	}
 

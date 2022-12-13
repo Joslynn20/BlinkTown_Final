@@ -1,7 +1,6 @@
 package web.mvc.domain;
 
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -28,19 +26,19 @@ import lombok.ToString;
 @Getter
 @Setter
 @Builder
-@ToString
 public class Users {
     @Id
     private String usersId;
     
+    @Column(nullable = false )
     private String usersPwd;
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String usersPhone;
-    @Column(length = 30)
+    @Column(nullable = false, length = 30)
     private String usersEmail;
-    @Column( length = 30)
+    @Column(nullable = false, length = 30)
     private String usersNickName;
-    @Column(length = 1)
+    @Column(nullable = false, length = 1)
     private int  usersMemberShip;
     
     @CreationTimestamp
