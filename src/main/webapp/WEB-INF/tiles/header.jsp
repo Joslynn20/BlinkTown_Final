@@ -64,7 +64,8 @@ Roboto
 .header-logo {
 	width: 178px;
 	height: 42px;
-	background-color: #ffffff;
+	background-image: url(/save/img/SOURCE/logo.png);
+	background-size:cover;
 	margin: 0 auto;
 	position: relative;
 	top: -13px;
@@ -123,7 +124,7 @@ border: none;
 			<a href="#popup-article" class="open-popup"
 				onclick="openPopup('popup-button')"> <i class="fi fi-br-menu-burger" style="color: #ffffff; font-size: 20px;"></i></a>
 		</div>
-		<div class="header-logo">logo</div>
+		<div class="header-logo"></div>
 	</div>
 </div>
 	<script>
