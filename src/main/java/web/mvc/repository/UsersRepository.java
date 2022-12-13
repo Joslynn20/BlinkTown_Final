@@ -36,6 +36,9 @@ public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPr
 
 	//카운트
 	Long countByUsersMemberShip(int usersMemberShip);
+
+
+	
 }
 
 

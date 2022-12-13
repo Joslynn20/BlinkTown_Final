@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -153,52 +154,78 @@ margin: 100px 50px 100px 80px;
 }
 </style>
 
-
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+	  $("#updateForm").submit(function(){
+		  if($("#newpassword").val() != $("#newpasswordck").val()){
+			  alert("변경 비밀번호를 확인해주세요.")
+			  return false;
+		  }
+	  })
+	  ///////////////////
+	  $("#userDel").click(function(){
+		  location.href="${pageContext.request.contextPath}/users/delete?usersPwd="+$("#passwordchk").val()
+	  })
+	  
+  })
+</script>
 </head>
 <body>
 
 	<div class="userInfo-wrap box">
-	
-  <!-- Form -->
+	  <!-- Form -->
     <div class="userInfo-title">회원정보</div>
-  <form name="f1" action="" method="post" onsubmit="return checkAll()">
+  <sec:authorize access="isAuthenticated()">
+  <form method="post" action="${pageContext.request.contextPath}/users/updateUserAction" id="updateForm">
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
     <!-- id input -->
     <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디<input type="text" value="Id" class="input" id="id"   disabled="disabled"  />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디<input type="text" value="<sec:authentication property='principal.usersId'/>" class="input" id="id"  readonly name="usersId"  />
     </div>
     <!-- password input -->
-    <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호<input type="password" value="Password" class="input" id="password"   disabled="disabled"    />
-    </div>
+   <%--  <div class="input__block">
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;현재 비밀번호<input type="password" value="<sec:authentication property='principal.usersPwd'/>" class="input" id="password"  readonly name="usersPwd"   />
+    </div> --%>
     <!-- repeat password input -->
     <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인<input type="password" placeholder="Password" class="input" id="passwordchk"    />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;현재 비밀번호<input type="password" placeholder="Password" class="input" id="passwordchk" name="passwordchk"   />
        <span id="check"></span>
+    </div>
+   
+     <!--repeat change input -->
+    <div class="input__block">
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;변경 비밀번호<input type="password" placeholder="New Password" class="input" id="newpassword" name="usersPwd" /> <!-- 변경될 비번 -->
+    </div>
+     <!--repeat change input -->
+    <div class="input__block">
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;변경 비밀번호 확인<input type="password" placeholder="New Password Check" class="input" id="newpasswordck" name="newpasswordck" />
     </div>
     
     <!-- name input -->
     <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름<input type="text" value="Name" class="input" id="name"   disabled="disabled"  />
-    </div>
-    <!-- nickname input -->
-    <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임<input type="text" placeholder="NickName" class="input" id="nickname"    />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임<input type="text" value="<sec:authentication property='principal.usersNickName'/>" class="input" id="nickname" name="usersNickName" />
     </div>
     <!-- email input -->
     <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이메일<input type="email" placeholder="E-mail" class="input" id="email"    />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이메일<input type="email" value="<sec:authentication property='principal.usersEmail'/>" placeholder="E-mail" class="input" id="email" name="usersEmail"   />
     </div>
     <!-- phone input -->
     <div class="input__block">
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전화번호<input type="text" value="Phone" class="input" id="phone"   disabled="disabled"   />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전화번호<input type="text" value="<sec:authentication property='principal.usersPhone'/>" class="input" id="phone" readonly  />
     </div>
     <!-- sign in button -->
-    <button class="signin__btn" onsubmit="checkAll()">
-      가입
+  <div></div>
+    <button class="signin__btn" type="submit">
+     수정
     </button>
+    
+     <a href="#" id="userDel" >화원탈퇴</a>
+    </div>
+    
+    
   </form>
-
+</sec:authorize>
 </div>
 </body>
 </html>

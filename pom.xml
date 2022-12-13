@@ -147,14 +147,13 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>3.0.8</version>
 		</dependency>
-
-<!--security taglibs-->
-<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
-<dependency>
-    <groupId>org.springframework.security</groupId>
-    <artifactId>spring-security-taglibs</artifactId>
-    <version>5.3.13.RELEASE</version>
-</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>5.3.13.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
+		</dependency>
 
 	</dependencies>
 

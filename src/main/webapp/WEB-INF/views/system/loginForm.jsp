@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>  
 <!DOCTYPE html>
 <html>
@@ -291,6 +291,10 @@ function loginChk() {
 
 </head>
 <body>
+info:
+ <sec:authorize access="isAuthenticated()">
+   <sec:authentication property='principal.usersEmail'/>
+ </sec:authorize>
 
 <div class="container">
   <!-- Heading -->
@@ -340,7 +344,7 @@ function loginChk() {
     <p>또는</p>
   </div>
   <!-- google button -->
-  <button class="google__btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=1b05f9fc0b0d4e666e395b0bb60c0f4b&redirect_uri=https://localhost:8000/auth/kakao/callback&response_type=code'">
+  <button class="google__btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=1b05f9fc0b0d4e666e395b0bb60c0f4b&redirect_uri=http://localhost:8000/system/auth/kakao/callback&response_type=code'">
     <i class="fa fa-google"></i>
     카카오 로그인
   </button>

@@ -67,21 +67,20 @@ public class OrdersController {
 	private final static String STATUS_AFTER="주문완료";
 	
 	//유저 정보 받아오기 : Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	//Users users=(Users)principal; (인수 Principal principal)
 	
 	//관리자 페이지-메인 : admin/main
 	//관리자 페이지-주문조회 : admin/ordersList  (main에서 ajax호출용 url)
 	//유저 마이페이지-주문조회 : /mypage/orderList
-	//카트구매용 주문 폼 연결(user/member) : /orders/ordersForm -> shop/order 로 연결
-	//바로구매용 주문 폼 연결(user/member) : /orders/directOrder -> shop/order 로 연결(directOrder값 전달)
-	//주문하기(user/member) : /orders/checkout
+	//카트구매용 주문 폼 연결(유저/멤버) : /orders/ordersForm -> shop/order 로 연결
+	//바로구매용 주문 폼 연결(유저/멤버) : /orders/directOrder -> shop/order 로 연결(directOrder값 전달)
+	//주문하기(유저/멤버) : /orders/checkout
 	//카카오페이 검증메소드 : /orders/verifyIamport
 	//주문 삭제 : /orders/delete
 	
 	//테스트 및 테스트후 //테스트용  검색하여 주석 변경할 것
 	
 	//샘플 입력시 ordersService에서 멤버쉽카드 상품코드 입력해야 함 ("멤버쉽카드의 상품코드")
-	//AdminController에 앨범 상품코드 입력해야함
+	//샘플 입력시 AdminController에 앨범 상품코드 입력필요
 	
 	///////////////////////////////////////////////////////
 	/**
@@ -97,8 +96,8 @@ public class OrdersController {
 	@RequestMapping("/mypage/orderList")
 	public void ordersList(Model model) {
 		//유저 테스트용-실제용 구분
-		Users users=Users.builder().usersId("user").build();//테스트용
-//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		Users users=Users.builder().usersId("user").build();//테스트용
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		List<Orders> ordersList=ordersService.selectByUsers(users);
 		
@@ -253,8 +252,8 @@ public class OrdersController {
 		
 		//주문상태 결제중으로 입력
 		orders.setOrdersStatus(STATUS_BEFORE);
-//		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Users users=Users.builder().usersId("user").build(); //테스트용 생성
+		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		Users users=Users.builder().usersId("user").build(); //테스트용 생성
 		
 		//결제 창 호출위해 결과값 담기, cartList);
 		Orders finishOrders=ordersService.insertOrdersOrderdetails(users, orders);
