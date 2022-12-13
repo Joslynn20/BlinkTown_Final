@@ -1,6 +1,5 @@
 package web.mvc.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,15 +7,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.mvc.domain.Orders;
 import web.mvc.domain.Users;
 import web.mvc.dto.Stats;
 import web.mvc.service.OrdersService;
+import web.mvc.service.ProductService;
 import web.mvc.service.StatsService;
 import web.mvc.service.UsersService;
 
@@ -30,6 +30,8 @@ public class AdminController {
 	private StatsService statsService;
 	@Autowired
 	private UsersService usersService;
+	@Autowired
+	private ProductService productService;
 	
 	/**상수관리*/
 	private static final String BORN_PINK="A01"; //앨범에 해당하는 상품코드
@@ -54,10 +56,24 @@ public class AdminController {
 	public String insertProduct(String category) {
 		if (category.equals("A"))
 			return "admin/albumInsertForm";
-		else if (category.equals(category))
+		else if (category.equals("G"))
 			return "admin/goodsInsertForm";
 		else
 			return "admin/main";
+	}
+
+	@RequestMapping("/updateForm")
+	public ModelAndView updateProduct(String productCode) {
+		
+		System.out.println("updateProduct");
+		ModelAndView mv = new ModelAndView("", "product", productService.selectByProductCode(productCode, false));
+		String category = productCode.substring(0, 1);
+		if (category.equals("A"))
+			mv.setViewName("admin/albumUpdateForm");
+		else if (category.equals("G"))
+			mv.setViewName("admin/goodsUpdateForm");
+
+		return mv;
 	}
 
 	
