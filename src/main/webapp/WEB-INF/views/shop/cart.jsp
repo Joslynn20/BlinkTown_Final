@@ -65,7 +65,7 @@
 
 	</script>
 </head>
-<body>
+<body id="body">
   <section class="cart">
   <h1>장바구니</h1>
         <div class="cart__information">

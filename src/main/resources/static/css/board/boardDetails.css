@@ -38,7 +38,7 @@
 .left-col{
     display: flex;
     flex-direction: column;
-    	 max-height: 700px;
+    max-height: 700px;
      overflow-y: scroll;
     -ms-overflow-style: none; /* 인터넷 익스플로러 */
     scrollbar-width: none; /* 파이어폭스 */
@@ -83,9 +83,6 @@
     margin-top:5px;
     color: #ffffff;
 
-}
-.profile-text{
-	width: 200px;
 }
 .post{
     width: 100%;
@@ -472,4 +469,3 @@
   transition-duration: 1s;
   background-position: -2800px 0;
 }
-

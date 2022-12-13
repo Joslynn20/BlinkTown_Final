@@ -184,15 +184,7 @@
 				</div>
 				<div class="tbl-content">
 					<table cellpadding="0" cellspacing="0" border="0">
-						<tbody>
-							<tr>
-								<td style="width: 10%;">A01</td>
-								<td style="width: 25%;"><a href="/admin/albumUpdateForm">web.mvc.BlinkTownFinalApplication</a></td>
-								<td style="width: 15%;">10000원</td>
-								<td style="width: 10%;">12개</td>
-								<td style="width: 15%;">2022-01-05</td>
-								<td style="width: 15%;"><button>삭제</button></td>
-							</tr>
+						<tbody id="ordersList">
 						</tbody>
 					</table>
 				</div>
@@ -572,7 +564,40 @@ $(function(){
 			  } 
 		  })//ajax끝
 	})//#ordersTab3 click end
+	
+	$("#shopTab").click(function() {
+		$.ajax({ 
+			  url : "${pageContext.request.contextPath}/shop/select", 
+			  type : "post",
+			  dataType : "json",
+			  success : function(result){
+				  console.log(result);
+					let str = '';
+					$.each(result, function(index, res) {
+						str += '<tr><td style="width: 10%;">'+res.productCode+'</td>';
+						str += '<td style="width: 25%;"><a href="/admin/albumUpdateForm?productCode='+res.productCode+'">'+res.productEngName+'</a></td>';
+						str += '<td style="width: 15%;">'+res.productPrice+'</td>';
+						str += '<td style="width: 10%;">'+res.productStock+'</td>';
+						str += '<td style="width: 15%;">'+res.productRegDate+'</td>';
+						str += '<td style="width: 15%;"><button class="deleteBtn"  onclick="deleteProduct(this); return false;">삭제</button></td></tr>';
+						
+					});
+				
+			  	$("#productList").html(str);
+			  },
+			  error: function(request, status, error){ 
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);  
+			  } 
+		  });
+	});
+
 })//첫function end
+
+
+function deleteProduct(ele) {
+	let productCode = $(ele).parent().prev().prev().prev().prev().prev().text();
+	location.href='${pageContext.request.contextPath}/shop/delete?productCode='+productCode;
+}
 </script>
 
 <!-- 매출 데이터 ajax로 불러오기(변수에 담아 아래 챠트에 넣을 예정) -->

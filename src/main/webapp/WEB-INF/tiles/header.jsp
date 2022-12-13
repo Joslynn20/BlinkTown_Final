@@ -64,7 +64,8 @@ Roboto
 .header-logo {
 	width: 178px;
 	height: 42px;
-	background-color: #ffffff;
+	background-image: url(/save/img/SOURCE/logo.png);
+	background-size:cover;
 	margin: 0 auto;
 	position: relative;
 	top: -13px;
@@ -112,10 +113,13 @@ border: none;
 				<option selected="selected" value="ko" class="select-option" <c:if test="${param.lang.toString()== 'ko'}"> selected</c:if>>KOR</option>
 				<option value="en"  class="select-option" <c:if test="${param.lang.toString()==  'en'}"> selected</c:if>>ENG</option>
 			</select>
-
-			<div class="header-login header-menu">LOGOUT</div>
-			<div class="header-mypage header-menu">MYPAGE</div>
-			<div class="header-cart header-menu">CART</div>
+			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/system/loginForm" style="color: #ffffff; text-decoration: none;">LOGIN</a></div>
+			<div class="header-login header-menu"><a href="#" style="color: #ffffff; text-decoration: none;">LOGOUT</a></div>
+			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/admin/main" style="color: #ffffff; text-decoration: none;">ADMIN</a></div>
+			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a> <i class="fa-solid fa-crown"></i></div>
+			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a></div>
+			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/shop/cart" style="color: #ffffff; text-decoration: none;">CART</a></div>
+			
 		</div>
 	
 	<div class="header-bottom">
@@ -123,7 +127,7 @@ border: none;
 			<a href="#popup-article" class="open-popup"
 				onclick="openPopup('popup-button')"> <i class="fi fi-br-menu-burger" style="color: #ffffff; font-size: 20px;"></i></a>
 		</div>
-		<div class="header-logo">logo</div>
+		<div class="header-logo"></div>
 	</div>
 </div>
 	<script>
