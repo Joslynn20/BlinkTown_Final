@@ -8,10 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel='stylesheet'
-	href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
-<link rel='stylesheet'
-	href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css'>
-<link rel='stylesheet'
 	href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 <script src="https://kit.fontawesome.com/a224d3b399.js" crossorigin="anonymous"></script>
 <style type="text/css">

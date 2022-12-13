@@ -572,6 +572,33 @@ $(function(){
 			  } 
 		  })//ajax끝
 	})//#ordersTab3 click end
+	
+	$("#shopTab").click(function() {
+		$.ajax({ 
+			  url : "${pageContext.request.contextPath}/shop/select", 
+			  type : "post",
+			  dataType : "json",
+			  success : function(result){
+				  console.log(result);
+					let str = '';
+					$.each(result, function(index, res) {
+						str += '<tr><td style="width: 10%;">'+res.productCode+'</td>';
+						str += '<td style="width: 25%;"><a href="${pageContext.request.contextPath}/admin/updateForm?productCode='+res.productCode+'">'+res.productName +"["+ res.productEngName+"]"+'</a></td>';
+						str += '<td style="width: 15%;">'+res.productPrice+'</td>';
+						str += '<td style="width: 10%;">'+res.productStock+'</td>';
+						str += '<td style="width: 15%;">'+res.productRegDate+'</td>';
+						str += '<td style="width: 15%;"><button class="deleteBtn"  onclick="deleteProduct(this); return false;">삭제</button></td></tr>';
+						
+					});
+				
+			  	$("#productList").html(str);
+			  },
+			  error: function(request, status, error){ 
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);  
+			  } 
+		  });
+	});
+
 })//첫function end
 </script>
 
