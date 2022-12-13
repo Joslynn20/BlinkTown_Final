@@ -572,7 +572,7 @@ $(function(){
 			  } 
 		  })//ajax끝
 	})//#ordersTab3 click end
-	
+
 	$("#shopTab").click(function() {
 		$.ajax({ 
 			  url : "${pageContext.request.contextPath}/shop/select", 
@@ -598,8 +598,15 @@ $(function(){
 			  } 
 		  });
 	});
+   
+   
+});//첫function end
 
-})//첫function end
+function deleteProduct(ele) {
+	//alert(1);
+	let productCode = $(ele).parent().prev().prev().prev().prev().prev().text();
+	location.href='${pageContext.request.contextPath}/shop/delete?productCode='+productCode;
+}
 </script>
 
 <!-- 매출 데이터 ajax로 불러오기(변수에 담아 아래 챠트에 넣을 예정) -->
