@@ -113,11 +113,12 @@ border: none;
 				<option selected="selected" value="ko" class="select-option" <c:if test="${param.lang.toString()== 'ko'}"> selected</c:if>>KOR</option>
 				<option value="en"  class="select-option" <c:if test="${param.lang.toString()==  'en'}"> selected</c:if>>ENG</option>
 			</select>
-			<div class="header-cart header-menu">LOGIN</div>
-			<div class="header-login header-menu">LOGOUT</div>
-			<div class="header-cart header-menu">ADMIN</div>
-			<div class="header-mypage header-menu">MYPAGE<i class="fa-solid fa-crown"></i></div>
-			<div class="header-cart header-menu">CART</div>
+			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/system/loginForm" style="color: #ffffff; text-decoration: none;">LOGIN</a></div>
+			<div class="header-login header-menu"><a href="#" style="color: #ffffff; text-decoration: none;">LOGOUT</a></div>
+			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/admin/main" style="color: #ffffff; text-decoration: none;">ADMIN</a></div>
+			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a> <i class="fa-solid fa-crown"></i></div>
+			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a></div>
+			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/shop/cart" style="color: #ffffff; text-decoration: none;">CART</a></div>
 			
 		</div>
 	
