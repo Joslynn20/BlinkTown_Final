@@ -53,9 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     		  		).permitAll() 
       //
       .antMatchers("/mypage/**")
-      .access("hasRole('MEMBER') or hasRole('USER')")
+      .access("hasRole('MEMBER') or hasRole('USER') or hasRole('ADMIN')")
       .antMatchers("/shop/**") 
-      .access("hasRole('MEMBER') or hasRole('USER')")
+      .access("hasRole('MEMBER') or hasRole('USER')or hasRole('ADMIN')")
       .antMatchers("/board/**") 
       .access("hasRole('MEMBER') or hasRole('ADMIN')")  
              
