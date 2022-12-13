@@ -34,10 +34,10 @@ public class AdminController {
 	private ProductService productService;
 	
 	/**상수관리*/
-	private static final String BORN_PINK="A01"; //앨범에 해당하는 상품코드
-	private static final String THE_ALBUM="A02";
-	private static final String KILL_THIS_LOVE="A05";
-	private static final String SQUARE_UP="A06";
+	private static final String BORN_PINK="A04"; //앨범에 해당하는 상품코드
+	private static final String THE_ALBUM="A03";
+	private static final String KILL_THIS_LOVE="A02";
+	private static final String SQUARE_UP="A01";
 
 	/////////////////////////////////////////////////
 	/**
