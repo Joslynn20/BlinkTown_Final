@@ -83,10 +83,16 @@ public class ProductController {
 		return "admin/main";
 	}
 
-	@RequestMapping("/update")
-	@ResponseBody
-	public Product updateProdut(Product product) {
-		return service.updateProduct(product);
+	@RequestMapping("/updateAlbum")
+	public ModelAndView updateAlbum(Album album) {
+		Product product = service.updateProduct(album);
+		return new ModelAndView("admin/albumUpdateForm", "product", product);
+	}
+
+	@RequestMapping("/updateGoods")
+	public ModelAndView updateAlbum(Goods goods) {
+		Product product = service.updateProduct(goods);
+		return new ModelAndView("admin/goodsUpdateForm", "product", product);
 	}
 
 	@RequestMapping("/delete")
