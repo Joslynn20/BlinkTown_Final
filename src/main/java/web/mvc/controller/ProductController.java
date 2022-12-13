@@ -84,9 +84,9 @@ public class ProductController {
 	}
 
 	@RequestMapping("/update")
-	public String updateProdut(Product product) {
-		service.updateProduct(product);
-		return "admin/main";
+	@ResponseBody
+	public Product updateProdut(Product product) {
+		return service.updateProduct(product);
 	}
 
 	@RequestMapping("/delete")
@@ -123,6 +123,11 @@ public class ProductController {
 		return new ModelAndView("shop/details" + product.getCategory().getCategoryCode().toUpperCase(), "product",
 				product);
 	};
+
+	@RequestMapping("/decreaseProductStock")
+	public String decreaseProductStock(String productCode, int qty) {
+		return "";
+	}
 
 	@GetMapping("/{url}")
 	public void url() {

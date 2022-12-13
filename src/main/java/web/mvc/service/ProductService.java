@@ -24,7 +24,7 @@ public interface ProductService {
 	 * 상품 수정: 멤버쉽, 앨범, 굿즈 수정
 	 * @param 가격, 상품 상세정보, 재고량
 	 */
-	void updateProduct(Product product);
+	Product updateProduct(Product product);
 
 	/**
 	 * 상품 삭제

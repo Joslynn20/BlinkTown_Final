@@ -274,12 +274,13 @@
 			dataType : "text" , //서버가 응답(보내온) 한 타입 (text | html | xml | json)
 			data :"usersId=" + $("#id").val() , //서버에 보낼 파라미터 타입
 			success : function(result){
-				if(result==true){
+				if(result=="true"){
 					alert("아이디 중복입니다.");
 					$("#id").val('');
 					$("#signin__btn").attr("disabled", true);
 				} else{
 					alert("사용 가능한 아이디 입니다.");
+					$("#signin__btn").removeAttr("disabled")
 				}
 	
 			},
@@ -298,12 +299,13 @@
 			dataType : "text" , //서버가 응답(보내온) 한 타입 (text | html | xml | json)
 			data :"usersNickName=" + $("#nickname").val() , //서버에 보낼 파라미터 타입
 			success : function(result){
-				if(result==true){
+				if(result=="true"){
 					alert("닉네임 중복입니다.");
 					$("nickname").val('');
 					$("#signin__btn").attr("disabled", true);
 				} else{
 					alert("사용 가능한 닉네임 입니다.");
+					$("#signin__btn").removeAttr("disabled")
 				}
 	
 			},
@@ -322,11 +324,12 @@
 			dataType : "text" , //서버가 응답(보내온) 한 타입 (text | html | xml | json)
 			data :"usersEmail=" + $("#email").val() , //서버에 보낼 파라미터 타입
 			success : function(result){
-				if(result==true){
+				if(result=="true"){
 					alert("이메일 중복입니다.");
 					$("#signin__btn").attr("disabled", true);	
 				} else{
 					alert("사용 가능한 이메일 입니다.");
+					$("#signin__btn").removeAttr("disabled")
 				}
 	
 			},
@@ -346,11 +349,12 @@
 				dataType : "text" , //서버가 응답(보내온) 한 타입 (text | html | xml | json)
 				data :"usersPhone=" + $("#phone").val() , //서버에 보낼 파라미터 타입
 				success : function(result){
-					if(result==true){
+					if(result=="true"){
 						alert("전화번호 중복입니다.");
 						$("#signin__btn").attr("disabled", true);	
 					} else{
 						alert("사용 가능한 전화번호 입니다.");
+						$("#signin__btn").removeAttr("disabled")
 					}
 		
 				},
@@ -361,7 +365,7 @@
 	 });
 		})
 /////////////////////////////////////////////////////
-	/*  function checkAll() {
+	 function checkpwd() {
 		var form = document.f1;	
 	   	
 	   	if (!checkPassword(form.id.value, form.password.value, form.passwordchk.value)) {
@@ -401,7 +405,7 @@
 	 
 	    return true; //확인이 완료되었을 때
 	}
- */
+
 	
 
 </script>
@@ -418,7 +422,7 @@
   
   
   <!-- Form -->
-  <form name="f1" action="${pageContext.request.contextPath}/users/signup2" method="post">
+  <form name="f1" action="${pageContext.request.contextPath}/users/signup2" method="post" onsubmit="return checkpwd()">
   
    <!-- id input -->
     <div class="input__block">
@@ -457,7 +461,7 @@
    <div  class="phoneCheck"  ></div>
     <!-- sign in button -->
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
-    <input type="submit" id="signin__btn" value="회원가입">
+    <input type="submit" id="signin__btn" value="회원가입" onsubmit="return checkpwd()">
     
   </form>
  

@@ -67,7 +67,7 @@
 				<div class="comment-wrapper">
 					<img src="${pageContext.request.contextPath}/img/board/reply.png"
 						class="icon" alt=""> <i class="fi fi-rr-comment-alt"></i> <input
-						type="text" class="comment-box" placeholder="댓글을 입력해주세요" id="replyContent">
+						type="text" class="comment-box" placeholder="댓글을 입력해주세요" id="replyContent" name="replyContent">
 					<button class="comment-btn" type="submit" id="submitReply">post</button>
 				</div>
 		
@@ -90,7 +90,8 @@
 						"replyContent" : replyContent
 					},						
 					success : function(reply) {							
-						initReply();							
+						initReply();
+						document.getElementById('replyContent').value=null; 					
 					},
 					error : function() {
 						alert("댓글 등록 실패");	

@@ -105,14 +105,14 @@ public class BoardController {
 	/**
 	 * 게시글 등록폼
 	 * */
-	@RequestMapping("/board/insertForm")
+	@RequestMapping("/admin/boardInsertForm")
 	public void write() {}
 
 	
 	/**
 	 * 파일등록을 포함한 게시물등록하기
 	 * */
-	@RequestMapping("/board/upload")
+	@RequestMapping("/admin/upload")
 	public ModelAndView insertBoard(Board board, MultipartFile file, HttpSession session) {
 		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

@@ -32,13 +32,10 @@ public interface UsersRepository extends JpaRepository<Users, String>,QuerydslPr
 	Users findByUsersNickName(String usersNickName);
 	
 	//유무료 회원 조회할 때 
-	List<Users> findByUsersMemberShipOrderByUsersRegDateDesc(int usersmemebership);
+	List<Users> findByUsersMemberShip(int usersmemebership);
 
 	//카운트
 	Long countByUsersMemberShip(int usersMemberShip);
-
-
-	
 }
 
 
