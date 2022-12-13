@@ -2,6 +2,8 @@ package web.mvc.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import web.mvc.domain.Product;
@@ -37,7 +39,7 @@ public interface ProductService {
 	 * @param pageable(페이지 설정), 정렬 조건
 	 * @return 전체 상품 리스트
 	 */
-	List<Product> selectAllProduct(/*Pageable pageable, */String categoryCode, Integer GoodsMembershipOnly,
+	Page<Product> selectAllProduct(Pageable pageable, String categoryCode, Integer GoodsMembershipOnly,
 			String orderCondition);
 
 	/**

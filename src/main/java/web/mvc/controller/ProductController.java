@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +32,9 @@ public class ProductController {
 	private final ProductService service;
 	private static final String MAIN_DIR = "/save/shopImg/title";
 	private static final String DETAIL_DIR = "/save/shopImg/detail";
+	
+
+	private static final int PAGE_COUNT = 4;
 
 	@RequestMapping("/insertAlbum")
 	public String insertProduct(Album album, Category category, MultipartFile mainImg, MultipartFile detailImg,
@@ -103,22 +110,9 @@ public class ProductController {
 
 	@RequestMapping("/select")
 	@ResponseBody
-	public List<Product> selectAllProduct(String categoryCode, Integer GoodsMembershipOnly, String orderCondition) {
-		List<Product> productList = service.selectAllProduct(categoryCode, GoodsMembershipOnly, orderCondition);
-
-		/*
-		 * Map<String, String> categoryCodeList = new HashMap<>();
-		 * 
-		 * for(Product product :productList) {
-		 * categoryCodeList.put(product.getProductCode(),
-		 * product.getCategory().getCategoryCode()); }
-		 */
-		/*
-		 * Map<String, Object> map= new HashMap<String, Object>();
-		 * map.put("productList", productList); map.put("categoryCodeList",
-		 * categoryCodeList);
-		 */
-
+	public Page<Product> selectAllProduct(@RequestParam(required = false) String categoryCode, Integer GoodsMembershipOnly, String orderCondition, @RequestParam(defaultValue = "1") int nowPage) {
+		Pageable pageable = PageRequest.of((nowPage -1), PAGE_COUNT);
+		Page<Product> productList = service.selectAllProduct(pageable, categoryCode, GoodsMembershipOnly, orderCondition);
 		return productList;
 	};
 
@@ -129,11 +123,6 @@ public class ProductController {
 		return new ModelAndView("shop/details" + product.getCategory().getCategoryCode().toUpperCase(), "product",
 				product);
 	};
-
-	@RequestMapping("/decreaseProductStock")
-	public String decreaseProductStock(String productCode, int qty) {
-		return "";
-	}
 
 	@GetMapping("/{url}")
 	public void url() {
