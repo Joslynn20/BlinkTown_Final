@@ -41,7 +41,7 @@
 	<div id='contents' class="contents-wrap">
 		<div class="container">
 			<div class="product-img">
-				<img id="productImg" src="${pageContext.request.contextPath}/img/FIGURE_JENNIE2.png">
+				<img id="productImg" src="${pageContext.request.contextPath}/save/shopImg/detail/${product.productDetailImg}">
 			</div>
 		</div>
 		<div class="product-cont">
