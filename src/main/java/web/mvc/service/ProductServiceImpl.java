@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateProduct(Product product) {
+	public Product updateProduct(Product product) {
 		Product dbProduct = repository.findById(product.getProductCode()).orElse(null);
 
 		if (dbProduct == null)
@@ -54,11 +54,13 @@ public class ProductServiceImpl implements ProductService {
 
 		if (product instanceof Goods) {
 			updateGoods(product, dbProduct);
-			return;
+			return dbProduct;
 		}
 
 		if (product instanceof Album)
 			updateAlbum(product, dbProduct);
+		
+		return dbProduct;
 	}
 
 	private void updateGoods(Product product, Product dbProduct) {
@@ -95,6 +97,8 @@ public class ProductServiceImpl implements ProductService {
 		Product dbProduct = repository.findById(productCode).orElse(null);
 		if (dbProduct == null)
 			throw new RuntimeException("상품 코드 오류로 삭제 불가합니다.");
+		
+		repository.delete(dbProduct);
 	}
 
 	@Override
