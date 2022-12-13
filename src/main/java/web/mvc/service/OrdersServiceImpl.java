@@ -137,7 +137,7 @@ public class OrdersServiceImpl implements OrdersService {
 			//상품 수정 기능구현을 위한 상품 조회
 			String getProdCode=orderdetails.getProduct().getProductCode();
 			Product product=productRep.findById(getProdCode).orElse(null);
-			//1)상품 멤버쉽카드라면 유저의 멤버쉽상태 변경
+			//1)상품 멤버쉽카드라면 유저의 멤버쉽상태 변경+권한생성(member추가)
 			if(getProdCode.equals("멤버쉽카드의 상품코드")){//상품코드 String
 				Users dbUsers=userRep.findById(usersId).orElse(null);
 				//(도윤님 서비스 메소드를 사용)
@@ -188,7 +188,7 @@ public class OrdersServiceImpl implements OrdersService {
 		List<Orderdetails> orderdetailsList=orders.getOrderdetailsList();
 		//insert할때 변경했던 내용들 다시 원복
 		for(Orderdetails orderdetails : orderdetailsList){
-			//1) 멤버쉽 카드라면 다시 회원 정보의 멤버쉽유무 0으로 수정
+			//1) 멤버쉽 카드라면 다시 회원 정보의 멤버쉽유무 0으로 수정+권한 설정 원복(member삭제)
 			if(orderdetails.getProduct().getProductCode().equals("멤버쉽카드의 상품코드")) {
 				Users users=orders.getUsers();
 				usersService.updateUsersMemberShip(users, false);

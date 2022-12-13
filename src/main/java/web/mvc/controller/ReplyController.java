@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.tomcat.util.digester.ArrayStack;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,12 +35,14 @@ public class ReplyController {
 	 * */
 	@RequestMapping("/details/{boardNo}")
 	public Reply insertReply(String replyContent, @PathVariable Long boardNo) { 
-		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//System.out.println("replyContent="+replyContent);
+		//System.out.println("boardNo"+boardNo);
+		
+		//Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		Board board=boardService.selectByBoardNo(boardNo);
-		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(users).build();
-		
-		Reply newReply=replyService.insertReply(beforeReply, users);
+		Reply beforeReply=Reply.builder().board(board).replyContent(replyContent).users(Users.builder().usersId("jisoo").build()).build();
+		Reply newReply=replyService.insertReply(beforeReply);
 		return newReply;
 	}
 	
@@ -49,10 +50,11 @@ public class ReplyController {
 	 * 댓글 삭제하기
 	 * */
 	@RequestMapping("/delete")
-	public String deleteReply(Long replyNo,  Long boardNo) {
-		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public String deleteReply( Long replyNo,  Long boardNo) {
+		System.out.println("replyNo= "+replyNo);
+		System.out.println("boardNo= "+boardNo);
+		replyService.deleteReply(replyNo);
 		
-		replyService.deleteReply(replyNo, users);
 		return "ok";
 	}
 	
@@ -61,25 +63,21 @@ public class ReplyController {
 	 * */
 	@RequestMapping("/select")
 	public Map<String, Object> selectReply(Long boardNo) {
+		System.out.println("boardNo = " + boardNo);
 		List<Reply> replyList = replyService.findByBoardOrderByReplyNoDesc(boardNo);
+		System.out.println("replyList = " + replyList);
 		Map<String, Object> map = new HashMap<>();
 		
 		List<String> nicList = new ArrayList<String>();
 		for(Reply r : replyList) {
 			nicList.add(r.getUsers().getUsersNickName());
 		}
-		
-		List<String> usersList = new ArrayList<String>();
-		for(Reply l : replyList) {
-			usersList.add(l.getUsers().getUsersId());
-		}
-		
 		map.put("nicList", nicList);
-		map.put("usersList", usersList);
 		map.put("replyList", replyList);
 		
 		return map;
 	}
+		
 	
 }
 

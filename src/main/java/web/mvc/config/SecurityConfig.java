@@ -3,6 +3,7 @@ package web.mvc.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserAuthenticationFailureHandler failurehander;
 	
-
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+	    return super.authenticationManagerBean();
+	}
+	
 	@Bean
     public static BCryptPasswordEncoder encodePassword() {  // 회원가입 시 비밀번호 암호화에 사용할 Encoder 빈 등록
         return new BCryptPasswordEncoder();
@@ -42,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     		  		"/info/**",
     		  		"/main/**",
     		  		"/system/**", 
-    		  		"/success/**"
+    		  		"/success/**",
+    		  		"/index"
     		  		).permitAll() 
       //
       .antMatchers("/mypage/**")

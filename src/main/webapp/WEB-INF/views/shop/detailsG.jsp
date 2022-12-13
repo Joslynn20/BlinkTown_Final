@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,10 +79,15 @@
 						</div>
 					
 						<div class="product-quantity">
-					      <input type="number" value="1" min="1">
+					      <input type="number" value="1" min="1" id="orderdetailsQty">
 					    </div>
 					</div>
-					<button class="btn-order sell"><spring:message code="GoodsBuy"/></button>
+					
+					<!-- 로그인하면 구매버튼 보이게 설정 -->
+					<sec:authorize access="isAuthenticated()">
+					<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
+					</sec:authorize>
+					
 					<button class="button" id="addCart">
 					    <span><spring:message code="GoodsAddCart"/></span>
 					    <div class="cart">
@@ -207,5 +213,16 @@
 	window.addEventListener('scroll', scrollHandler)
 	animate()
 </script>
+<!-- 바로구매 버튼 동작 -->
+<script>
+$(function() {
+	
+	$("#directOrderBtn").on("click", function() {
+		location.href = "${pageContext.request.contextPath}/orders/directOrder/${product.productCode}/"+$("#orderdetailsQty").val();
+	});//바로구매 버튼 동작 끝
+});//function 끝
+</script>
+<!-- 바로구매 끝 -->
+
 </body>
 </html>

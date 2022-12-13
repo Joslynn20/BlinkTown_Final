@@ -2,6 +2,7 @@
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,7 +65,7 @@
 
 	</script>
 </head>
-<body>
+<body id="body">
   <section class="cart">
   <h1>장바구니</h1>
         <div class="cart__information">
@@ -149,7 +150,10 @@
         <div class="cart__mainbtns">
             <button class="cart__bigorderbtn left" onsubmit="location.href='${pageContext.request.contextPath}/shop/main'; return false;">쇼핑 계속하기</button>
 <!--             <button class="cart__bigorderbtn right" type="submit">주문하기</button> -->
+			<!-- 로그인하면 구매버튼 보이게 설정 -->
+			<sec:authorize access="isAuthenticated()">
             <button class="cart__bigorderbtn right" onclick="location.href='${pageContext.request.contextPath}/orders/ordersForm'; return false;">주문하기</button>
+            </sec:authorize>
         </div>
         </form>
     </section>

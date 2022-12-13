@@ -63,6 +63,7 @@
 							</div>
 						</article>
 					</div>
+					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -91,7 +92,7 @@
 						<c:forEach items="${mainPageList}" var="mainBoard">
 							    <tr>
 									<td>${mainBoard.boardNo}</td>
-									<td><a href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}">${mainBoard.boardTitle}</a></td>
+									<td><a href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${mainBoard.boardTitle}</a></td>
 									<td>${mainBoard.users.usersId}</td>
 									<td>${mainBoard.boardRegDate}</td>
 									<td>${mainBoard.replyList.size()}</td>
@@ -134,6 +135,7 @@
 							</div>
 						</article>
 					</div>
+					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -163,7 +165,7 @@
 								<c:forEach items="${jisooList}" var="jisooBoard">
 									    <tr>
 											<td>${jisooBoard.boardNo}</td>
-											<td><a href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}">${jisooBoard.boardTitle}</a></td>
+											<td><a href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jisooBoard.boardTitle}</a></td>
 											<td>${jisooBoard.users.usersId}</td>
 											<td>${jisooBoard.boardRegDate}</td>
 											<td>${jisooBoard.replyList.size()}</td>
@@ -206,6 +208,7 @@
 							</div>
 						</article>
 					</div>
+					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -235,7 +238,7 @@
 							<c:forEach items="${jennieList}" var="jennieBoard">
 								    <tr>
 										<td>${jennieBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}">${jennieBoard.boardTitle}</a></td>
+										<td><a href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jennieBoard.boardTitle}</a></td>
 										<td>${jennieBoard.users.usersId}</td>
 										<td>${jennieBoard.boardRegDate}</td>
 										<td>${jennieBoard.replyList.size()}</td>
@@ -278,6 +281,7 @@
 							</div>
 						</article>
 					</div>
+					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -307,7 +311,7 @@
 							<c:forEach items="${roseList}" var="roseBoard">
 								    <tr>
 										<td>${roseBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}">${roseBoard.boardTitle}</a></td>
+										<td><a href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${roseBoard.boardTitle}</a></td>
 										<td>${roseBoard.users.usersId}</td>
 										<td>${roseBoard.boardRegDate}</td>
 										<td>${roseBoard.replyList.size()}</td>
@@ -350,6 +354,7 @@
 							</div>
 						</article>
 					</div>
+					 <a href="/gallery/upload" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -379,7 +384,7 @@
 							<c:forEach items="${lisaList}" var="lisaBoard">
 								    <tr>
 										<td>${lisaBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}">${lisaBoard.boardTitle}</a></td>
+										<td><a href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${lisaBoard.boardTitle}</a></td>
 										<td>${lisaBoard.users.usersId}</td>
 										<td>${lisaBoard.boardRegDate}</td>
 										<td>${lisaBoard.replyList.size()}</td>

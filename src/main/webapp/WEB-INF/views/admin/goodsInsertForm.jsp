@@ -74,7 +74,7 @@ margin-bottom: 8px;
 </style>
 </head>
 <body>
-<form action="">
+<form action="${pageContext.request.contextPath}/shop/insertGoods" method="post" enctype="multipart/form-data">
 	<section class="main">
 		<div class="wrapper">
 			<div class="left-col">
@@ -83,7 +83,7 @@ margin-bottom: 8px;
 						<div class="col-sm-2 imgUp">
 							<div class="imagePreview"></div>
 							<label class="btn btn-primary">메인이미지업로드
-								<input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;">
+								<input type="file" class="uploadFile img" name="mainImg" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;">
 							</label>
 						</div>
 						<!-- col-2 -->
@@ -114,7 +114,7 @@ margin-bottom: 8px;
 				  <input class="upload-name" value="상세페이지이미지" disabled="disabled">
 				
 				  <label for="ex_filename">업로드</label> 
-				  <input type="file" id="ex_filename" class="upload-hidden"> 
+				  <input type="file" id="ex_filename" class="upload-hidden" name="detailImg"> 
 				</div>
 								<br>
 
