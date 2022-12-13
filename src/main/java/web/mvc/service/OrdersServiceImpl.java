@@ -102,11 +102,15 @@ public class OrdersServiceImpl implements OrdersService {
 //		}//재고량 체크 for문끝
 		
 		for(Orderdetails orderdetails : orders.getOrderdetailsList()){
-			// 상품 재고량이 주문 가능한 숫자인지 조회
+			//1)상품 재고량이 주문 가능한 숫자인지 조회
 			Product product=productRep.findById(orderdetails.getProduct().getProductCode()).orElse(null);
 			if(product.getProductStock()>=0){
 				if(orderdetails.getProduct().getProductStock()>product.getProductStock() || product.getProductStock()==0)
 						throw new RuntimeException("상품 재고량이 부족합니다. 개수를 확인해주세요.");
+			}
+			//2)상품정보가 멤버쉽 상품일때 멤버쉽 회원만 구매가능하게 조건설정
+			if(product.getProductMembershipOnly()==1) {
+				if(users.getUsersMemberShip()==0) throw new RuntimeException("멤버쉽 회원만 가능한 상품입니다");
 			}
 		}//재고량 체크 for문끝
 	} //selectCheckBeforeOrders end

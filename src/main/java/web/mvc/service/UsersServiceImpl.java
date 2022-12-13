@@ -43,8 +43,8 @@ public class UsersServiceImpl implements UsersService {
 		String enPwd = encoderPwd.encode(rawPwd);//해쉬
 		users.setUsersPwd(enPwd);
 		
-		 usersRep.save(users);
-		 authoritiesRep.save(Authority.builder().users(users).authorityRole(RoleConstants.ROLE_USER).build());
+		 Users dbUser=usersRep.save(users);
+		 authoritiesRep.save(Authority.builder().users(dbUser).authorityRole(RoleConstants.ROLE_USER).build());
 	}
 
 	// true면 중복
@@ -156,13 +156,14 @@ public class UsersServiceImpl implements UsersService {
 	 //주문-멤버쉽업데이트
 	   @Override
 	   public void updateUsersMemberShip(Users users, boolean willMember) {
-		  if(willMember==true) { //멤버쉽카드 구매시 회원정보 업데이트, 권한 생성
+		  if(willMember==true) { //멤버쉽카드 구매시 회원 정보 업데이트, 권한 생성
 			  users.setUsersMemberShip(1);
 			  authoritiesRep.save(Authority.builder().users(users).authorityRole(RoleConstants.ROLE_MEMBER).build());
 		  }
-		  else { //멤버쉽카드 구매 오류로 원복할시 회원정보 원복, 권한 다시 삭제
+		  else { //멤버쉽카드 구매 오류로 원복할 시 회원 정보 원복, 권한 다시 삭제
 			  users.setUsersMemberShip(0);
-			  Authority deleteAuthority=authoritiesRep.findByUsersAndAuthorityRole(users, RoleConstants.ROLE_MEMBER);
+			  Authority deleteAuthority=authoritiesRep
+					  .findByUsersAndAuthorityRole(users, RoleConstants.ROLE_MEMBER);
 			  authoritiesRep.delete(deleteAuthority);
 		  }
 	   }
@@ -171,6 +172,4 @@ public class UsersServiceImpl implements UsersService {
 	public Long countUsers(int usersMemberShip) {
 		return usersRep.countByUsersMemberShip(usersMemberShip);
 	}
-
-
 }

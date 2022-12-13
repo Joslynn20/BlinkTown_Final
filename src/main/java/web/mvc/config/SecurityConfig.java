@@ -50,7 +50,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       .antMatchers("/shop/**") 
       .access("hasRole('MEMBER') or hasRole('USER')")
       .antMatchers("/board/**") 
-      .access("hasRole('MEMBER') or hasRole('ADMIN')")  
+      .access("hasRole('MEMBER') or hasRole('ADMIN')")
+      
+      //주문에서 사용할 3가지에 권한 필요
+      .antMatchers("/orders/ordersForm") 
+      .access("hasRole('MEMBER') or hasRole('USER')")
+      .antMatchers("/orders/directOrder/**") 
+      .access("hasRole('MEMBER') or hasRole('USER')")
+      .antMatchers("/orders/checkout") 
+      .access("hasRole('MEMBER') or hasRole('USER')")
              
       ///admin'의 경우 ADMIN 권한이 있는 사용자만 접근이 가능
       .antMatchers("/admin/**")

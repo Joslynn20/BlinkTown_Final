@@ -21,5 +21,5 @@ public interface AuthoritiesRepository extends JpaRepository<Authority, Long>{
 	 /**
 	  * 업데이트 원복할때 필요한 멤버 권한 조회-이후 삭제
 	  */
-	 Authority findByUsersAndAuthorityRole(Users users, String AuthorityRole);
+	 Authority findByUsersAndAuthorityRole(Users users, String authorityRole);
 }
