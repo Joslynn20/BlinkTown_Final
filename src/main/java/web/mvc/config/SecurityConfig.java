@@ -11,30 +11,33 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import lombok.AllArgsConstructor;
 import web.mvc.security.UserAuthenticationFailureHandler;
+import web.mvc.security.UserAuthenticationProvider;
+import web.mvc.service.UsersService;
 
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-   
-   
-   @Autowired
-   private AuthenticationProvider userAuthenticationProvider;
-   
-   @Autowired
-   private UserAuthenticationFailureHandler failurehander;
-   
-   @Bean
-   @Override
-   public AuthenticationManager authenticationManagerBean() throws Exception {
-       return super.authenticationManagerBean();
-   }
-   
-   @Bean
+	
+	
+	@Autowired
+	private AuthenticationProvider userAuthenticationProvider;
+	
+	@Autowired
+	private UserAuthenticationFailureHandler failurehander;
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+	    return super.authenticationManagerBean();
+	}
+	
+	@Bean
     public static BCryptPasswordEncoder encodePassword() {  // 회원가입 시 비밀번호 암호화에 사용할 Encoder 빈 등록
         return new BCryptPasswordEncoder();
-   }
+	}
    
    @Override
    protected void configure(HttpSecurity http) throws Exception {
@@ -42,12 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       http.authorizeRequests()  //  security-context  <security:intercept-url
      //로그인 없이 접근 가능한url
       .antMatchers( "/error/**",
-                  "/info/**",
-                  "/main/**",
-                  "/system/**", 
-                  "/success/**",
-                  "/index"
-                  ).permitAll() 
+    		  		"/info/**",
+    		  		"/main/**",
+    		  		"/system/**", 
+    		  		"/success/**",
+    		  		"/index"
+    		  		).permitAll() 
       //
       .antMatchers("/mypage/**")
       .access("hasRole('MEMBER') or hasRole('USER')")
@@ -89,10 +92,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
    
    
    @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      auth.authenticationProvider(userAuthenticationProvider);
-   }
-   
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(userAuthenticationProvider);
+	}
+	
     
   
 }

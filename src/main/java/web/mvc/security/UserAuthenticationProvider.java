@@ -77,7 +77,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 				new UsernamePasswordAuthenticationToken(users, null, simpleAuthList);
 		
 		return auth;
-	}
+	} 
 
 	/**
 	 * 인수로 전달된 인증정보가 인증할 수 있는 유효한 객체인지를 판단해주는 메소드
