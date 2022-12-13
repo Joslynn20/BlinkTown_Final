@@ -564,7 +564,7 @@ $(function(){
 			  } 
 		  })//ajax끝
 	})//#ordersTab3 click end
-	
+
 	$("#shopTab").click(function() {
 		$.ajax({ 
 			  url : "${pageContext.request.contextPath}/shop/select", 
@@ -590,11 +590,12 @@ $(function(){
 			  } 
 		  });
 	});
-
-})//첫function end
-
+   
+   
+});//첫function end
 
 function deleteProduct(ele) {
+	//alert(1);
 	let productCode = $(ele).parent().prev().prev().prev().prev().prev().text();
 	location.href='${pageContext.request.contextPath}/shop/delete?productCode='+productCode;
 }
