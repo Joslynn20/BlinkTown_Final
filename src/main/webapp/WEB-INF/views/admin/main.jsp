@@ -534,9 +534,9 @@ function usersListCount() {
 <!-- 주문목록 리스트 -->
 <script>
 $(function(){
-	/*$(document).ajaxSend(function(e, xhr, options) {
+	$(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-    });*/
+    });
 	$("#ordersTab3").click(function(){
 // 		alert("#ordersTab3 click");
 		$.ajax({ 
