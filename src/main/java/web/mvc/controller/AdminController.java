@@ -42,7 +42,7 @@ public class AdminController {
 	 * 경로 : admin/main.jsp
 	 * 이거 하나로만 사용
 	 */
-	@RequestMapping("/main")
+	@RequestMapping("/{url}")
 	public void main() {}//main end
 	/////////////////////////////////////////////////
 	/**
