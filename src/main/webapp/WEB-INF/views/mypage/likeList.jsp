@@ -19,7 +19,7 @@
 				<c:choose>
 					    <c:when test="${empty likesList}">
 				
-					            <h3  style="font-size:15pt; color:#ffffff; text-align: center;">좋아요 표시한 게시물이 없습니다.</h3>
+					            <div class="userInfo-title" style="color: #ffffff; font-size: 18px;">좋아요 표시한 게시물이 없습니다.</div>
 						    
 					    </c:when>	
 						<c:otherwise>	
@@ -34,7 +34,7 @@
 							    <li>
 							    <a href="${pageContext.request.contextPath}/board/details/${likesImage.boardNo}"
 							    target="_blank " class="profile">
-							 		 <h3 class="profile__name">${likesImage.boardTitle}</h3>
+							 
 						           <img src="${pageContext.request.contextPath}/save/${likesImage.boardImg}">
 						        </a>  
 						        </c:if>		

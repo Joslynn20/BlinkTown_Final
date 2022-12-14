@@ -220,7 +220,7 @@ margin: 100px 50px 100px 80px;
      수정
     </button>
     
-     <a href="#" id="userDel" >화원탈퇴</a>
+     <a href="#" id="userDel" class="signin__btn" style="text-decoration: none; text-align: center; border: 1px solid #F4A7BB; color: #F4A7BB; background-color: inherit; margin-top: 8px; padding-top: 15px;">탈퇴</a>
     </div>
     
     

@@ -11,7 +11,7 @@
 	href="${pageContext.request.contextPath}/css/admin/adminMain.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
 </head>
-<body>
+<body id="body">
 <div class="tabs-wrap">
 	<ul class="tabs">
 	  <li class="active" rel="tab1" id="usersTab1">Users</li>
@@ -225,7 +225,7 @@
 	  <!-- 전체매출조회 -->
 	  <div class="Sales-check">
 	  	<div>
-	  		<h1 style="margin-bottom: 20px;">전체매출 : <span id="allStats"></span> 원</h1>
+	  		<h1 style="margin-bottom: 20px;" class="neon">전체매출 : <span id="allStats"></span> 원</h1>
 	  	</div>
 	  </div>
 	  <!-- 월별매출조회 -->
@@ -752,7 +752,7 @@ $(function(){
 				    options: {
 				    	
 				        scales: {
-				            yAxes: [{
+				            xAxes: [{
 				                ticks: {
 				                    beginAtZero: true,
 				                }

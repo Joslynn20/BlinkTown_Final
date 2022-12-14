@@ -427,9 +427,20 @@ a:hover{
   text-transform: uppercase;
   display: flex;
   width: 100%; 
-  top:-150px;
+  top:-50px;
 }
-
+.neon {
+  color: #fff;
+  text-shadow:
+    0 0 5px #FF316680,
+    0 0 10px #FF316680,
+    0 0 20px #FF316680,
+    0 0 40px #FF316680,
+    0 0 80px #FF316680,
+    0 0 90px #FF316680,
+    0 0 100px #FF316680,
+    0 0 150px #FF316680;
+}
 .axis-monthlySales .tick-monthlySales {
   flex: 1;
   position: relative;
