@@ -205,7 +205,7 @@
 <script>
 $(function() {
 	
-	$(".btn-order sell").on("click", function() { //#directOrderBtn
+	$("#directOrderBtn").on("click", function() { //#directOrderBtn //.btn-order sell
 		location.href = "${pageContext.request.contextPath}/orders/directOrder/${product.productCode}/"+$("#orderdetailsQty").val();
 	});//바로구매 버튼 동작 끝
 });//function 끝

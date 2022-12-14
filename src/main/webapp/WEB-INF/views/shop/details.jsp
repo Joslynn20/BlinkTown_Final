@@ -63,7 +63,7 @@
 					
 					<!-- 바로구매 버튼 -->
 					<c:choose>
-						<c:when test="${product.productMembershipOnly}==1">
+						<c:when test="${product.productMembershipOnly==1}">
 							<sec:authorize access="hasRole('ROLE_MEMBER')">
 								<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
 							</sec:authorize>
@@ -78,7 +78,7 @@
 					
 					<!-- 카트담기도 버튼부터 조건 설정 -->
 					<c:choose>
-						<c:when test="${product.productMembershipOnly}==1">
+						<c:when test="${product.productMembershipOnly==1}">
 							<sec:authorize access="hasRole('ROLE_MEMBER')">
 								<button class="button" id="addcart">
 								    <span><spring:message code="GoodsAddCart"/></span>
@@ -227,7 +227,7 @@
 <script>
 $(function() {
 	
-	$(".btn-order sell").on("click", function() { //#directOrderBtn
+	$("#directOrderBtn").on("click", function() { //#directOrderBtn //.btn-order sell
 		location.href = "${pageContext.request.contextPath}/orders/directOrder/${product.productCode}/"+$("#orderdetailsQty").val();
 	});//바로구매 버튼 동작 끝
 });//function 끝
