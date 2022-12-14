@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +45,7 @@
 
 				<div class="accordionItemContent">
 					<br>
-					<div class="orderDetail-title">[주문번호: ${orders.ordersNo}] [주문시간: ${orders.ordersDate}] [총금액: ${orders.amount}원]</div>
+					<div class="orderDetail-title">[주문번호: ${orders.ordersNo}] [주문시간: ${orders.ordersDate}] [총금액: <fmt:formatNumber value="${orders.amount}" pattern="###,###,###,###"/>원]</div>
 					<br>
 					<br>
 					<table>
@@ -60,7 +60,7 @@
 						<c:forEach items="${orders.orderdetailsList}" var="details" varStatus="state">
 						<tr>
 							<td style="width: 15%;">${details.orderdetailsNo}</td>
-							<td style="width: 15%;">${details.orderdetailsPrice}원</td>
+							<td style="width: 15%;"><fmt:formatNumber value="${details.orderdetailsPrice}" pattern="###,###,###,###"/>원</td>
 							<td style="width: 10%;">${details.orderdetailsQty}개</td>
 							<td style="width: 10%;">${details.product.productCode}</td>
 							<!--쿠키값 따라 상품명 선택 영어일때 영어상품, 나머지는 한글이름--> 
@@ -70,7 +70,7 @@
 									<c:otherwise>${details.product.productName}</c:otherwise>
 								</c:choose>
 							</td>
-							<td style="width: 15%;">${details.product.productPrice}원</td>
+							<td style="width: 15%;"><fmt:formatNumber value="${details.product.productPrice}" pattern="###,###,###,###"/>원</td>
 						</tr>
 						</c:forEach>
 					</table>
