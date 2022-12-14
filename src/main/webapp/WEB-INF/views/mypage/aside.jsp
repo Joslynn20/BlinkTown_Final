@@ -33,9 +33,9 @@
 	margin-right:20px;
 	float: right;
 }
-.title{
+.side-title{
   width:200px;
-  height:30px;
+  height:40px;
   text-align:center;
   border-top: 2px solid #F4A7BB60;
   border-bottom: 2px solid #F4A7BB60;
@@ -51,7 +51,7 @@
 
 
 <div class="side-Btn">
-	<div class="title">마이페이지</div>
+	<div class="side-title">마이페이지</div>
 	<button class="slide" onclick="location.href='/users/findUser'">회원정보</button>
 	<button class="slide" onclick="location.href='/mypage/orderList'">주문조회</button>
 	<button class="slide" onclick="location.href='/mypage/likeList'">좋아한 게시물</button>

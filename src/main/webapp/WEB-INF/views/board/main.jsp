@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,20 +15,28 @@
 	<div class="board-wrap">
 		<!-- Hero -->
 		<section class="et-hero-tabs">
-		<div class="blackpink-board-wrap">
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
-			<div class="blackpink-board" style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-		</div>
+			<div class="blackpink-board-wrap">
+				<div class="blackpink-board"
+					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+				<div class="blackpink-board"
+					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
+				<div class="blackpink-board"
+					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+				<div class="blackpink-board"
+					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
+				<div class="blackpink-board"
+					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+			</div>
 			<div class="et-hero-tabs-container">
-				<a class="et-hero-tab" href="#tab-es6" >BlackPink</a>
-				<a class="et-hero-tab" href="#tab-flexbox">Jisoo</a> 
-				<a class="et-hero-tab" href="#tab-react">Jennie</a> 
-				<a class="et-hero-tab" href="#tab-angular">Rose</a> 
-				<a class="et-hero-tab" href="#tab-other">Lisa</a> 
-				<span class="et-hero-tab-slider"></span>
+				<a class="et-hero-tab" href="#tab-es6"
+					style="text-decoration: none;">BlackPink</a> <a class="et-hero-tab"
+					href="#tab-flexbox" style="text-decoration: none;">Jisoo</a> <a
+					class="et-hero-tab" href="#tab-react"
+					style="text-decoration: none;">Jennie</a> <a class="et-hero-tab"
+					href="#tab-angular" style="text-decoration: none;">Rose</a> <a
+					class="et-hero-tab" href="#tab-other"
+					style="text-decoration: none;">Lisa</a> <span
+					class="et-hero-tab-slider"></span>
 			</div>
 		</section>
 
@@ -38,68 +47,77 @@
 					<p class="first-parallel"></p>
 				</div>
 				<div class="et-slide-wrap">
-	
+
 					<h3>BLACKPINK</h3>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a href="/admin/boardInsertForm" class="moving-grad viewmore"
+							style="color: #F8D8E3; text-decoration: none;">UPRODE</a>
+					</sec:authorize>
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
-								<ul class="auto-grid" role="list">								
-									<c:set var="doneLoop" value="false"/>									 
-									<c:forEach items="${mainPageList}" var="mainImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if> 
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${mainImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${mainImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${mainImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
+								<ul class="auto-grid" role="list">
+									<c:set var="doneLoop" value="false" />
+									<c:forEach items="${mainPageList}" var="mainImage"
+										varStatus="state">
+										<c:if test="${state.count > 6}">
+											<c:set var="doneLoop" value="true" />
+										</c:if>
+										<c:if test="${not doneLoop}">
+											<li><a
+												href="${pageContext.request.contextPath}/board/details/${mainImage.boardNo}"
+												style="color: #F8D8E3; text-decoration: none;"
+												_blank " class="profile">
+													<h3 class="profile__name">${mainImage.boardTitle}</h3> <img
+													src="${pageContext.request.contextPath}/save/${mainImage.boardImg}">
+											</a>
+										</c:if>
+										</li>
+									</c:forEach>
 								</ul>
 							</div>
 						</article>
 					</div>
-					 <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
+									<th align="center">번호</th>
+									<th align="center">제목</th>
+									<th align="center">작성자</th>
+									<th align="center">작성일</th>
+									<th align="center">댓글수</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
 					<div class="tbl-content">
-	<table cellpadding="0" cellspacing="0" border="0">
-		<tbody>
-			<c:choose>
-		    <c:when test="${empty mainPageList}">
-			<tr>
-		        <td colspan="5">
-		            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-		        </td>
-				    </tr>
-				    </c:when>	    
-					    <c:otherwise>
-						<c:forEach items="${mainPageList}" var="mainBoard">
-							    <tr>
-									<td>${mainBoard.boardNo}</td>
-									<td><a href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${mainBoard.boardTitle}</a></td>
-									<td>${mainBoard.users.usersId}</td>
-									<td>${mainBoard.boardRegDate}</td>
-									<td>${mainBoard.replyList.size()}</td>
-								</tr>
-					    </c:forEach>
-						</c:otherwise>
-					    </c:choose>
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<c:choose>
+									<c:when test="${empty mainPageList}">
+										<tr>
+											<td colspan="5">
+												<p align="center">
+													<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+												</p>
+											</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${mainPageList}" var="mainBoard">
+											<tr>
+												<td>${mainBoard.boardNo}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/board/details/${mainBoard.boardNo}"
+													style="color: #ffffff; text-decoration: none;">${mainBoard.boardTitle}</a></td>
+												<td>${mainBoard.users.usersId}</td>
+												<td>${mainBoard.boardRegDate}</td>
+												<td>${mainBoard.replyList.size()}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -112,30 +130,35 @@
 				<div class="et-slide-wrap">
 
 					<h3>JISOO</h3>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a href="/admin/boardInsertForm" class="moving-grad viewmore"
+							style="color: #F8D8E3; text-decoration: none;">UPRODE</a>
+					</sec:authorize>
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${jisooList}" var="jisooImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>     
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${jisooImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${jisooImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${jisooImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
+									<c:set var="doneLoop" value="false" />
+									<c:forEach items="${jisooList}" var="jisooImage"
+										varStatus="state">
+										<c:if test="${state.count > 6}">
+											<c:set var="doneLoop" value="true" />
+										</c:if>
+										<c:if test="${not doneLoop}">
+											<li><a
+												href="${pageContext.request.contextPath}/board/details/${jisooImage.boardNo}"
+												style="color: #ffffff; text-decoration: none;"
+												target="_blank " class="profile">
+													<h3 class="profile__name">${jisooImage.boardTitle}</h3> <img
+													src="${pageContext.request.contextPath}/save/${jisooImage.boardImg}">
+											</a>
+										</c:if>
+										</li>
+									</c:forEach>
 								</ul>
 							</div>
 						</article>
 					</div>
-					 <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -151,28 +174,32 @@
 					</div>
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
-							<tbody>			
+							<tbody>
 								<c:choose>
-							    <c:when test="${empty jisooList}">
-								<tr>
-							        <td colspan="5">
-							            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-							        </td>
-							    </tr>
-							    
-							    </c:when>	    
-							    <c:otherwise>
-								<c:forEach items="${jisooList}" var="jisooBoard">
-									    <tr>
-											<td>${jisooBoard.boardNo}</td>
-											<td><a href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jisooBoard.boardTitle}</a></td>
-											<td>${jisooBoard.users.usersId}</td>
-											<td>${jisooBoard.boardRegDate}</td>
-											<td>${jisooBoard.replyList.size()}</td>
+									<c:when test="${empty jisooList}">
+										<tr>
+											<td colspan="5">
+												<p align="center">
+													<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+												</p>
+											</td>
 										</tr>
-							    </c:forEach>
-								</c:otherwise>
-							    </c:choose>
+
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${jisooList}" var="jisooBoard">
+											<tr>
+												<td>${jisooBoard.boardNo}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/board/details/${jisooBoard.boardNo}"
+													style="color: #ffffff; text-decoration: none;">${jisooBoard.boardTitle}</a></td>
+												<td>${jisooBoard.users.usersId}</td>
+												<td>${jisooBoard.boardRegDate}</td>
+												<td>${jisooBoard.replyList.size()}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -185,30 +212,35 @@
 				<div class="et-slide-wrap">
 
 					<h3>JENNIE</h3>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a href="/admin/boardInsertForm" class="moving-grad viewmore"
+							style="color: #F8D8E3; text-decoration: none;">UPRODE</a>
+					</sec:authorize>
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${jennieList}" var="jennieImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>  
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${jennieImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${jennieImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${jennieImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
+									<c:set var="doneLoop" value="false" />
+									<c:forEach items="${jennieList}" var="jennieImage"
+										varStatus="state">
+										<c:if test="${state.count > 6}">
+											<c:set var="doneLoop" value="true" />
+										</c:if>
+										<c:if test="${not doneLoop}">
+											<li><a
+												href="${pageContext.request.contextPath}/board/details/${jennieImage.boardNo}"
+												style="color: #F8D8E3; text-decoration: none;"
+												target="_blank " class="profile">
+													<h3 class="profile__name">${jennieImage.boardTitle}</h3> <img
+													src="${pageContext.request.contextPath}/save/${jennieImage.boardImg}">
+											</a>
+										</c:if>
+										</li>
+									</c:forEach>
 								</ul>
 							</div>
 						</article>
 					</div>
-					 <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -225,27 +257,31 @@
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tbody>
-							<c:choose>
-						    <c:when test="${empty jennieList}">
-							<tr>
-						        <td colspan="5">
-						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-						        </td>
-						    </tr>
-						    
-						    </c:when>	    
-						    <c:otherwise>
-							<c:forEach items="${jennieList}" var="jennieBoard">
-								    <tr>
-										<td>${jennieBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${jennieBoard.boardTitle}</a></td>
-										<td>${jennieBoard.users.usersId}</td>
-										<td>${jennieBoard.boardRegDate}</td>
-										<td>${jennieBoard.replyList.size()}</td>
-									</tr>
-						    </c:forEach>
-							</c:otherwise>
-						    </c:choose>
+								<c:choose>
+									<c:when test="${empty jennieList}">
+										<tr>
+											<td colspan="5">
+												<p align="center">
+													<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+												</p>
+											</td>
+										</tr>
+
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${jennieList}" var="jennieBoard">
+											<tr>
+												<td>${jennieBoard.boardNo}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/board/details/${jennieBoard.boardNo}"
+													style="color: #ffffff; text-decoration: none;">${jennieBoard.boardTitle}</a></td>
+												<td>${jennieBoard.users.usersId}</td>
+												<td>${jennieBoard.boardRegDate}</td>
+												<td>${jennieBoard.replyList.size()}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -258,30 +294,35 @@
 				<div class="et-slide-wrap">
 
 					<h3>ROSE</h3>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a href="/admin/boardInsertForm" class="moving-grad viewmore"
+							style="color: #F8D8E3; text-decoration: none;">UPRODE</a>
+					</sec:authorize>
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${roseList}" var="roseImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>  
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${roseImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${roseImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${roseImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
+									<c:set var="doneLoop" value="false" />
+									<c:forEach items="${roseList}" var="roseImage"
+										varStatus="state">
+										<c:if test="${state.count > 6}">
+											<c:set var="doneLoop" value="true" />
+										</c:if>
+										<c:if test="${not doneLoop}">
+											<li><a
+												href="${pageContext.request.contextPath}/board/details/${roseImage.boardNo} "
+												style="color: #F8D8E3; text-decoration: none;"
+												target="_blank " class="profile">
+													<h3 class="profile__name">${roseImage.boardTitle}</h3> <img
+													src="${pageContext.request.contextPath}/save/${roseImage.boardImg}">
+											</a>
+										</c:if>
+										</li>
+									</c:forEach>
 								</ul>
 							</div>
 						</article>
 					</div>
-					 <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -298,27 +339,31 @@
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tbody>
-							<c:choose>
-						    <c:when test="${empty roseList}">
-							<tr>
-						        <td colspan="5">
-						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-						        </td>
-						    </tr>
-						    
-						    </c:when>	    
-						    <c:otherwise>
-							<c:forEach items="${roseList}" var="roseBoard">
-								    <tr>
-										<td>${roseBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${roseBoard.boardTitle}</a></td>
-										<td>${roseBoard.users.usersId}</td>
-										<td>${roseBoard.boardRegDate}</td>
-										<td>${roseBoard.replyList.size()}</td>
-									</tr>
-						    </c:forEach>
-							</c:otherwise>
-						    </c:choose>
+								<c:choose>
+									<c:when test="${empty roseList}">
+										<tr>
+											<td colspan="5">
+												<p align="center">
+													<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+												</p>
+											</td>
+										</tr>
+
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${roseList}" var="roseBoard">
+											<tr>
+												<td>${roseBoard.boardNo}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/board/details/${roseBoard.boardNo}"
+													style="color: #ffffff; text-decoration: none;">${roseBoard.boardTitle}</a></td>
+												<td>${roseBoard.users.usersId}</td>
+												<td>${roseBoard.boardRegDate}</td>
+												<td>${roseBoard.replyList.size()}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
 					</div>
@@ -331,30 +376,35 @@
 				<div class="et-slide-wrap">
 
 					<h3>LISA</h3>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a href="/admin/boardInsertForm" class="moving-grad viewmore"
+							style="color: #F8D8E3; text-decoration: none;">UPRODE</a>
+					</sec:authorize>
 					<div class="wrapper">
 						<article class="flow">
 							<div class="team">
 								<ul class="auto-grid" role="list">
-									<c:set var="doneLoop" value="false"/>   									 
-									<c:forEach items="${lisaList}" var="lisaImage" varStatus="state">
-										    <c:if test="${state.count > 6}">
-										       <c:set var="doneLoop" value="true"/>
-										    </c:if>  
-										    <c:if test="${not doneLoop}" >
-										    <li>
-										    <a href="${pageContext.request.contextPath}/board/details/${lisaImage.boardNo}"
-										    target="_blank " class="profile">
-										 		 <h3 class="profile__name">${lisaImage.boardTitle}</h3>
-									           <img src="${pageContext.request.contextPath}/save/${lisaImage.boardImg}">
-									        </a>  
-									        </c:if>		
-								           </li>
-									</c:forEach> 
+									<c:set var="doneLoop" value="false" />
+									<c:forEach items="${lisaList}" var="lisaImage"
+										varStatus="state">
+										<c:if test="${state.count > 6}">
+											<c:set var="doneLoop" value="true" />
+										</c:if>
+										<c:if test="${not doneLoop}">
+											<li><a
+												href="${pageContext.request.contextPath}/board/details/${lisaImage.boardNo}"
+												style="color: #F8D8E3; text-decoration: none;"
+												target="_blank " class="profile">
+													<h3 class="profile__name">${lisaImage.boardTitle}</h3> <img
+													src="${pageContext.request.contextPath}/save/${lisaImage.boardImg}">
+											</a>
+										</c:if>
+										</li>
+									</c:forEach>
 								</ul>
 							</div>
 						</article>
 					</div>
-					 <a href="/admin/boardInsertForm" class="moving-grad viewmore" style="color:#F8D8E3;text-decoration: none;">UPRODE</a>
 					<div class="tbl-header">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
@@ -371,27 +421,31 @@
 					<div class="tbl-content">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tbody>
-							<c:choose>
-						    <c:when test="${empty lisaList}">
-							<tr>
-						        <td colspan="5">
-						            <p align="center"><b><span style="font-size:9pt;">등록된 게시물이 없습니다.</span></b></p>
-						        </td>
-						    </tr>
-						    
-						    </c:when>	    
-						    <c:otherwise>
-							<c:forEach items="${lisaList}" var="lisaBoard">
-								    <tr>
-										<td>${lisaBoard.boardNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}" style="color:#ffffff;text-decoration: none;">${lisaBoard.boardTitle}</a></td>
-										<td>${lisaBoard.users.usersId}</td>
-										<td>${lisaBoard.boardRegDate}</td>
-										<td>${lisaBoard.replyList.size()}</td>
-									</tr>
-						    </c:forEach>
-							</c:otherwise>
-						    </c:choose>
+								<c:choose>
+									<c:when test="${empty lisaList}">
+										<tr>
+											<td colspan="5">
+												<p align="center">
+													<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+												</p>
+											</td>
+										</tr>
+
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${lisaList}" var="lisaBoard">
+											<tr>
+												<td>${lisaBoard.boardNo}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/board/details/${lisaBoard.boardNo}"
+													style="color: #ffffff; text-decoration: none;">${lisaBoard.boardTitle}</a></td>
+												<td>${lisaBoard.users.usersId}</td>
+												<td>${lisaBoard.boardRegDate}</td>
+												<td>${lisaBoard.replyList.size()}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
 					</div>

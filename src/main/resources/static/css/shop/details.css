@@ -11,7 +11,7 @@
 	margin: 0 auto;
 	overflow: hidden;
 	background-color: #000000;
-	
+	display: block;
 }
 .product-text a{
 	font-size: 12px;
@@ -63,7 +63,8 @@ img{
 
 }
 .product-text-wrap{
-	width: 300px;
+	width: 270px;
+	margin:0px;
 	height: 340px;
 	background-color:#00000099;
 	float: left;
