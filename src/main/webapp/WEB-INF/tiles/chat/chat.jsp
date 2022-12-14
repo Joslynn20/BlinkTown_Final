@@ -284,7 +284,7 @@ $(document).ready(function(){
 					}, // 전송 데이터 
 					dataType : 'json', // 전송 데이터 형식
 					success : function(res) { // 성공 시 실행
-						alert(res.roomId);
+						console.log(res.roomId);
 					},
 					error : function(er) { //실패 시 실행
 						alert("실패 원인 : " + er);
@@ -299,7 +299,7 @@ $(document).ready(function(){
 					}, // 전송 데이터
 					dataType : 'json', // 전송 데이터 형식
 					success : function(res) { // 성공 시 실행
-						alert(res.roomId);
+						console.log(res.roomId);
 					},
 					error : function(er) { //실패 시 실행
 						alert("실패 원인 : " + er);
@@ -314,7 +314,7 @@ $(document).ready(function(){
 					}, // 전송 데이터
 					dataType : 'json', // 전송 데이터 형식
 					success : function(res) { // 성공 시 실행
-						alert(res.roomId);
+						console.log(res.roomId);
 					},
 					error : function(er) { //실패 시 실행
 						alert("실패 원인 : " + er);
@@ -329,7 +329,7 @@ $(document).ready(function(){
 					}, // 전송 데이터
 					dataType : 'json', // 전송 데이터 형식
 					success : function(res) { // 성공 시 실행
-						alert(res.roomId);
+						console.log(res.roomId);
 					},
 					error : function(er) { //실패 시 실행
 						alert("실패 원인 : " + er);
@@ -337,7 +337,7 @@ $(document).ready(function(){
 				});			
 			});
 			
-	/* 채팅방 입장 */
+	/* 채팅방 입장 */ 
 
 			$("#enter-Room").on('click', function() { 
 		 		$.ajax({
@@ -345,7 +345,7 @@ $(document).ready(function(){
 					type : "GET", // HTTP Method,
 					dataType : 'json',
 					success : function(res) {	
-						alert(res)
+						console.log(res)
 						$.each(res, function(index, item) { // 데이터 =item
 							console.log(item.name);
 							if(item.name=="name=JISOO"){
@@ -364,6 +364,7 @@ $(document).ready(function(){
 								 RoseRoomID = item.roomId; 
 								 document.getElementById('RoseChatLog').className = 'chat-logs '+RoseRoomID;
 							}
+							 document.getElementById('chat-enter-wrap').className = 'chat-logs-top';
 						});
 					
 					},
@@ -645,7 +646,7 @@ function onMessage(msg) {
 
 		<div class="chat-box">
 			<div class="chat-box-header">
-				<input type="text" value="<sec:authentication property='principal.usersNickName'/>" id="chatSenderName"> <span class="chat-box-toggle"><i
+				<input type="hidden" value="<sec:authentication property='principal.usersNickName'/>" id="chatSenderName"> <span class="chat-box-toggle"><i
 					class="material-icons">close</i></span>
 			</div>
 			<div class="chat-box-body">
@@ -653,7 +654,7 @@ function onMessage(msg) {
 				<div class="chat-logs-top" id="createRoombtn">
 					<div id='cm-msg' class="chat-msg ">
 						<!-- 방생성[맴버전용] -->
-
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<div class="cm-msg-text"
 							style="margin-left: 1px; height: 44px; overflow: hidden;">
 							<input type="button" id="create-Room" class="chatBtn" value="방생성하기"
@@ -667,6 +668,7 @@ function onMessage(msg) {
 							<input type="submit" value="ROSE" style="display: none;"
 								id="create-RoseRoom-Btn">
 						</div>
+						</sec:authorize>
 						<!-- 방입장 -->
 
 						<div class="cm-msg-text"
@@ -682,11 +684,11 @@ function onMessage(msg) {
 							<input type="submit" value="ROSE" style="display: none;"
 								id="enter-RoseRoom-Btn">
 						</div>
-					</div>
+					</div> 
 					
 				</div>
 
-				<div class="chat-logs-top" id="chat-enter-wrap">
+				<div class="chat-logs-top hidden" id="chat-enter-wrap">
 					<div id='cm-msg' class="chat-msg ">
 						<!-- 방입장[회원전용] -->
 

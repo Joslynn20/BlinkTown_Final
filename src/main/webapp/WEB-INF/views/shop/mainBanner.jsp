@@ -44,13 +44,21 @@ img{
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
         <!-- Slides -->
-        <div class="swiper-slide"><img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/shopbanner/shopbanner01.jpg" /></div>
-        <div class="swiper-slide  "><img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/shopbanner/shopbanner02.jpg" /></div>
-        <div class="swiper-slide"><img alt="Anita Simmons"
-									src="${pageContext.request.contextPath}/img/shopbanner/shopbanner01.jpg" /></div>
-    </div>
+        		<div class="swiper-slide">
+					<img alt="blackpinkBanner"
+						src="${pageContext.request.contextPath}/save/img/banner/shop/blackpinkBanner02.jpg" />
+				</div>
+        	
+				<div class="swiper-slide">
+					<img alt="blackpinkBanner"
+						src="${pageContext.request.contextPath}/save/img/banner/shop/blackpinkBanner01.jpg" />
+				</div>
+				
+				<div class="swiper-slide">
+					<img alt="blackpinkBanner"
+						src="${pageContext.request.contextPath}/save/img/banner/shop/blackpinkBanner04.jpg" />
+				</div>
+			</div>
 </div>
 </div>
 <script type="text/javascript">
