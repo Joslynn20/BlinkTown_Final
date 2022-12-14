@@ -17,7 +17,7 @@
 		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 		    });
 			
-			$("#addCart").on("click", function() {
+			$(".button").on("click", function() {
 				$.ajax({
 					type:"POST",
 					url:"${pageContext.request.contextPath}/cart/insert",
@@ -205,7 +205,7 @@
 <script>
 $(function() {
 	
-	$("#directOrderBtn").on("click", function() {
+	$(".btn-order sell").on("click", function() { //#directOrderBtn
 		location.href = "${pageContext.request.contextPath}/orders/directOrder/${product.productCode}/"+$("#orderdetailsQty").val();
 	});//바로구매 버튼 동작 끝
 });//function 끝

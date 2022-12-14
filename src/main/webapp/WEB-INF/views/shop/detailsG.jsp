@@ -18,7 +18,8 @@
 		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 		    });
 			
-			$("#addCart").on("click", function() {
+			$(".button").on("click", function() {
+				//alert(1);
 				$.ajax({
 					type:"POST",
 					url:"${pageContext.request.contextPath}/cart/insert",
@@ -107,7 +108,7 @@
 					<c:choose>
 						<c:when test="${product.productMembershipOnly}==1">
 							<sec:authorize access="hasRole('ROLE_MEMBER')">
-								<button class="button">
+								<button class="button" id="addcart">
 								    <span><spring:message code="GoodsAddCart"/></span>
 								    <div class="cart">
 								        <svg viewBox="0 0 36 26">
@@ -120,7 +121,7 @@
 						</c:when>
 						<c:otherwise>
 							<sec:authorize access="isAuthenticated()">
-								<button class="button">
+								<button class="button" id="addcart">
 								    <span><spring:message code="GoodsAddCart"/></span>
 								    <div class="cart">
 								        <svg viewBox="0 0 36 26">
@@ -253,7 +254,7 @@
 <script>
 $(function() {
 	
-	$("#directOrderBtn").on("click", function() {
+	$(".btn-order sell").on("click", function() { //#directOrderBtn
 		location.href = "${pageContext.request.contextPath}/orders/directOrder/${product.productCode}/"+$("#orderdetailsQty").val();
 	});//바로구매 버튼 동작 끝
 });//function 끝
