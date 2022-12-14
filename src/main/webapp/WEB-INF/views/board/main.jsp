@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,11 +85,11 @@
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
 								<tr>
-									<th align="center">번호</th>
-									<th align="center">제목</th>
-									<th align="center">작성자</th>
-									<th align="center">작성일</th>
-									<th align="center">댓글수</th>
+									<th align="center"><spring:message code="BoardNumber"/></th>
+									<th align="center"><spring:message code="BoardTitle"/></th>
+									<th align="center"><spring:message code="BoardWriter"/></th>
+									<th align="center"><spring:message code="BoardDate"/></th>
+									<th align="center"><spring:message code="BoardComments"/></th>
 								</tr>
 							</thead>
 						</table>
@@ -165,11 +166,11 @@
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
+									<th align="center"><spring:message code="BoardNumber"/></th>
+									<th align="center"><spring:message code="BoardTitle"/></th>
+									<th align="center"><spring:message code="BoardWriter"/></th>
+									<th align="center"><spring:message code="BoardDate"/></th>
+									<th align="center"><spring:message code="BoardComments"/></th>
 								</tr>
 							</thead>
 						</table>
@@ -247,11 +248,11 @@
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
+									<th align="center"><spring:message code="BoardNumber"/></th>
+									<th align="center"><spring:message code="BoardTitle"/></th>
+									<th align="center"><spring:message code="BoardWriter"/></th>
+									<th align="center"><spring:message code="BoardDate"/></th>
+									<th align="center"><spring:message code="BoardComments"/></th>
 								</tr>
 							</thead>
 						</table>
@@ -329,11 +330,11 @@
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
+									<th align="center"><spring:message code="BoardNumber"/></th>
+									<th align="center"><spring:message code="BoardTitle"/></th>
+									<th align="center"><spring:message code="BoardWriter"/></th>
+									<th align="center"><spring:message code="BoardDate"/></th>
+									<th align="center"><spring:message code="BoardComments"/></th>
 								</tr>
 							</thead>
 						</table>
@@ -411,11 +412,11 @@
 						<table cellpadding="0" cellspacing="0" border="0">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>댓글수</th>
+									<th align="center"><spring:message code="BoardNumber"/></th>
+									<th align="center"><spring:message code="BoardTitle"/></th>
+									<th align="center"><spring:message code="BoardWriter"/></th>
+									<th align="center"><spring:message code="BoardDate"/></th>
+									<th align="center"><spring:message code="BoardComments"/></th>
 								</tr>
 							</thead>
 						</table>

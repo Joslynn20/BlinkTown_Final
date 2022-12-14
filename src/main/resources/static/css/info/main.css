@@ -2,6 +2,9 @@
 body{
 	background-color: #000000;
 }
+::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
 .content-wrap{
 	width: 1300px;
 	margin: 0 auto;

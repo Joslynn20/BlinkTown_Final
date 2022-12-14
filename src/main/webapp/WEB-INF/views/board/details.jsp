@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <sec:authentication property="principal" var="prc"/>
 
@@ -47,7 +48,7 @@
 						  </c:choose>
 							
 							<p class="likes">
-								좋아요 <span id="likesCount">${board.boardLikeNo}</span>개
+								<spring:message code="BoardLike"/> <span id="likesCount">${board.boardLikeNo}</span><spring:message code="EA"/>
 							</p>
 						</div>
 						<p class="description">${board.boardContent}</p>
@@ -67,7 +68,7 @@
 				<div class="comment-wrapper">
 					<img src="${pageContext.request.contextPath}/img/board/reply.png"
 						class="icon" alt=""> <i class="fi fi-rr-comment-alt"></i> <input
-						type="text" class="comment-box" placeholder="댓글을 입력해주세요" id="replyContent" name="replyContent">
+						type="text" class="comment-box" placeholder=<spring:message code="BoardInputComments"/> id="replyContent" name="replyContent">
 					<button class="comment-btn" type="submit" id="submitReply">post</button>
 				</div>
 		
