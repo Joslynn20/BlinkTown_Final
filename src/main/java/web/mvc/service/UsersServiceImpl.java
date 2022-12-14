@@ -94,10 +94,10 @@ public class UsersServiceImpl implements UsersService {
 	// true면 중복
 	// 전화번호 중복체크
 	@Override
-	public boolean UsersPhoneCheck(String phone_number) throws Exception {
+	public boolean UsersPhoneCheck(String UsersPhone) throws Exception {
 		boolean result = false;
 		
-		Users users = usersRep.findByUsersPhone(phone_number);
+		Users users = usersRep.findByUsersPhone(UsersPhone);
 		if (users != null)
 			result = true;
 		return result;

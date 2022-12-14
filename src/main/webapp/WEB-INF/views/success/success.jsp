@@ -161,7 +161,7 @@ margin: 30px auto 50px;
 			<br />
 
 			<div class="btn-group ">
-				<a href="${pageContext.request.contextPath}/layout/index.jsp"
+				<a href="${pageContext.request.contextPath}/"
 					class="btn  box neonb ">HOME</a> 
 					<a href="${url}" class="btn  box neonb">${urlName}</a>
 					<!-- javascript:history.back() 부분에 이동할 페이지 위치 유동적으로 바꿔주기 -->

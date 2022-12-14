@@ -71,8 +71,24 @@ public class UsersController {
 	@RequestMapping(value = "/signup2", method = RequestMethod.POST)
 	public String registerPOST(Users users) throws Exception {
 		usersService.insertUser(users);
-		return "system/loginForm";
+		return "redirect:/users/sucess/signup";
 	}
+	
+	
+	/**
+	 * 회원가입 성공 메세지 연결용
+	 */
+	@RequestMapping("/sucess/signup")
+	public String signupSuccess(Model model) {
+		model.addAttribute("message", "회원가입되셨습니다 *^^*");
+		model.addAttribute("url", "/users/loginForm");
+		model.addAttribute("urlName", "로그인하러 가기");
+		
+		System.out.println(" 회원가입 성공 메세지 오니???");
+		return "/success/success";
+		
+	}
+	
 	
 	/**
 	 * 가입 폼
@@ -106,6 +122,8 @@ public class UsersController {
 		
 		return "mypage/userInfo";
 	}
+	
+	
 	
 	
 	/**
@@ -147,7 +165,7 @@ public class UsersController {
 	@RequestMapping("/delete")
 	private String deleteByUsersId( String usersPwd) {
 		usersService.deleteByUsersId(usersPwd);
-		return "main";
+		return "redirect:/";
 	}
 
 	/** 관리자 - 회원 리스트보기 */

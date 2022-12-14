@@ -161,7 +161,7 @@ margin: 30px auto 50px;
 			<br />
 
 			<div class="btn-group ">
-				<a href="${pageContext.request.contextPath}/layout/index.jsp"
+				<a href="${pageContext.request.contextPath}/"
 					class="btn  box neonb ">HOME</a> <a href="javascript:history.back()"
 					class="btn  box neonb">BACK</a>
 			</div>

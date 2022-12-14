@@ -113,11 +113,18 @@ border: none;
 				<option selected="selected" value="ko" class="select-option" <c:if test="${param.lang.toString()== 'ko'}"> selected</c:if>>KOR</option>
 				<option value="en"  class="select-option" <c:if test="${param.lang.toString()==  'en'}"> selected</c:if>>ENG</option>
 			</select>
+			
+<form name="logout2" action="${pageContext.request.contextPath}/logout" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+<input type="submit" value="로그아웃">
+</form>
+			
+			
 			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/system/loginForm" style="color: #ffffff; text-decoration: none;">LOGIN</a></div>
-			<div class="header-login header-menu"><a href="#" style="color: #ffffff; text-decoration: none;">LOGOUT</a></div>
+			<div class="header-login header-menu"><a href="#" onclick="doucument.getElementById('logout2').submit();" style="color: #ffffff; text-decoration: none;">LOGOUT</a></div>
 			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/admin/main" style="color: #ffffff; text-decoration: none;">ADMIN</a></div>
-			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a> <i class="fa-solid fa-crown"></i></div>
-			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/mypage/userInfo" style="color: #ffffff; text-decoration: none;">MYPAGE</a></div>
+			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/users/findUser" style="color: #ffffff; text-decoration: none;">MYPAGE</a> <i class="fa-solid fa-crown"></i></div>
+			<div class="header-mypage header-menu"><a href="${pageContext.request.contextPath}/users/findUser" style="color: #ffffff; text-decoration: none;">MYPAGE</a></div>
 			<div class="header-cart header-menu"><a href="${pageContext.request.contextPath}/shop/cart" style="color: #ffffff; text-decoration: none;">CART</a></div>
 			
 		</div>
