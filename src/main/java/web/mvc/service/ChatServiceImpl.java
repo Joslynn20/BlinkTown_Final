@@ -37,15 +37,23 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	public ChatRoom findRoomById(String roomId) {
-		return chatRooms.get(roomId);
+		System.out.println("chatRooms = " + chatRooms);
+		System.out.println("roomId..... = " + roomId);
+		
+		ChatRoom cr = chatRooms.get(roomId);
+		System.out.println("cr ====" + cr);
+		return cr;
 	}
 
 	public ChatRoom createRoom(String name) {
-		String randomId = UUID.randomUUID().toString();
+		String randomId = UUID.randomUUID().toString();// map키 생성
+		System.out.println("randomId -  = " + randomId);
+		
 		ChatRoom chatRoom = ChatRoom.builder().roomId(randomId).name(name).build();
 		chatRooms.put(randomId, chatRoom);
 
-		System.out.println("chatRoom" + chatRoom);
+		System.out.println("chatRoom = " + chatRoom);
+		System.out.println("chatRooms = " + chatRooms);
 		return chatRoom;
 	}
 
