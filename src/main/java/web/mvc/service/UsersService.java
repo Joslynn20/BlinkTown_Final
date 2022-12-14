@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import web.mvc.domain.Authority;
 import web.mvc.domain.Users;
 
 public interface UsersService  {
@@ -71,4 +72,7 @@ public interface UsersService  {
 	 * 회원 수 조회 (일반/멤버쉽)
 	 */
 	 Long countUsers(int usersMemberShip);
+	 
+	 /**권한 가져오기 */
+	 List<Authority> findByUsers(Users users);
 }

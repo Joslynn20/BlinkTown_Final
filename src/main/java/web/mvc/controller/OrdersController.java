@@ -1,6 +1,5 @@
 package web.mvc.controller;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,39 +8,31 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.engine.query.spi.ReturnMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
-import lombok.RequiredArgsConstructor;
+import web.mvc.domain.Authority;
 import web.mvc.domain.Orderdetails;
 import web.mvc.domain.Orders;
 import web.mvc.domain.Product;
 import web.mvc.domain.Users;
 import web.mvc.dto.Cart;
-import web.mvc.dto.OrderdetailsListDTO;
 import web.mvc.dto.OrdersDTO;
 import web.mvc.service.CartService;
 import web.mvc.service.OrdersService;
 import web.mvc.service.ProductService;
-import web.mvc.session.Session;
+import web.mvc.service.UsersService;
 
 //@RestController
 @Controller
@@ -57,6 +48,9 @@ public class OrdersController {
 	private ProductService productService;
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private UsersService usersService;
 	
 	/**상수관리*/
 	//페이지 사용 안함..
@@ -252,12 +246,27 @@ public class OrdersController {
 		
 		//주문상태 결제중으로 입력
 		orders.setOrdersStatus(STATUS_BEFORE);
-		Users users=(Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Users users=(Users)auth.getPrincipal();
 //		Users users=Users.builder().usersId("user").build(); //테스트용 생성
 		
 		//결제 창 호출위해 결과값 담기, cartList);
 		Orders finishOrders=ordersService.insertOrdersOrderdetails(users, orders);
 		
+		//권한이 추가되었기 대문에 Authentication 의 권한도 수정
+		
+		List<Authority> dbAuthorityList = usersService.findByUsers(users);
+		
+		List<SimpleGrantedAuthority> simpleAuthList = new ArrayList<SimpleGrantedAuthority>();
+		for(Authority authority: dbAuthorityList) {
+			simpleAuthList.add(new SimpleGrantedAuthority(authority.getAuthorityRole()));
+		}
+		
+		UsernamePasswordAuthenticationToken token = 
+				new UsernamePasswordAuthenticationToken(users, null, simpleAuthList);
+		SecurityContextHolder.getContext().setAuthentication(token);
+		
+		System.out.println("auth = " + SecurityContextHolder.getContext().getAuthentication());
 		//ajax로 리턴값 Map으로 보냄->jason 사용, mappedby ignore설정완료
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orders", finishOrders);

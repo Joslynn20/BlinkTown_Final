@@ -205,4 +205,10 @@ public class UsersServiceImpl implements UsersService {
 	public Long countUsers(int usersMemberShip) {
 		return usersRep.countByUsersMemberShip(usersMemberShip);
 	}
+
+	@Override
+	public List<Authority> findByUsers(Users users) {
+		
+		return authoritiesRep.findByUsers(users);
+	}
 }
