@@ -21,7 +21,7 @@
 				$.ajax({
 					type:"POST",
 					url:"${pageContext.request.contextPath}/cart/insert",
-					data:{"productCode":"${product.productCode}", "productName":"${product.productName}", "productMainImg":$("#productImg").attr("src"),
+					data:{"productCode":"${product.productCode}", "productName":"${product.productName}", "productMainImg":"${product.productMainImg}",
 						"productEngName":"${product.productEngName}","productPrice":"${product.productPrice}", "qty":$("input[type=number]").val()},	
 					dataType:"text",
 					success:function(result){
