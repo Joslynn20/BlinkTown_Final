@@ -182,7 +182,7 @@ $(document).ready(function() {
 	
 	<!--ALBUM  -->
 	<div class="content-col" style="padding-bottom: 10px;"data-aos="flip-down">
-		<div class="title neon" style="text-align: center;">
+		<div class="title neon" style="text-align: center; margin-bottom: 20PX; margin-top: 20px;">
 			<span>ALBUM</span>
 		</div>
 	</div>
@@ -212,7 +212,7 @@ $(document).ready(function() {
 		</div>
 	</div>
 	<div class="content-col" style="padding-top: 60px; text-align: center; margin-bottom: 50px;">
-			<button class="moving-grad viewmore">BUY NOW</button>
+			
 	</div>
 	<div class="background-img">
 	<div class="cover">
