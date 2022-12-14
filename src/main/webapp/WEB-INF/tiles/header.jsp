@@ -115,6 +115,16 @@ border: none;
 				<option value="en"  class="select-option" <c:if test="${param.lang.toString()==  'en'}"> selected</c:if>>ENG</option>
 			</select>
 			
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.1.min.js"></script>
+	<script type="text/javascript">
+		function logout() {
+			$("input[value='로그아웃']").click();
+		}
+	
+	</script>
+			
+			
+			
 <form name="logout2" action="${pageContext.request.contextPath}/logout" method="post" style="display: none;">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 <input type="submit" value="로그아웃">
@@ -128,7 +138,7 @@ border: none;
 			</sec:authorize>
 			<sec:authorize access="isAuthenticated()">
 				<div class="header-login header-menu">
-					<a href="#" style="color: #ffffff; text-decoration: none;">LOGOUT</a>
+					<a href="#" style="color: #ffffff; text-decoration: none;" onclick="logout()">LOGOUT</a>
 				</div>
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -144,7 +154,7 @@ border: none;
 						class="fa-solid fa-crown"></i></sec:authorize>
 				</div>
 			</sec:authorize>
->>>>>>> 4659b2b2cbc6758faccb8623d5016858c2c3849c
+
 			
 			<sec:authorize access="isAuthenticated()">
 				<div class="header-cart header-menu">
