@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,10 +49,7 @@ $(document).ready(function() {
 				</video>
 				</div>
 				<div class="member-info">
-					<p>BLACKPINK는 가장 예쁜 색으로 표현되는 핑크를 블랙으로 부정하는 의미를 덧붙여 [예쁘게만 보지 마라]
-						[보이는 게 다가 아니다] 라는 반전 의미를 담고 있다. 발표하는 노래들 역시 팀명의 의미와 부합하는 곡들이 많다.
-						지난 8월 블랙핑크의 두 번째 정규 앨범 [BORN PINK]가 발매되었다. 신곡 발매와 동시에 최고, 최초, 최단의
-						기록을 쏟아 내며 여왕의 귀환을 선포한 블랙핑크는 또 한 번 전 세계 리스너들을 사로잡을 예정이다.</p>
+					<p><spring:message code="MemberInfo"/></p>
 				</div>
 			</div>
 		</div>

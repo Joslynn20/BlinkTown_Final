@@ -198,7 +198,7 @@
 <div class="body">	
 	<div class="content-wrap">
 	<div class="title neon">
-		<span>BLACK</span><span>PINK</span> <a href="/gallery/upload" class="moving-grad viewmore" style=" text-decoration: none;">UPRODE</a>
+		<span>BLACK</span><span>PINK</span>
 	</div>
 		<div class="content-col">
 		<div class="page-content">
