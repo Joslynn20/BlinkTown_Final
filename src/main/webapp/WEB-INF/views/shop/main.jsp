@@ -29,7 +29,7 @@ $(function() {
 			if(selectCondition != null){
 				selectAllGoods(1, selectCondition);
 			} else{
-				selectAllGoods();
+				selectAllGoods(1, null);
 			}
 		}
 		
@@ -53,8 +53,8 @@ $(function() {
 	});
 	
 	$("#SHOP").on("click", function() {
-		seletCondition = '';
-		selectAllGoods();
+		selectCondition = null;
+		selectAllGoods(1, null);
 	});
 	
 });
