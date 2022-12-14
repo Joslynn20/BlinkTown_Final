@@ -573,7 +573,7 @@ $(function(){
 			  success : function(result){
 				  console.log(result);
 					let str = '';
-					$.each(result, function(index, res) {
+					$.each(result.content, function(index, res) {
 						str += '<tr><td style="width: 10%;">'+res.productCode+'</td>';
 						str += '<td style="width: 25%;"><a href="${pageContext.request.contextPath}/admin/updateForm?productCode='+res.productCode+'">'+res.productName +"["+ res.productEngName+"]"+'</a></td>';
 						str += '<td style="width: 15%;">'+res.productPrice+'</td>';
