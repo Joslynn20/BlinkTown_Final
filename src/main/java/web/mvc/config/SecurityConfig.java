@@ -49,13 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     		  		"/main/**",
     		  		"/system/**", 
     		  		"/success/**",
+    		  		"/shop/**",
     		  		"/index"
     		  		).permitAll() 
       //
       .antMatchers("/mypage/**")
       .access("hasRole('MEMBER') or hasRole('USER') or hasRole('ADMIN')")
-      .antMatchers("/shop/**") 
-      .access("hasRole('MEMBER') or hasRole('USER')or hasRole('ADMIN')")
+				/* .antMatchers("/shop/**")
+				 * .access("hasRole('MEMBER') or hasRole('USER')or hasRole('ADMIN')")
+				 */
       .antMatchers("/board/**") 
       .access("hasRole('MEMBER') or hasRole('ADMIN')")  
 
