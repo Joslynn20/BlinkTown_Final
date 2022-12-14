@@ -99,6 +99,14 @@ public class UsersController {
 	public String moveLoginForm() {
 		return "/system/loginForm";
 	}
+	
+	/**
+	 *예외처리
+	 **/
+	@ExceptionHandler(Exception.class)
+	public ModelAndView error(Exception e) {
+		return new ModelAndView("error/error","message",e.getMessage());
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
