@@ -16,16 +16,18 @@
 		<!-- Hero -->
 		<section class="et-hero-tabs">
 			<div class="blackpink-board-wrap">
-				<div class="blackpink-board"
-					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-				<div class="blackpink-board"
-					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
-				<div class="blackpink-board"
-					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
-				<div class="blackpink-board"
-					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/633fa93f3d3ef167f689c217-p.jpg');"></div>
-				<div class="blackpink-board"
-					style="background-image: url('https://photocloud.sbs.co.kr/origin/edit/S01_V0000010182/63315bb23d3ef167f689929a-p.jpg');"></div>
+				<div class="blackpink-board" onclick="location.href='#tab-flexbox'">
+					<img alt="" src="${pageContext.request.contextPath}/save/img/banner/board/boardbanner1.png" style="width: 100%; height: 100%;">
+				</div>
+				<div class="blackpink-board" onclick="location.href='#tab-react'">
+					<img alt="" src="${pageContext.request.contextPath}/save/img/banner/board/boardbanner2.png" style="width: 100%; height: 100%;">
+				</div>
+				<div class="blackpink-board" onclick="location.href='#tab-angular'">
+					<img alt="" src="${pageContext.request.contextPath}/save/img/banner/board/boardbanner3.png" style="width: 100%; height: 100%;">
+				</div>
+				<div class="blackpink-board" onclick="location.href='#tab-other'">
+					<img alt="" src="${pageContext.request.contextPath}/save/img/banner/board/boardbanner4.png" style="width: 100%; height: 100%;">
+				</div>
 			</div>
 			<div class="et-hero-tabs-container">
 				<a class="et-hero-tab" href="#tab-es6"
