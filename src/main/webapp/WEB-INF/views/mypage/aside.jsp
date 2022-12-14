@@ -52,7 +52,7 @@
 
 <div class="side-Btn">
 	<div class="title">마이페이지</div>
-	<button class="slide" onclick="location.href='/mypage/userInfo'">회원정보</button>
+	<button class="slide" onclick="location.href='/users/findUser'">회원정보</button>
 	<button class="slide" onclick="location.href='/mypage/orderList'">주문조회</button>
 	<button class="slide" onclick="location.href='/mypage/likeList'">좋아한 게시물</button>
 </div>
