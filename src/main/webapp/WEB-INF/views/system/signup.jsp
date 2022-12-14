@@ -231,7 +231,6 @@
 		 xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 	});
 	$("#id").change(function() {
-		alert("아이디체크");
 		$.ajax({
 			url : "${pageContext.request.contextPath}/users/idCheck", //서버ㅓ요청주소
 			type : "post" , //요청방식 (get,post,put,delete,patch)

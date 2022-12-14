@@ -15,6 +15,10 @@
 	
 	$(function() {
 		
+		$(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+	    });
+		
 		$("#deleteAll").on("click", function() {
 			if(confirm("장바구니를 비우시겠습니까?")){
 				location.href = "${pageContext.request.contextPath}/cart/deleteAll";
@@ -37,13 +41,12 @@
 				dataType:"json",
 				data:JSON.stringify(array),
 				contentType: 'application/json',
-				success:function(result){
-					
+				success:function(result){		
 					location.reload();
 				},
-				error:function(error){
-					alert(error);
-				}
+				error : function(request,status,err){//에러 : 보통 콜백함수
+					  alert("code="+request.status+"\n"+"message"+request.responseText+"\n"+"error:"+err);	  
+				 } 
 			});
 				
 		});
