@@ -26,10 +26,20 @@ public class SocketTextHandler extends TextWebSocketHandler {
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
 		// 메시지 발송
 		String msg = message.getPayload();
-
+        /*
+         * socket.send(JSON.stringify({
+	 			'type': "ENTER",
+	 			'roomId': LisaRoomID,
+	 			'sender':  $("#chatSenderName").val(),
+	 			'message': "aa",
+	 		}));
+         * */
 		// json 객체를 자바 객체로 역직렬화
 		ChatMessage chatMessage = objectMapper.readValue(msg, ChatMessage.class);
+		System.out.println("chatMessage.getRoomId() = " + chatMessage.getRoomId());
+		
 		ChatRoom chatRoom = chatService.findRoomById(chatMessage.getRoomId());
+		System.out.println("chatRoom ====" + chatRoom);
 		chatRoom.handlerActions(session, chatMessage, chatService);
 	}
 

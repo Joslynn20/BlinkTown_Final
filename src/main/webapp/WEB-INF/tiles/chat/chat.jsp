@@ -259,7 +259,7 @@ var JennieRoomINDEX = 0;
 var LisaRoomINDEX = 0; 
 var RoseRoomINDEX = 0; 
 
-var sock = new WebSocket('ws://localhost:8000/ws/chat');   
+var sock = new WebSocket('ws://192.168.0.132:8000/ws/chat');   
 var socket = sock;
 socket.onopen = function() {
 	console.log('서버와 웹소켓 연결 성공!');
@@ -276,22 +276,27 @@ $(document).ready(function(){
 		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 		    });
 			$("#create-Room").on('click', function() { // 제출 버튼 이벤트 지정
+				
+				let arr = [$("#create-JisooRoom-Btn").val() , $("#create-JennieRoom-Btn").val() , $("#create-LisaRoom-Btn").val(), $("#create-RoseRoom-Btn").val()];
+			
+			   alert(arr)
+				
 				$.ajax({
 					url : "/chat", // 목적지
 					type : "POST", // HTTP Method
-					data : {
-						name : $("#create-JisooRoom-Btn").val()
-					}, // 전송 데이터 
-					dataType : 'json', // 전송 데이터 형식
+					contentType:"application/json;UTF-8",
+					data :JSON.stringify(arr), // 전송 데이터 
+					dataType : 'text', // 전송 데이터 형식
 					success : function(res) { // 성공 시 실행
-						console.log(res.roomId);
+						//console.log(res.roomId);
+						console.log(res);
 					},
 					error : function(er) { //실패 시 실행
 						alert("실패 원인 : " + er);
 					}
 				});
 	
-				$.ajax({
+			/*	$.ajax({
 					url : "/chat", // 목적지
 					type : "POST", // HTTP Method
 					data : {
@@ -334,7 +339,8 @@ $(document).ready(function(){
 					error : function(er) { //실패 시 실행
 						alert("실패 원인 : " + er);
 					}
-				});			
+				});	*/
+				
 			});
 			
 	/* 채팅방 입장 */ 
@@ -345,22 +351,22 @@ $(document).ready(function(){
 					type : "GET", // HTTP Method,
 					dataType : 'json',
 					success : function(res) {	
-						console.log(res)
+						console.log("res = " + res)
 						$.each(res, function(index, item) { // 데이터 =item
 							console.log(item.name);
-							if(item.name=="name=JISOO"){
+							if(item.name=="JISOO"){
 								 JisooRoomID = item.roomId;							  
 								 document.getElementById('JisooChatLog').className = 'chat-logs '+JisooRoomID;
 
-							}else if (item.name=="name=JENNIE") {
+							}else if (item.name=="JENNIE") {
 								 JennieRoomID = item.roomId;							  
 								 document.getElementById('JennieChatLog').className = 'chat-logs '+JennieRoomID;
 
-							}else if (item.name=="name=LISA") {
+							}else if (item.name=="LISA") {
 								 LisaRoomID = item.roomId;							  
 								 document.getElementById('LisaChatLog').className = 'chat-logs '+LisaRoomID;
 
-							}else if(item.name=="name=ROSE") {
+							}else if(item.name=="ROSE") {
 								 RoseRoomID = item.roomId; 
 								 document.getElementById('RoseChatLog').className = 'chat-logs '+RoseRoomID;
 							}
@@ -377,7 +383,7 @@ $(document).ready(function(){
 	
 	 	/*지수방입장*/
 	 	$("#JisooRoomEnter").on('click', function() { 
-	 		console.log(JisooRoomID);
+	 		console.log("JisooRoomID = " + JisooRoomID);
 	 	    socket.send(JSON.stringify({
 	 			'type': "ENTER",
 	 			'roomId': JisooRoomID,
@@ -730,7 +736,7 @@ function onMessage(msg) {
 					<!--chat-log -->
 					
 					<div class="chat-input">
-						<form name="JisooMessage-send" id="JisooMessage-send">
+						<form name="JisooMessage-send" id="JisooMessage-send" onsubmit="return false">
 							<input type="hidden" id="JisooRoomNo" class="JisooRoomNo">
 							<input type="text" id="JisooMessage" class="message"
 								placeholder="to.JISOO" />
@@ -747,7 +753,7 @@ function onMessage(msg) {
 					<!--chat-log -->
 					
 					<div class="chat-input">
-						<form name="message-send" id="message-send">
+						<form name="message-send" id="message-send" onsubmit="return false">
 							<input type="hidden" id="JennieRoomNo" class="JennieRoomNo">
 							<input type="text" id="JennieMessage" class="message"
 								placeholder="to.Jennie" />
@@ -764,7 +770,7 @@ function onMessage(msg) {
 					<!--chat-log -->
 					
 					<div class="chat-input">
-						<form name="LisaMessage-send" id="LisaMessage-send">
+						<form name="LisaMessage-send" id="LisaMessage-send" onsubmit="return false">
 							<input type="hidden" id="LisaRoomNo" class="LisaRoomNo">
 							<input type="text" id="LisaMessage" class="message"
 								placeholder="to.LISA" />
@@ -781,7 +787,7 @@ function onMessage(msg) {
 					<!--chat-log -->
 					
 					<div class="chat-input">
-						<form name="RoseMessage-send" id="RoseMessage-send">
+						<form name="RoseMessage-send" id="RoseMessage-send" onsubmit="return false">
 							<input type="hidden" id="RoseRoomNo" class="RoseRoomNo">
 							<input type="text" id="RoseMessage" class="message"
 								placeholder="to.ROSE" />
