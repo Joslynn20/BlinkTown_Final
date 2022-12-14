@@ -16,7 +16,15 @@
 		<div class="wrapper">
 			<article class="flow">
 				<div class="team">
-					<ul class="auto-grid" role="list">
+				<c:choose>
+					    <c:when test="${empty likesList}">
+				
+					            <h3  style="font-size:15pt; color:#ffffff; text-align: center;">좋아요 표시한 게시물이 없습니다.</h3>
+						    
+					    </c:when>	
+						<c:otherwise>	
+					<ul class="auto-grid" role="list">					
+													
 						<c:set var="doneLoop" value="false"/>									 
 						<c:forEach items="${likesList}" var="likesImage" varStatus="state">
 							    <c:if test="${state.count > 20}"> <!-- 좋아요 보여지는 갯수 여기서 변경 -->
@@ -32,6 +40,8 @@
 						        </c:if>		
 					           </li>
 						</c:forEach> 
+						</c:otherwise>
+						</c:choose>    
 					</ul>
 				</div>
 			</article>
