@@ -32,4 +32,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> , Querydsl
 	 */
 	Page<Orders> findByUsersAndOrdersDateGreaterThanEqualAndOrdersDateLessThan(Users users, LocalDateTime startDate, LocalDateTime finalDate, Pageable pageable);
 
+	/**
+	 * 전체 주문 조회->user id not null인 경우로 조건 넣기
+	 */
+	List<Orders> findByUsersIsNotNullOrderByOrdersDateDesc();
 }
