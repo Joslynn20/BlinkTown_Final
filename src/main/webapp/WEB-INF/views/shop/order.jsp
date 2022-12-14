@@ -25,7 +25,7 @@ function calc_total(){ //총금액 계산 기능,$(function~~에서  calc_total(
 	    sum += parseInt($(this).text());
 	  });
 	  console.log(sum);
-	  $("#totalPrice").html(sum);
+	  $("#totalPrice").html(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 } //calc_total() end
 
 

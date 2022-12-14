@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -238,7 +239,9 @@
 				  </div>
 				  
 				  <!-- Canvas for Chart.js -->
-				  <canvas id="canvas-monthlySales"></canvas>
+				  <div id="canvas-month-div">
+<%-- 				  <canvas id="canvas-monthlySales"></canvas> --%>
+				  </div>
 				  
 				  <!-- Custom Axis -->
 				  <div class="axis-monthlySales" id="monthStats">
@@ -628,17 +631,21 @@ $(function(){
 // 				alert(result.monthStats[0].month);//출력확인 list
 // 				alert(result.bornPink.albumTotalQty);//출력확인 앨범별로 다 있음
 				
-				var allStats=result.allStats.totalPrice;
+				var allStats=result.allStats.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 				$("#allStats").html(allStats);
 				let str="";  
+				$("#canvas-monthlySales").remove();
 				$('#monthStatsSub').remove();
 			  	$.each(result.monthStats, function(index, results){
 			  		str+='<div class="tick-monthlySales" id="monthStatsSub">';
 			  		str+='<span class="day-number-monthlySales">'+results.month+'</span>';
 			  		str+='<span class="day-name-monthlySales">'+(index+1)+'</span>';
-			  		str+='<span class="value-monthlySales value--this-monthlySales">'+results.totalPrice+"원"+'</span>';
+			  		str+='<span class="value-monthlySales value--this-monthlySales">'+results.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원"+'</span>';
 					str+='</div>';
 			  	});
+			  	let str2="";
+			  	str2='<canvas id="canvas-monthlySales"></canvas>';
+			  	$("#canvas-month-div").html(str2);
 			  	$("#monthStats").html(str);
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 				//월별매출 설정
@@ -667,7 +674,6 @@ $(function(){
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 				//월별 매출 조회
-				
 				var config = {
 				type: 'line',
 				data: {
