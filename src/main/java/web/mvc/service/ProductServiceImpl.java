@@ -6,8 +6,12 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,6 +19,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import web.mvc.domain.Album;
@@ -102,21 +107,25 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> selectAllProduct(/* Pageable pageable, */String categoryCode, Integer productMembershipOnly,
+	public Page<Product> selectAllProduct(Pageable pageable, String categoryCode, Integer productMembershipOnly,
 			String orderCondition) {
-
+			
 		Sort sort = orderCondition != null ? sortByOrderCondition(orderCondition) : Sort.unsorted();
 
-		List<Product> productList = queryFactory.selectFrom(product)
+		List<Product> content = queryFactory.selectFrom(product)
 				.where(eqCategoryCode(categoryCode), eqProductMembershipOnly(productMembershipOnly))
-				.orderBy(this.getOrderSpecifier(sort).stream().toArray(OrderSpecifier[]::new)).fetch();
-		// .offset(1L).limit(PAGE_COUNT).fetch(); 페이지 설정
+				.orderBy(this.getOrderSpecifier(sort).stream().toArray(OrderSpecifier[]::new))
+				.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
+		
+		JPAQuery<Long> countQuery = queryFactory.select(product.count()).from(product)
+                .where(eqCategoryCode(categoryCode), eqProductMembershipOnly(productMembershipOnly));
 		
 		System.out.println("productMembershipOnly = " + productMembershipOnly);
 		System.out.println("orderCondition = " + orderCondition);
+		System.out.println("offset = " + pageable.getOffset());
+		System.out.println("getPageSize = " + pageable.getPageSize());
 		
-
-		return productList;
+		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}
 
 	private BooleanExpression eqCategoryCode(String categoryCode) {

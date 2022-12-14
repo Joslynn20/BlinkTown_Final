@@ -22,7 +22,6 @@
 	
 		<tiles:insertAttribute name="footer"/>
 	<tiles:insertAttribute name="popup-menu"/>
-	<tiles:insertAttribute name="chat"/>
 </body>
 
 </html>

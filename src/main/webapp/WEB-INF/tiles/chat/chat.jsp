@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -268,10 +268,17 @@ var socket = sock;
 socket.onopen = function() {
 	console.log('서버와 웹소켓 연결 성공!');
 }
+
+socket.onclose = function(){
+	setTimeout(function(){connect();},1000);
+}
+
 socket.onmessage = onMessage;
 $(document).ready(function(){
 	    // 웹소켓 연결	
-
+		$(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+		    });
 			$("#create-Room").on('click', function() { // 제출 버튼 이벤트 지정
 				$.ajax({
 					url : "/chat", // 목적지
@@ -333,40 +340,43 @@ $(document).ready(function(){
 					}
 				});			
 			});
+			
 	/* 채팅방 입장 */
-	$("#enter-Room").on('click', function() { 
-	 		$.ajax({
-				url : "/chat", // 목적지
-				type : "GET", // HTTP Method,
-				dataType : 'json',
-				success : function(res) {	
-					alert(res)
-					$.each(res, function(index, item) { // 데이터 =item
-						console.log(item.name);
-						if(item.name=="name=JISOO"){
-							 JisooRoomID = item.roomId;							  
-							 document.getElementById('JisooChatLog').className = 'chat-logs '+JisooRoomID;
 
-						}else if (item.name=="name=JENNIE") {
-							 JennieRoomID = item.roomId;							  
-							 document.getElementById('JennieChatLog').className = 'chat-logs '+JennieRoomID;
+			$("#enter-Room").on('click', function() { 
+		 		$.ajax({
+					url : "/chat", // 목적지
+					type : "GET", // HTTP Method,
+					dataType : 'json',
+					success : function(res) {	
+						alert(res)
+						$.each(res, function(index, item) { // 데이터 =item
+							console.log(item.name);
+							if(item.name=="name=JISOO"){
+								 JisooRoomID = item.roomId;							  
+								 document.getElementById('JisooChatLog').className = 'chat-logs '+JisooRoomID;
 
-						}else if (item.name=="name=LISA") {
-							 LisaRoomID = item.roomId;							  
-							 document.getElementById('LisaChatLog').className = 'chat-logs '+LisaRoomID;
+							}else if (item.name=="name=JENNIE") {
+								 JennieRoomID = item.roomId;							  
+								 document.getElementById('JennieChatLog').className = 'chat-logs '+JennieRoomID;
 
-						}else if(item.name=="name=ROSE") {
-							 RoseRoomID = item.roomId; 
-							 document.getElementById('RoseChatLog').className = 'chat-logs '+RoseRoomID;
-						}
-					});
-				
-				},
-				error : function(er) { //실패 시 실행
-					alert("실패 원인 : " + er);
-				}
+							}else if (item.name=="name=LISA") {
+								 LisaRoomID = item.roomId;							  
+								 document.getElementById('LisaChatLog').className = 'chat-logs '+LisaRoomID;
+
+							}else if(item.name=="name=ROSE") {
+								 RoseRoomID = item.roomId; 
+								 document.getElementById('RoseChatLog').className = 'chat-logs '+RoseRoomID;
+							}
+						});
+					
+					},
+					error : function(er) { //실패 시 실행
+						alert("실패 원인 : " + er);
+					}
+				});
 			});
-		});
+			
 	
 	 	/*지수방입장*/
 	 	$("#JisooRoomEnter").on('click', function() { 
@@ -374,7 +384,7 @@ $(document).ready(function(){
 	 	    socket.send(JSON.stringify({
 	 			'type': "ENTER",
 	 			'roomId': JisooRoomID,
-	 			'sender': "지현",
+	 			'sender': $("#chatSenderName").val(),
 	 			'message': "aa",
 	 		})); 
 			document.getElementById('JisooChatRoom').className = 'chat-box-body hidden';
@@ -390,7 +400,7 @@ $(document).ready(function(){
 			socket.send(JSON.stringify({
 	 			'type': "ENTER",
 	 			'roomId': JennieRoomID,
-	 			'sender': "지현",
+	 			'sender':  $("#chatSenderName").val(),
 	 			'message': "aa",
 	 		}));
 			document.getElementById('JisooChatRoom').className = 'chat-box-body hidden';
@@ -407,7 +417,7 @@ $(document).ready(function(){
 			socket.send(JSON.stringify({
 	 			'type': "ENTER",
 	 			'roomId': LisaRoomID,
-	 			'sender': "지현",
+	 			'sender':  $("#chatSenderName").val(),
 	 			'message': "aa",
 	 		}));
 			document.getElementById('JisooChatRoom').className = 'chat-box-body hidden';
@@ -423,7 +433,7 @@ $(document).ready(function(){
 			socket.send(JSON.stringify({
 	 			'type': "ENTER",
 	 			'roomId': RoseRoomID,
-	 			'sender': "지현",
+	 			'sender':  $("#chatSenderName").val(),
 	 			'message': "aa",
 	 		}));
 			document.getElementById('JisooChatRoom').className = 'chat-box-body hidden';
@@ -444,7 +454,7 @@ $('#JisooChat-submit ').on('click', function() {
 	socket.send(JSON.stringify({
 			'type': "TALK",
 			'roomId': JisooRoomID,
-			'sender': "지현",
+			'sender':  $("#chatSenderName").val(),
 			'message': $("#JisooMessage").val(),
 	}));
 });
@@ -453,7 +463,7 @@ $('#JennieChat-submit').click(function(e){
 	socket.send(JSON.stringify({
 		'type': "TALK",
 		'roomId': JennieRoomID,
-		'sender': "지현",
+		'sender':  $("#chatSenderName").val(),
 		'message': $("#JennieMessage").val(),
 	}));
 	 
@@ -464,7 +474,7 @@ $('#LisaChat-submit').click(function(e){
 	socket.send(JSON.stringify({
 		'type': "TALK",
 		'roomId': LisaRoomID,
-		'sender': "지현",
+		'sender':  $("#chatSenderName").val(),
 		'message': $("#LisaMessage").val(),
 	}));
 	
@@ -474,7 +484,7 @@ $('#RoseChat-submit').click(function(e){
 	socket.send(JSON.stringify({
 		'type': "TALK",
 		'roomId': RoseRoomID,
-		'sender': "지현",
+		'sender':  $("#chatSenderName").val(),
 		'message': $("#RoseMessage").val(),
 	}));
 
@@ -485,7 +495,7 @@ $('#RoseChat-submit').click(function(e){
 
 function onMessage(msg) {
     var data = msg.data;
-    var sessionId = "지현";
+    var sessionId =  $("#chatSenderName").val();
     //데이터를 보낸 사람
     var message = null;
     var roomData = JSON.parse(data);
@@ -639,7 +649,7 @@ function onMessage(msg) {
 
 		<div class="chat-box">
 			<div class="chat-box-header">
-				맴버가 보내는메세지 <span class="chat-box-toggle"><i
+				<input type="text" value="<sec:authentication property='principal.usersNickName'/>" id="chatSenderName"> <span class="chat-box-toggle"><i
 					class="material-icons">close</i></span>
 			</div>
 			<div class="chat-box-body">
@@ -689,7 +699,7 @@ function onMessage(msg) {
 							<input type="button" value="JISOO"
 								style="background-color: inherit; padding: 0px; border: none;"
 								id="JisooRoomEnter" class="RoomEnter ">
-						</div>
+						</div> 
 						<div class="cm-msg-text"
 							style="margin-left: 1px; height: 44px; overflow: hidden;">
 							<input type="submit" value="JENIEE"
@@ -720,10 +730,10 @@ function onMessage(msg) {
 					<div class="chat-box-overlay"></div>
 					<div class="chat-logs " id="JisooChatLog"></div>
 					<!--chat-log -->
-					ff
+					
 					<div class="chat-input">
 						<form name="JisooMessage-send" id="JisooMessage-send">
-							<input type="text" id="JisooRoomNo" class="JisooRoomNo">
+							<input type="hidden" id="JisooRoomNo" class="JisooRoomNo">
 							<input type="text" id="JisooMessage" class="message"
 								placeholder="to.JISOO" />
 							<button type="button" id="JisooChat-submit" class="chat-submit">
@@ -737,10 +747,10 @@ function onMessage(msg) {
 					<div class="chat-box-overlay"></div> 
 					<div class="chat-logs " id="JennieChatLog"></div>
 					<!--chat-log -->
-					dd
+					
 					<div class="chat-input">
 						<form name="message-send" id="message-send">
-							<input type="text" id="JennieRoomNo" class="JennieRoomNo">
+							<input type="hidden" id="JennieRoomNo" class="JennieRoomNo">
 							<input type="text" id="JennieMessage" class="message"
 								placeholder="to.Jennie" />
 							<button type="button" id="JennieChat-submit" class="chat-submit">
@@ -754,10 +764,10 @@ function onMessage(msg) {
 					<div class="chat-box-overlay"></div>
 					<div class="chat-logs "  id="LisaChatLog"></div>
 					<!--chat-log -->
-					ss
+					
 					<div class="chat-input">
 						<form name="LisaMessage-send" id="LisaMessage-send">
-							<input type="text" id="LisaRoomNo" class="LisaRoomNo">
+							<input type="hidden" id="LisaRoomNo" class="LisaRoomNo">
 							<input type="text" id="LisaMessage" class="message"
 								placeholder="to.LISA" />
 							<button type="button" id="LisaChat-submit" class="chat-submit">
@@ -771,10 +781,10 @@ function onMessage(msg) {
 					<div class="chat-box-overlay"></div>
 					<div class="chat-logs" id="RoseChatLog"></div>
 					<!--chat-log -->
-					aa
+					
 					<div class="chat-input">
 						<form name="RoseMessage-send" id="RoseMessage-send">
-							<input type="text" id="RoseRoomNo" class="RoseRoomNo">
+							<input type="hidden" id="RoseRoomNo" class="RoseRoomNo">
 							<input type="text" id="RoseMessage" class="message"
 								placeholder="to.ROSE" />
 							<button type="button" id="RoseChat-submit" class="chat-submit">

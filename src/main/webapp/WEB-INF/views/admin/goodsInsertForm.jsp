@@ -94,7 +94,7 @@ margin-bottom: 8px;
 
 			<div class="right-col">
 
-
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 				<h3>Goods Insert</h3>
 				<select class="select_field" id="productMembershipOnly" name="productMembershipOnly">
 					<option selected="selected" value="" >Type</option>

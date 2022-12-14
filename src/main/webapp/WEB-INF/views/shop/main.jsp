@@ -11,13 +11,56 @@
 	href="${pageContext.request.contextPath}/css/shop/shopMain.css">
 	
 <script type="text/javascript">
+let selectOption = '';
+
 $(function() {
+	
+	$(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+    });
+	
 	selectMembershipOnlyProduct();
 	selectAllGoods();
+	
+	$("#sortOption").on("change", function() {
+		if($("#sortOption").val()==null)
+			return;
+		else {
+			if(selectCondition != null){
+				selectAllGoods(1, selectCondition);
+			} else{
+				selectAllGoods();
+			}
+		}
+		
+	});
+	
+	var selectCondition = '';
+	
+	$("#MEMBERSHIP").on("click", function() {
+		selectCondition='M';
+		selectAllGoods(1, selectCondition);
+	});
+	
+	$("#GOODS").on("click", function() {
+		selectCondition='G';
+		selectAllGoods(1, selectCondition);
+	});
+	
+	$("#ALBUM").on("click", function() {
+		selectCondition='A';
+		selectAllGoods(1, selectCondition);
+	});
+	
+	$("#SHOP").on("click", function() {
+		seletCondition = '';
+		selectAllGoods();
+	});
 	
 });
 
 function selectMembershipOnlyProduct () {
+	
 	$.ajax({
 		type:"POST",
 		url:"${pageContext.request.contextPath}/shop/select",
@@ -25,7 +68,7 @@ function selectMembershipOnlyProduct () {
 		dataType:"json",
 		success:function(result){
 			let str = "<ul class='auto-grid' role='list'>";
-			$.each(result, function(index, item) {
+			$.each(result.content, function(index, item) {
 				str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
 
 				// 한글 & 영문 선택
@@ -50,17 +93,32 @@ function selectMembershipOnlyProduct () {
 	});
 }
 
-function selectAllGoods() {
+function selectAllGoods(index, categoryCode) {
 	$.ajax({
 		type:"POST",
 		url:"${pageContext.request.contextPath}/shop/select",
-		data:{"GoodsMembershipOnly":"0", "orderCondition":$('select[class=sort-option]').val()},
+		data:{"GoodsMembershipOnly":"0", "orderCondition":$('select[class=sort-option]').val(), "nowPage":index, "categoryCode":categoryCode},
 		dataType:"json",
 		success:function(result){
+			console.log(result);
+			
+			var pageNo = result.pageable.pageNumber;
+			var totalPage = result.totalPages;
+			var startPage = 0;
+			let pageNum = '';
+			for(let i=1; i<=totalPage; i++){
+				if(i==(pageNo+1))
+					pageNum += '<a href="#" class="active">'+i+'</a>';
+				else 
+					pageNum += '<a href="#" onclick="selectAllGoods('+i+')")>'+i+'</a>';
+			}
+			
+			$(".pagination").html(pageNum);
+			
 			let str = "<ul class='auto-grid' role='list'>";
-			$.each(result, function(index, item) {
-				console.log(result);
-				console.log(item);
+			
+			$.each(result.content, function(index, item) {
+				//console.log(item);
 				str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
 
 				// 한글 & 영문 선택
@@ -72,7 +130,7 @@ function selectAllGoods() {
 					str +="<div class='price-text'>";
 					str +="<p>"+item.productPrice+"</p>";		
 					str +="<p>원</p></div>";
-					str +="<img alt='Anita Simmons' src='${pageContext.request.contextPath}/save/shopImg/title/"+item.productMainImg+"' />";
+					str +="<img src='${pageContext.request.contextPath}/save/shopImg/title/"+item.productMainImg+"' />";
 					str +="</a></li>";				
 			});
 			str += "</ul>";
@@ -93,10 +151,10 @@ function selectAllGoods() {
 	<div class="shop-main-wrap">
 		<div class="shop-aside-container">
 			<div class="shop-aside">
-				<div class="shop-aside-title">SHOP</div>
-				<div class="aside-menu">MEMBERSHIP</div>
-				<div class="aside-menu">GOODS</div>
-				<div class="aside-menu">ALBUM</div>
+				<div class="aside-menu" id="SHOP">SHOP</div>
+				<div class="aside-menu" id="MEMBERSHIP">MEMBERSHIP</div>
+				<div class="aside-menu" id="GOODS">GOODS</div>
+				<div class="aside-menu" id="ALBUM">ALBUM</div>
 			</div>
 
 		</div>
@@ -118,7 +176,7 @@ function selectAllGoods() {
 					<div>SHOP</div>							
 				</div>
 				<div class="select-sort">
-					<select class="sort-option">
+					<select class="sort-option" id="sortOption">
 						<option class="sort-option"><spring:message code="Sort"/></option>
 						<option class="sort-option" value="productRegDate"><spring:message code='Newproduct' /></option>
 						<option class="sort-option" value="productReadNo"><spring:message code='Popularity' /></option>
@@ -134,14 +192,7 @@ function selectAllGoods() {
 				</div><!-- goods-shop -->
 			</div>
 <div class="pagination">
-  <a href="#">&laquo;</a>
-  <a href="#">1</a>
-  <a class="active" href="#">2</a>
-  <a href="#">3</a>
-  <a href="#">4</a>
-  <a href="#">5</a>
-  <a href="#">6</a>
-  <a href="#">&raquo;</a>
+
 </div>
 </div>
 		<!-- shop-main-container -->

@@ -13,6 +13,11 @@
 	
 	<script type="text/javascript">
 		$(function() {
+			
+			$(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+		    });
+			
 			$("#addCart").on("click", function() {
 				$.ajax({
 					type:"POST",
@@ -83,20 +88,51 @@
 					    </div>
 					</div>
 					
-					<!-- 로그인하면 구매버튼 보이게 설정 -->
-					<sec:authorize access="isAuthenticated()">
-					<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
-					</sec:authorize>
+					<!-- 바로구매 버튼 -->
+					<c:choose>
+						<c:when test="${product.productMembershipOnly}==1">
+							<sec:authorize access="hasRole('ROLE_MEMBER')">
+								<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
+							</sec:authorize>
+							
+						</c:when>
+						<c:otherwise>
+							<sec:authorize access="isAuthenticated()">
+								<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
+							</sec:authorize>
+						</c:otherwise>
+					</c:choose>
 					
-					<button class="button" id="addCart">
-					    <span><spring:message code="GoodsAddCart"/></span>
-					    <div class="cart">
-					        <svg viewBox="0 0 36 26">
-					            <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
-					            <polyline points="15 13.5 17 15.5 22 10.5"></polyline>
-					        </svg>
-					    </div>
-					</button>
+					<!-- 카트담기도 버튼부터 조건 설정 -->
+					<c:choose>
+						<c:when test="${product.productMembershipOnly}==1">
+							<sec:authorize access="hasRole('ROLE_MEMBER')">
+								<button class="button">
+								    <span><spring:message code="GoodsAddCart"/></span>
+								    <div class="cart">
+								        <svg viewBox="0 0 36 26">
+								            <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
+								            <polyline points="15 13.5 17 15.5 22 10.5"></polyline>
+								        </svg>
+								    </div>
+								</button>
+							</sec:authorize>
+						</c:when>
+						<c:otherwise>
+							<sec:authorize access="isAuthenticated()">
+								<button class="button">
+								    <span><spring:message code="GoodsAddCart"/></span>
+								    <div class="cart">
+								        <svg viewBox="0 0 36 26">
+								            <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
+								            <polyline points="15 13.5 17 15.5 22 10.5"></polyline>
+								        </svg>
+								    </div>
+								</button>
+							</sec:authorize>
+						</c:otherwise>
+					</c:choose>
+					
 				</div>
 				</div>
 				<div class="background-img">

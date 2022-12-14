@@ -96,7 +96,7 @@ margin-bottom: 20px;
 
 			<div class="right-col">
 
-
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 				<h3>Album Update</h3>
 				<script type="text/javascript">
 					console.log("${product.productName}");

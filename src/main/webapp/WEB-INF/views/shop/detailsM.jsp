@@ -12,6 +12,11 @@
 	href="${pageContext.request.contextPath}/css/shop/details.css">
 	<script type="text/javascript">
 		$(function() {
+			
+			$(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+		    });
+			
 			$("#addCart").on("click", function() {
 				$.ajax({
 					type:"POST",
@@ -61,20 +66,25 @@
 					    </div>
 					</div>
 					
-					<!-- 멤버쉽 구매만 가능한 상품페이지여서 다른 조건 없이 권한 조건으로 버튼 나오게만 설정 -->
-					<sec:authorize access="hasRole('ROLE_MEMBER')">
-					<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
-					</sec:authorize>
+					<!-- 바로구매 버튼 멤버쉽카드-멤버라면 있다면 사라지게 설정 -->
+						<sec:authorize access="!hasRole('ROLE_MEMBER')">
+							<button class="btn-order sell" id="directOrderBtn" onclick="return false;"><spring:message code="GoodsBuy"/></button>
+						</sec:authorize>
+						
+					<!-- 바로구매 버튼 멤버쉽카드-멤버라면 있다면 사라지게 설정 -->
+						<sec:authorize access="!hasRole('ROLE_MEMBER')">
+							<button class="button" id="addCart">
+							    <span><spring:message code="GoodsAddCart"/></span>
+							    <div class="cart">
+							        <svg viewBox="0 0 36 26">
+							            <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
+							            <polyline points="15 13.5 17 15.5 22 10.5"></polyline>
+							        </svg>
+							    </div>
+							</button>
+						</sec:authorize>
+						
 					
-					<button class="button" id="addCart">
-					    <span><spring:message code="GoodsAddCart"/></span>
-					    <div class="cart">
-					        <svg viewBox="0 0 36 26">
-					            <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
-					            <polyline points="15 13.5 17 15.5 22 10.5"></polyline>
-					        </svg>
-					    </div>
-					</button>
 				</div>
 				</div>
 				<div class="background-img">
