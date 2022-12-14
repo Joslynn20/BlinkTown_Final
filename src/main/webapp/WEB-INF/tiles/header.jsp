@@ -149,7 +149,7 @@ border: none;
 			</sec:authorize>
 			<sec:authorize  access="hasRole('ROLE_USER')">
 				<div class="header-mypage header-menu">
-					<a href="${pageContext.request.contextPath}/mypage/userInfo"
+					<a href="${pageContext.request.contextPath}/users/findUser"
 						style="color: #ffffff; text-decoration: none;">MYPAGE</a> <sec:authorize access="hasRole('ROLE_MEMBER')"><i
 						class="fa-solid fa-crown"></i></sec:authorize>
 				</div>
