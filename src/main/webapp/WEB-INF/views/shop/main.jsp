@@ -69,7 +69,7 @@ function selectMembershipOnlyProduct () {
 		success:function(result){
 			let str = "<ul class='auto-grid' role='list'>";
 			$.each(result.content, function(index, item) {
-				str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
+				str +="<li><a href='${pageContext.request.contextPath}/shop/select/"+item.productCode+"?flag=true' target='_blank ' class='profile'>";
 
 				// 한글 & 영문 선택
 				if($("#selectbox").val() == 'ko'){
@@ -119,7 +119,7 @@ function selectAllGoods(index, categoryCode) {
 			
 			$.each(result.content, function(index, item) {
 				//console.log(item);
-				str +="<li><a href='/shop/select/"+item.productCode+"' target='_blank ' class='profile'>";
+				str +="<li><a href='/shop/select/"+item.productCode+"?flag=true' target='_blank ' class='profile'>";
 
 				// 한글 & 영문 선택
 				if($("#selectbox").val() == 'ko'){
