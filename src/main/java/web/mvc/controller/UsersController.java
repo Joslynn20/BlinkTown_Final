@@ -103,11 +103,10 @@ public class UsersController {
 	/**
 	 *예외처리
 	 **/
-	@ExceptionHandler(Exception.class)
-	public ModelAndView error(Exception e) {
-		return new ModelAndView("error/error","message",e.getMessage());
-	}
-
+	/*
+	 * @ExceptionHandler(Exception.class) public ModelAndView error(Exception e) {
+	 * return new ModelAndView("error/error","message",e.getMessage()); }
+	 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * 수정하기
