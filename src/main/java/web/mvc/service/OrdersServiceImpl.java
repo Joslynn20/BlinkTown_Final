@@ -38,8 +38,9 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Override
 	public List<Orders> selectAllOrdersAdmin() {
-		List<Orders> ordersList=ordersRep
-				.findAll(Sort.by(Sort.Direction.DESC,"ordersDate"));
+//		List<Orders> ordersList=ordersRep
+//				.findAll(Sort.by(Sort.Direction.DESC,"ordersDate"));
+		List<Orders> ordersList=ordersRep.findByUsersIsNotNullOrderByOrdersDateDesc();
 		return ordersList;
 	}
 
