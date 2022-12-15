@@ -24,7 +24,9 @@ Roboto
 	margin: 0;
 	font-family: NotoSans;
 }
-
+::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
 .header-wrap {
 	width: 100%;
 	height: 70px;

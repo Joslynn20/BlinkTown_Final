@@ -16,6 +16,7 @@
 <script src="https://cdn.rawgit.com/michalsnik/aos/2.0.4/dist/aos.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	document.querySelector("video").play();
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -37,7 +38,9 @@ $(document).ready(function() {
 </head>
 <body>
 	<div class="content-wrap">
-
+<audio autoplay="autoplay" hidden="true" >
+	<source src="${pageContext.request.contextPath}/save/audio/BLACKPINKShutDownMV.mp3">
+</audio>
 		<div class="content-col" >
 			<div class="title neon">
 				<span>BLACK</span><span>PINK</span>
