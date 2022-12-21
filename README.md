@@ -60,4 +60,11 @@
 <br/>
 
 # 👩‍💻 주요기능
+![24](https://user-images.githubusercontent.com/112613612/208909311-cc504e11-2814-4448-b4e9-d17a173e1f19.png)
+![18](https://user-images.githubusercontent.com/112613612/208909293-e8f3b989-acc4-4a00-8d41-c7a14b289784.png)
+![19](https://user-images.githubusercontent.com/112613612/208909297-be2fb339-e1d7-4ec8-9055-359420413762.png)
+![20](https://user-images.githubusercontent.com/112613612/208909299-dec734a1-a0d3-4c3f-8c90-2e06cd0e6a64.png)
+![21](https://user-images.githubusercontent.com/112613612/208909303-ee77bdf9-3508-43ee-80e1-2497ddaa3272.png)
+![22](https://user-images.githubusercontent.com/112613612/208909306-da832876-fc43-458d-b9b6-bc92656a5115.png)
+![23](https://user-images.githubusercontent.com/112613612/208909307-32e81444-eb32-42ef-9243-ec868c029c3b.png)
 
